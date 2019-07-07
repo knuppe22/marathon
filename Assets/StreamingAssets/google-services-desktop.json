@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "396610105837",
+    "firebase_url": "https://kucatdog-marathon.firebaseio.com",
+    "project_id": "kucatdog-marathon",
+    "storage_bucket": "kucatdog-marathon.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:396610105837:android:9c3ede82297ecc25",
+        "android_client_info": {
+          "package_name": "com.kucatdog.marathon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "396610105837-d3q9j2gm1oe0r9ovrhh0h78e8g59q14g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4zNr-Yvee1JdWh_oYjPgniAjBppzPN9k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "396610105837-d3q9j2gm1oe0r9ovrhh0h78e8g59q14g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
