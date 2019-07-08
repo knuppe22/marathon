@@ -45,6 +45,24 @@ public class AuthManager : SingletonBehaviour<AuthManager>
     {
         FirebaseAuth auth = FirebaseAuth.DefaultInstance;
 
+#if UNITY_EDITOR
+        auth.SignInWithEmailAndPasswordAsync("kucatdog@gmail.com", "1234567890").ContinueWith(task =>
+        {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+                return;
+            }
+
+            FirebaseUser newUser = task.Result;
+            Debug.LogFormat("User signed in successfully: {0} ({1})", newUser.DisplayName, newUser.UserId);
+        });
+#else
         auth.SignInAnonymouslyAsync().ContinueWith(task =>
         {
             if (task.IsCanceled)
@@ -61,5 +79,6 @@ public class AuthManager : SingletonBehaviour<AuthManager>
             FirebaseUser newUser = task.Result;
             Debug.LogFormat("User signed in successfully: {0} ({1})", newUser.DisplayName, newUser.UserId);
         });
+#endif
     }
 }
