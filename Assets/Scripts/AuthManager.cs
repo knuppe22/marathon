@@ -13,13 +13,9 @@ public class AuthManager : SingletonBehaviour<AuthManager>
             var dependencyStatus = task.Result;
             if (dependencyStatus == DependencyStatus.Available)
             {
-                // Create and hold a reference to your FirebaseApp,
-                // where app is a Firebase.FirebaseApp property of your application class.
-                // app = FirebaseApp.DefaultInstance;
-
                 SignIn();
 
-                // Set a flag here to indicate whether Firebase is ready to use by your app.
+                DBManager.Instance.SetDatabase();
             }
             else
             {
