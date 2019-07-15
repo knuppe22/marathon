@@ -7,11 +7,11 @@ using System.IO;
 public class ForText : MonoBehaviour
 {
     [SerializeField]
-    private Text speedtext;
-    float speed;
-    float textspeed = 0;
-    int Intspeed;
-    int Inttextspeed;
+    private Text MeterText;
+    int IntMeter;
+    static float Meter;
+    static float speed = 5;
+
 
     // Start is called before the first frame update
     void Start()
@@ -21,25 +21,33 @@ public class ForText : MonoBehaviour
             System.IO.FileInfo(_Filestr);
 
         if (fi.Exists)
-        {
+        { 
             Parse();
-            speed = textspeed;
-            Intspeed = (int)textspeed;
-            this.speedtext.text = Inttextspeed.ToString();
+            MeterText.text = IntMeter.ToString();
         }
 
         else
         {
-            speedtext.text = "0";
-            speed = 0;
+            MeterText.text = "0";
         }
     }
 
     string m_strPath = "Assets/Resources/";
 
-    public void WriteData(string strData)
+    public void CreateData(string strData)
     {
         FileStream f = new FileStream(m_strPath + "Data.txt", FileMode.Create, FileAccess.Write);
+
+        StreamWriter writer = new StreamWriter(f, System.Text.Encoding.Unicode);
+
+        writer.WriteLine(strData);
+
+        writer.Close();
+    }
+
+    public void AppendData(string strData)
+    {
+        FileStream f = new FileStream(m_strPath + "Data.txt", FileMode.Append, FileAccess.Write);
 
         StreamWriter writer = new StreamWriter(f, System.Text.Encoding.Unicode);
 
@@ -53,7 +61,9 @@ public class ForText : MonoBehaviour
         TextAsset data = Resources.Load("Data", typeof(TextAsset)) as TextAsset;
         StringReader sr = new StringReader(data.text);
 
-        textspeed = float.Parse(sr.ReadLine());
+        Meter = float.Parse(sr.ReadLine());
+        IntMeter = (int)Meter;
+        speed = float.Parse(sr.ReadLine());
 
         sr.Close();
     }
@@ -61,13 +71,16 @@ public class ForText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        speed = speed + 5 * Time.deltaTime;
-        Intspeed = (int)speed;
-        this.speedtext.text = Intspeed.ToString();
+
+        Meter = Meter + speed * Time.deltaTime;
+        IntMeter = (int)Meter;
+        MeterText.text = IntMeter.ToString();
     }
 
     private void OnApplicationQuit()
     {
-        WriteData(speed.ToString());
+        CreateData(Meter.ToString());
+        AppendData(speed.ToString());
+
     }
 }
