@@ -1,25 +1,22 @@
 fileFormatVersion: 2
-guid: 52eb6493bdee722498e9bad4fcdfae80
+guid: d609bb861a23c2d4d8d1e485f85ecf09
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5415610317500945913
-    second: sor_white_0
+      213: 1758119338955195738
+    second: sp_runner_0
   - first:
-      213: -795382132342848480
-    second: sor_white_1
+      213: 5234024503998458237
+    second: sp_runner_1
   - first:
-      213: 8978377110803752878
-    second: sor_white_2
+      213: 8176888759325070091
+    second: sp_runner_2
   - first:
-      213: 6990952546887267830
-    second: sor_white_3
+      213: 7939444035069704487
+    second: sp_runner_3
   - first:
-      213: -1169719703711924871
-    second: sor_white_4
-  - first:
-      213: 4995602410495038068
-    second: sor_white_5
+      213: -3996437738375733588
+    second: sp_runner_4
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -102,76 +99,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: sor_white_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 500
-        width: 310
-        height: 500
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5317f1c207e29884ead26a64b0592bd0
-      internalID: -5415610317500945913
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: sor_white_1
-      rect:
-        serializedVersion: 2
-        x: 310
-        y: 500
-        width: 310
-        height: 500
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3d2edfee2f6ba314dbd1f3e8b2aff1ae
-      internalID: -795382132342848480
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: sor_white_2
-      rect:
-        serializedVersion: 2
-        x: 620
-        y: 500
-        width: 310
-        height: 500
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1dfa7bd8c730ee842a7c8104185970b9
-      internalID: 8978377110803752878
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: sor_white_3
+      name: sp_runner_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 310
-        height: 500
+        width: 200
+        height: 320
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,20 +113,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 29229aef13c993345b6f4009e0553819
-      internalID: 6990952546887267830
+      spriteID: da32c8d005642e44abc355c3e38b22a0
+      internalID: 1758119338955195738
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: sor_white_4
+      name: sp_runner_1
       rect:
         serializedVersion: 2
-        x: 310
+        x: 200
         y: 0
-        width: 310
-        height: 500
+        width: 200
+        height: 320
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,20 +134,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1805fb036b1097048b10cf39c068a5ad
-      internalID: -1169719703711924871
+      spriteID: 34a9cf6f7f1e8f8498f3673ea37478ed
+      internalID: 5234024503998458237
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: sor_white_5
+      name: sp_runner_2
       rect:
         serializedVersion: 2
-        x: 620
+        x: 400
         y: 0
-        width: 310
-        height: 500
+        width: 200
+        height: 320
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -221,8 +155,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4dfe589fd26928a40976103f20be94e9
-      internalID: 4995602410495038068
+      spriteID: 7ec482af8df75584a86a6ba80c41a700
+      internalID: 8176888759325070091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sp_runner_3
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 0
+        width: 200
+        height: 320
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72d8f2b13dbf13845a02d8a1bf83ea39
+      internalID: 7939444035069704487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sp_runner_4
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 0
+        width: 200
+        height: 320
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd11c3516eeee984f986a07ceee56c88
+      internalID: -3996437738375733588
       vertices: []
       indices: 
       edges: []
@@ -230,7 +206,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 7baf760544121a74d9b5f4e6885f9d18
+    spriteID: a4463791d286a8f479fca625dc17b586
     internalID: 0
     vertices: []
     indices: 
