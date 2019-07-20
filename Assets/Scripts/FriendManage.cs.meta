@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 2aa1678ccaeb1a54db2e1449f27e58a2
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - GrabHandButton: {fileID: 2667718126978560150, guid: c2508b5033c7ced4ea6090b414c258d0,
+      type: 3}
+  - GrabHandPanel: {fileID: 1551222661742063910, guid: 245b8c9fe51985f4cadbdd24bd51e01f,
+      type: 3}
+  - AddFriendSuccess: {fileID: 6085244964563986400, guid: eda0576eae1f7f744827e53021fce94f,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
