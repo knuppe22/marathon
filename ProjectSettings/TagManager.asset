@@ -6,6 +6,7 @@ TagManager:
   tags:
   - MyDistance
   - GrabHandDistance
+  - AddFriendProfileImage
   layers:
   - Default
   - TransparentFX

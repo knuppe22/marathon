@@ -225,8 +225,8 @@ GameObject:
   - component: {fileID: 1123930553697728780}
   - component: {fileID: 2026728876196254246}
   m_Layer: 5
-  m_Name: Image (1)
-  m_TagString: Untagged
+  m_Name: ProfileImage
+  m_TagString: AddFriendProfileImage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
