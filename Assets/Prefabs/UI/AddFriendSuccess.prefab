@@ -169,7 +169,6 @@ GameObject:
   - component: {fileID: 6085244964563986407}
   - component: {fileID: 1585594844320822718}
   - component: {fileID: 8101920250642883941}
-  - component: {fileID: 3917642239679131624}
   m_Layer: 5
   m_Name: AddFriendSuccess
   m_TagString: Untagged
@@ -236,21 +235,6 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
---- !u!114 &3917642239679131624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6085244964563986400}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 687f5843ff79ef54e990eeec8ffc16be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SuccessPanel:
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!1 &7300772584169786932
 GameObject:
   m_ObjectHideFlags: 0
