@@ -157,7 +157,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -63.386, y: 171}
+  m_AnchoredPosition: {x: -57.401, y: 137.6}
   m_SizeDelta: {x: 68.2, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &384744527
@@ -465,7 +465,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -63.394, y: 98}
+  m_AnchoredPosition: {x: -57.393, y: 73}
   m_SizeDelta: {x: 68.215, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &838563822
@@ -611,7 +611,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -63.394, y: 49}
+  m_AnchoredPosition: {x: -57.393, y: 28}
   m_SizeDelta: {x: 68.215, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1246005933
@@ -889,7 +889,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 58, y: 169.3}
+  m_AnchoredPosition: {x: 40.75, y: 137.59999}
   m_SizeDelta: {x: 101.5, y: 33.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1500421494
@@ -1172,6 +1172,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Meter
       objectReference: {fileID: 0}
+    - target: {fileID: 147144729591318827, guid: 091b19c9a592ab74fa68a3c10a9d9602,
+        type: 3}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 147144729591318826, guid: 091b19c9a592ab74fa68a3c10a9d9602,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1235,7 +1240,7 @@ PrefabInstance:
     - target: {fileID: 147144729591318826, guid: 091b19c9a592ab74fa68a3c10a9d9602,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -168.1
+      value: -138
       objectReference: {fileID: 0}
     - target: {fileID: 147144729591318826, guid: 091b19c9a592ab74fa68a3c10a9d9602,
         type: 3}
@@ -1276,11 +1281,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 147144729591318827, guid: 091b19c9a592ab74fa68a3c10a9d9602,
-        type: 3}
-      propertyPath: m_Text
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 147144729591318821, guid: 091b19c9a592ab74fa68a3c10a9d9602,
         type: 3}
