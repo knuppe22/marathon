@@ -9,8 +9,8 @@ public class ForText : MonoBehaviour
     [SerializeField]
     private Text MeterText;
     int IntMeter;
-    static float Meter;
-    static float speed = 5;
+    public static float Meter;
+    public static float speed = 5;
 
 
     // Start is called before the first frame update
