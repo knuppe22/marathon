@@ -380,7 +380,6 @@ GameObject:
   - component: {fileID: 7849877411596292099}
   - component: {fileID: 282998957612287434}
   - component: {fileID: 9091375417048055406}
-  - component: {fileID: 7849877411596292126}
   m_Layer: 5
   m_Name: GrabHandPanel
   m_TagString: Untagged
@@ -447,18 +446,6 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
---- !u!114 &7849877411596292126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1551222661742063910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 687f5843ff79ef54e990eeec8ffc16be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3531509620553371621
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,6 +770,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 687f5843ff79ef54e990eeec8ffc16be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SuccessPanel:
+  - {fileID: 0}
+  - {fileID: 0}
+  PanelArray:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &7253758077246732126
 GameObject:
   m_ObjectHideFlags: 0

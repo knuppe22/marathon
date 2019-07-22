@@ -15,15 +15,13 @@ public class FriendManage : SingletonBehaviour<FriendManage>
     public List<Friend> FriendList = new List<Friend>();
 
     public int MyDistance = 500;
-    public Text InputName;
-    public Image InputProfileImage;
     public GameObject GrabHandButton;
     public GameObject GrabHandPanel;
     int InputDistance = 3000;
     public GameObject[] GrabHandButtonArray = new GameObject[4];
     GameObject FriendButton;
     public GameObject AddFriendSuccess;
-    public Text AddedFriendName;
+    public Text CurrentDistance;
 
     // Start is called before the first frame update
     void Start()
@@ -34,18 +32,23 @@ public class FriendManage : SingletonBehaviour<FriendManage>
     // Update is called once per frame
     void Update()
     {
-        GameObject.FindWithTag("MyDistance").gameObject.GetComponent<Text>().text = MyDistance.ToString();
+        CurrentDistance.text = MyDistance.ToString();
+        // GameObject.FindWithTag("MyDistance").gameObject.GetComponent<Text>().text = MyDistance.ToString();
     }
     
-    public void AddFriend()
+    public void AddFriend(GameObject AddFriendButton)
     {
         Friend NewFriend = new Friend();
-        NewFriend.name = InputName.text;
+        /*NewFriend.name = InputName.text;
         NewFriend.profileimage = InputProfileImage;
         NewFriend.distance = InputDistance;
+        FriendList.Add(NewFriend);*/
+        NewFriend.name = AddFriendButton.gameObject.GetComponentInChildren<Text>().text;
+        NewFriend.profileimage = AddFriendButton.gameObject.GetComponentsInChildren<Image>()[1];
+        NewFriend.distance = InputDistance;
         FriendList.Add(NewFriend);
-        /*AddFriendSuccess.gameObject.SetActive(true);
-        AddFriendSuccess.gameObject.GetComponentInChildren<Text>().text = AddedFriendName.text;*/
+        AddFriendSuccess.gameObject.SetActive(true);
+        AddFriendSuccess.gameObject.GetComponentInChildren<Text>().text = NewFriend.name;
     }
 
     public void FriendDisplay()
@@ -60,7 +63,6 @@ public class FriendManage : SingletonBehaviour<FriendManage>
             GrabHandButtonArray[i].gameObject.SetActive(true);
             if (i >= FriendList.Count)
                 GrabHandButtonArray[i].gameObject.SetActive(false);
-            Debug.Log(+FriendList.Count);
         }
         int ButtonCount = 0;
         foreach(Friend F in FriendList)
@@ -73,7 +75,7 @@ public class FriendManage : SingletonBehaviour<FriendManage>
             TextArray[0].text = F.name;
             foreach(Image I in FriendButton.GetComponentsInChildren<Image>())
             {
-                if(!I.GetComponent<Button>()) I.sprite = InputProfileImage.sprite;
+                if(!I.GetComponent<Button>()) I.sprite = F.profileimage.sprite;
             }
             TextArray[1].text = F.distance.ToString();
             ButtonCount++;

@@ -7,7 +7,7 @@ public class ButtonControl : MonoBehaviour
 {
     public GameObject GrabHandSuccess;
     public Text GrabHandFriendName;
-    public Text CurrentDistance;
+    public Text GrabHandDistance;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +27,6 @@ public class ButtonControl : MonoBehaviour
         FriendManage.Instance.FriendDisplay();
         GrabHandSuccess.gameObject.SetActive(true);
         GrabHandFriendName.text = FriendManage.Instance.FriendList[index].name;
-        CurrentDistance.text = AverageDistance.ToString();
+        GrabHandDistance.text = AverageDistance.ToString();
     }
 }
