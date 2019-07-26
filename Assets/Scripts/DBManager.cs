@@ -13,6 +13,10 @@ public class DBManager : SingletonBehaviour<DBManager>
     {
         get { return RootReference.Child("users"); }
     }
+    public DatabaseReference CurrentUserReference
+    {
+        get { return UserReference.Child(AuthManager.Instance.CurrentUserId); }
+    }
 
     public void SetDatabase()
     {
@@ -49,5 +53,16 @@ public class DBManager : SingletonBehaviour<DBManager>
         }
 
         return null;
+    }
+
+    public void SetUser(User userData)
+    {
+        CurrentUserReference.SetRawJsonValueAsync(JsonUtility.ToJson(userData));
+    }
+    
+    public void SetUserValue(string key, object value)
+    {
+        // key에 들어갈 수 있는 것들: "name", "score", "gold", "online", "lastOnline", "friends", "items"
+        CurrentUserReference.Child(key).SetValueAsync(value);
     }
 }
