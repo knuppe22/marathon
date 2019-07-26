@@ -16,6 +16,7 @@ public class AuthManager : SingletonBehaviour<AuthManager>
                 SignIn();
 
                 DBManager.Instance.SetDatabase();
+                DBManager.Instance.InitializeUser();
             }
             else
             {
