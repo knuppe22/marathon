@@ -4,16 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 
-public class ForText : MonoBehaviour
+public class ForText : SingletonBehaviour<ForText>
 {
     [SerializeField]
     private Text MeterText;
+
     int IntMeter;
-    public static float Meter;
-    public static float speed = 5;
+    public float Meter;
+    public float RunSpeed = 5;
+    public int FriendViewDist = 10000;
+    public float HandGoldRate = 1;
+    public float CheckGoldRate = 1;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         string _Filestr = "Assets/Resources/Data.txt";
@@ -21,7 +23,7 @@ public class ForText : MonoBehaviour
             System.IO.FileInfo(_Filestr);
 
         if (fi.Exists)
-        { 
+        {
             Parse();
             MeterText.text = IntMeter.ToString();
         }
@@ -37,7 +39,6 @@ public class ForText : MonoBehaviour
     public void CreateData(string strData)
     {
         FileStream f = new FileStream(m_strPath + "Data.txt", FileMode.Create, FileAccess.Write);
-
         StreamWriter writer = new StreamWriter(f, System.Text.Encoding.Unicode);
 
         writer.WriteLine(strData);
@@ -48,7 +49,6 @@ public class ForText : MonoBehaviour
     public void AppendData(string strData)
     {
         FileStream f = new FileStream(m_strPath + "Data.txt", FileMode.Append, FileAccess.Write);
-
         StreamWriter writer = new StreamWriter(f, System.Text.Encoding.Unicode);
 
         writer.WriteLine(strData);
@@ -63,16 +63,14 @@ public class ForText : MonoBehaviour
 
         Meter = float.Parse(sr.ReadLine());
         IntMeter = (int)Meter;
-        speed = float.Parse(sr.ReadLine());
+        RunSpeed = float.Parse(sr.ReadLine());
 
         sr.Close();
     }
 
-    // Update is called once per frame
     void Update()
     {
-
-        Meter = Meter + speed * Time.deltaTime;
+        Meter = Meter + RunSpeed * Time.deltaTime;
         IntMeter = (int)Meter;
         MeterText.text = IntMeter.ToString();
     }
@@ -80,7 +78,6 @@ public class ForText : MonoBehaviour
     private void OnApplicationQuit()
     {
         CreateData(Meter.ToString());
-        AppendData(speed.ToString());
-
+        AppendData(RunSpeed.ToString());
     }
 }
