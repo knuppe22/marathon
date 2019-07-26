@@ -1,81 +1,50 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using Firebase;
 using Firebase.Auth;
 
 public class AuthManager : SingletonBehaviour<AuthManager>
 {
-    void Awake()
+    async void Awake()
     {
-        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+        DependencyStatus dependencyStatus = await FirebaseApp.CheckAndFixDependenciesAsync();
+
+        if (dependencyStatus == DependencyStatus.Available)
         {
-            var dependencyStatus = task.Result;
-            if (dependencyStatus == DependencyStatus.Available)
-            {
-                SignIn();
+            await SignIn();
 
-                DBManager.Instance.SetDatabase();
-                DBManager.Instance.InitializeUser();
-            }
-            else
-            {
-                Debug.LogError(string.Format("Could not resolve all Firebase dependencies: {0}", dependencyStatus));
-                // Firebase Unity SDK is not safe to use here.
-            }
-        });
+            DBManager.Instance.SetDatabase();
+        }
+        else
+        {
+            Debug.LogError(string.Format("Could not resolve all Firebase dependencies: {0}", dependencyStatus));
+            // Firebase Unity SDK is not safe to use here.
+        }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    async Task SignIn()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    void SignIn()
-    {
-        FirebaseAuth auth = FirebaseAuth.DefaultInstance;
-
 #if UNITY_EDITOR
-        auth.SignInWithEmailAndPasswordAsync("kucatdog@gmail.com", "1234567890").ContinueWith(task =>
-        {
-            if (task.IsCanceled)
-            {
-                Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
-                return;
-            }
-            if (task.IsFaulted)
-            {
-                Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
-                return;
-            }
-
-            FirebaseUser newUser = task.Result;
-            Debug.LogFormat("User signed in successfully: {0} ({1})", newUser.DisplayName, newUser.UserId);
-        });
+        Task<FirebaseUser> task = FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync("kucatdog@gmail.com", "1234567890");
 #else
-        auth.SignInAnonymouslyAsync().ContinueWith(task =>
-        {
-            if (task.IsCanceled)
-            {
-                Debug.LogError("SignInAnonymouslyAsync was canceled.");
-                return;
-            }
-            if (task.IsFaulted)
-            {
-                Debug.LogError("SignInAnonymouslyAsync encountered an error: " + task.Exception);
-                return;
-            }
-
-            FirebaseUser newUser = task.Result;
-            Debug.LogFormat("User signed in successfully: {0} ({1})", newUser.DisplayName, newUser.UserId);
-        });
+        Task<FirebaseUser> task = FirebaseAuth.DefaultInstance.SignInAnonymouslyAsync();
 #endif
+        await task;
+
+        if (task.IsCanceled)
+        {
+            Debug.LogError("SignIn was canceled.");
+            return;
+        }
+        if (task.IsFaulted)
+        {
+            Debug.LogError("SignIn encountered an error: " + task.Exception);
+            return;
+        }
+
+        FirebaseUser newUser = task.Result;
+        Debug.LogFormat("User signed in successfully: {0} ({1})", newUser.DisplayName, newUser.UserId);
     }
 }

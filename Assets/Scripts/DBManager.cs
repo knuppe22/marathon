@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using Firebase;
 using Firebase.Auth;
@@ -14,8 +15,6 @@ public class DBManager : SingletonBehaviour<DBManager>
         get { return RootReference.Child("users").Child(FirebaseAuth.DefaultInstance.CurrentUser.UserId); }
     }
 
-    public Dictionary<string, User> userInDatabase;
-
     public void SetDatabase()
     {
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://kucatdog-marathon.firebaseio.com/");
@@ -23,44 +22,33 @@ public class DBManager : SingletonBehaviour<DBManager>
         RootReference = FirebaseDatabase.DefaultInstance.RootReference;
     }
 
-    // DB에 본인이 없을 경우 새로 생성
-    public void InitializeUser()
-    {
-        UserReference.GetValueAsync().ContinueWith(task =>
-        {
-            if (task.IsCompleted)
-            {
-                if (!task.Result.HasChildren)
-                {
-                    User.currentUser = new User();
-                }
-                else
-                {
-                    GetUser();
-                    User.currentUser = userInDatabase[FirebaseAuth.DefaultInstance.CurrentUser.UserId];
-                }
-            }
-        });
-    }
-
     // TODO: 여러가지 DB 정보 get, set 하는 함수 만들기
-    public void GetUser()
+    public async Task<User> GetUser()
     {
-        GetUser(FirebaseAuth.DefaultInstance.CurrentUser.UserId);
+        return await GetUser(FirebaseAuth.DefaultInstance.CurrentUser.UserId);
     }
-    public void GetUser(string userId)
+    public async Task<User> GetUser(string userId)
     {
-        if (userInDatabase[userId] != null)
+        Task<DataSnapshot> task = RootReference.Child("users").Child(userId).GetValueAsync();
+        await task;
+
+        if (task.IsFaulted)
         {
-            userInDatabase.Remove(userId);
+            Debug.LogErrorFormat("GetUser({0}) failed", userId);
+        }
+        else if (task.IsCompleted)
+        {
+            if (task.Result.Exists)
+            {
+                Debug.LogFormat("GetUser({0}) succeeded", userId);
+                return new User(task.Result);
+            }
+            else
+            {
+                Debug.LogFormat("GetUser({0}) succeeded but no data", userId);
+            }
         }
 
-        RootReference.Child("users").Child(userId).GetValueAsync().ContinueWith(task =>
-        {
-            if (task.IsCompleted && task.Result.Exists)
-            {
-                userInDatabase[userId] = new User(task.Result); 
-            }
-        });
+        return null;
     }
 }
