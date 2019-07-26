@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using Firebase;
-using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Unity.Editor;
 
@@ -41,7 +40,7 @@ public class DBManager : SingletonBehaviour<DBManager>
             if (task.Result.Exists)
             {
                 Debug.LogFormat("GetUser({0}) succeeded", userId);
-                return new User(task.Result);
+                return new User(task.Result.ToString());
             }
             else
             {

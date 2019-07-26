@@ -2,37 +2,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Firebase.Database;
 
+[Serializable]
 public class User
 {
-    public static User currentUser;
+    public string name = "Noname";
+    public float score = 0;
+    public int gold = 0;
+    public bool online = true;
+    public string lastOnline; // "yyyy-MM-ddTHH:mm:ss" 형식으로 사용
+    public List<string> friends;
+    public List<string> items;
 
-    public string name;
-    public float score;
-    public int gold;
-    public bool online;
-    public DateTime lastOnline;
-    public string[] friends;
-    public string[] items;
-
-    // TODO: User 생성자 만들기
     public User()
     {
-
+        UpdateLastOnline();
+        friends = new List<string>();
+        items = new List<string>();
     }
-    public User(DataSnapshot snapshot)
+    public User(string json) : this()
     {
-
+        JsonUtility.FromJsonOverwrite(json, this);
     }
 
-    // yyyy-MM-ddTHH:mm:ss 형식으로 사용
-    public void SetLastOnline(string dateAsString)
+    public void UpdateLastOnline()
     {
-        lastOnline = DateTime.Parse(dateAsString);
-    }
-    public string GetLastOnline()
-    {
-        return string.Format("{0:s}", lastOnline);
+        lastOnline = DateTime.Now.ToString("s");
     }
 }
