@@ -24,7 +24,7 @@ public class DBManager : SingletonBehaviour<DBManager>
     // TODO: 여러가지 DB 정보 get, set 하는 함수 만들기
     public async Task<User> GetUser()
     {
-        return await GetUser(AuthManager.Instance.UserId);
+        return await GetUser(AuthManager.Instance.CurrentUserId);
     }
     public async Task<User> GetUser(string userId)
     {

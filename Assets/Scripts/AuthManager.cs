@@ -7,7 +7,7 @@ using Firebase.Auth;
 
 public class AuthManager : SingletonBehaviour<AuthManager>
 {
-    public string UserId { get; private set; }
+    public string CurrentUserId { get; private set; }
 
     async void Awake()
     {
@@ -48,6 +48,6 @@ public class AuthManager : SingletonBehaviour<AuthManager>
 
         FirebaseUser newUser = task.Result;
         Debug.LogFormat("User signed in successfully: {0} ({1})", newUser.DisplayName, newUser.UserId);
-        UserId = newUser.UserId;
+        CurrentUserId = newUser.UserId;
     }
 }
