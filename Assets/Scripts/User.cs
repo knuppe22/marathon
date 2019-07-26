@@ -9,7 +9,7 @@ public class User
     public string name = "Noname";
     public float score = 0;
     public int gold = 0;
-    public bool online = true;
+    public bool online = false;
     public string lastOnline; // "yyyy-MM-ddTHH:mm:ss" 형식으로 사용
     public List<string> friends;
     public List<string> items;
