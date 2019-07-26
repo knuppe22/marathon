@@ -44,7 +44,7 @@ public class DBManager : SingletonBehaviour<DBManager>
             if (task.Result.Exists)
             {
                 Debug.LogFormat("GetUser({0}) succeeded", userId);
-                return new User(task.Result.ToString());
+                return new User(task.Result.GetRawJsonValue());
             }
             else
             {
