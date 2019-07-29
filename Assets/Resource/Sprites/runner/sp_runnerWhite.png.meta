@@ -1,22 +1,22 @@
 fileFormatVersion: 2
-guid: d609bb861a23c2d4d8d1e485f85ecf09
+guid: 43a2789fc6eff274e936b694327b0a06
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1758119338955195738
-    second: sp_runner_0
+      213: 3867713770748874624
+    second: sp_runnerWhite_0
   - first:
-      213: 5234024503998458237
-    second: sp_runner_1
+      213: -8152717701790922256
+    second: sp_runnerWhite_1
   - first:
-      213: 8176888759325070091
-    second: sp_runner_2
+      213: 3306962488742589277
+    second: sp_runnerWhite_2
   - first:
-      213: 7939444035069704487
-    second: sp_runner_3
+      213: -3298217970699011601
+    second: sp_runnerWhite_3
   - first:
-      213: -3996437738375733588
-    second: sp_runner_4
+      213: -3936845689924575097
+    second: sp_runnerWhite_4
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -99,7 +99,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: sp_runner_0
+      name: sp_runnerWhite_0
       rect:
         serializedVersion: 2
         x: 0
@@ -113,14 +113,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: da32c8d005642e44abc355c3e38b22a0
-      internalID: 1758119338955195738
+      spriteID: aed4d087b6e1a05419e346accbbfcd25
+      internalID: 3867713770748874624
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: sp_runner_1
+      name: sp_runnerWhite_1
       rect:
         serializedVersion: 2
         x: 200
@@ -134,14 +134,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 34a9cf6f7f1e8f8498f3673ea37478ed
-      internalID: 5234024503998458237
+      spriteID: 68ac0083be331074da6f46163f128da8
+      internalID: -8152717701790922256
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: sp_runner_2
+      name: sp_runnerWhite_2
       rect:
         serializedVersion: 2
         x: 400
@@ -155,14 +155,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7ec482af8df75584a86a6ba80c41a700
-      internalID: 8176888759325070091
+      spriteID: 8997079760d3b0f4ba73ca7b31b565d7
+      internalID: 3306962488742589277
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: sp_runner_3
+      name: sp_runnerWhite_3
       rect:
         serializedVersion: 2
         x: 600
@@ -176,14 +176,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 72d8f2b13dbf13845a02d8a1bf83ea39
-      internalID: 7939444035069704487
+      spriteID: 219bc2e0b4fae044daf92727c724022e
+      internalID: -3298217970699011601
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: sp_runner_4
+      name: sp_runnerWhite_4
       rect:
         serializedVersion: 2
         x: 800
@@ -197,8 +197,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cd11c3516eeee984f986a07ceee56c88
-      internalID: -3996437738375733588
+      spriteID: 136f963205e305a4b80ca37e3e9bf6dd
+      internalID: -3936845689924575097
       vertices: []
       indices: 
       edges: []
@@ -206,7 +206,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: a4463791d286a8f479fca625dc17b586
+    spriteID: a66c669438831ea468265e69077a4311
     internalID: 0
     vertices: []
     indices: 
