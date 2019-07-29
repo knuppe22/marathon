@@ -4,27 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 
-public class GoldScript : MonoBehaviour
+public class GoldManager : SingletonBehaviour<GoldManager>
 {
     [SerializeField]
     private Text Gold;
-    public static int gold;
+    public int gold;
     string m_strPath = "Assets/Resources/";
 
-    public bool usemoney(int price)
-    {
-        if (gold >= price)
-            return true;
-
-        else
-            return false;
-    }
 
     // Start is called before the first frame update
     void Start()
     {
-        System.IO.FileInfo fi = new
-            System.IO.FileInfo(m_strPath + "goldData.txt");
+        FileInfo fi = new FileInfo(m_strPath + "goldData.txt");
 
         if (fi.Exists)
         {
@@ -56,6 +47,18 @@ public class GoldScript : MonoBehaviour
 
         gold = int.Parse(sr.ReadLine());
         sr.Close();
+    }
+
+    public bool UseMoney(int price)
+    {
+        if (gold >= price)
+        {
+            gold -= price;
+            return true;
+        }
+
+        else
+            return false;
     }
 
     // Update is called once per frame

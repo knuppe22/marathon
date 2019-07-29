@@ -8,27 +8,21 @@ public class GoldButton : MonoBehaviour
     [SerializeField]
     private Text Gold;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     public void Click()
     {
-        GoldScript G = GameObject.Find("Gold").GetComponent<GoldScript>();
-        GoldScript.gold += 100;
-        Gold.text = GoldScript.gold.ToString();
+        GoldManager G = GameObject.Find("Gold").GetComponent<GoldManager>();
+        GoldManager.Instance.gold += 100;
+        Gold.text = GoldManager.Instance.gold.ToString();
     }
 
     public void Hundred()
     {
         int P = 100;
-
-        if (GameObject.Find("Gold").GetComponent<GoldScript>().usemoney(P) == true)
+        
+        if (GoldManager.Instance.UseMoney(P) == true)
         {
-            GoldScript.gold -= P;
-            Gold.text = GoldScript.gold.ToString();
+            GoldManager.Instance.gold -= P;
+            Gold.text = GoldManager.Instance.gold.ToString();
         }
 
         else
@@ -41,10 +35,10 @@ public class GoldButton : MonoBehaviour
     {
         int P = 200;
 
-        if (GameObject.Find("Gold").GetComponent<GoldScript>().usemoney(P) == true)
+        if (GoldManager.Instance.UseMoney(P) == true)
         {
-            GoldScript.gold -= P;
-            Gold.text = GoldScript.gold.ToString();
+            GoldManager.Instance.gold -= P;
+            Gold.text = GoldManager.Instance.gold.ToString();
         }
 
         else
@@ -53,10 +47,13 @@ public class GoldButton : MonoBehaviour
         }
     }
 
-
-    // Update is called once per frame
-    void Update()
+    public void ButtonA()
     {
+        ItemManager.Instance.BuyItem("Stone");
+    }
 
+    public void ButtonB()
+    {
+        ItemManager.Instance.EquipmentItem("Stone");
     }
 }

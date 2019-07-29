@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 
-public class ForText : SingletonBehaviour<ForText>
+public class RunManager : SingletonBehaviour<RunManager>
 {
     [SerializeField]
     private Text MeterText;
@@ -19,8 +19,7 @@ public class ForText : SingletonBehaviour<ForText>
     void Start()
     {
         string _Filestr = "Assets/Resources/Data.txt";
-        System.IO.FileInfo fi = new
-            System.IO.FileInfo(_Filestr);
+        FileInfo fi = new FileInfo(_Filestr);
 
         if (fi.Exists)
         {

@@ -18,9 +18,9 @@ public class FriendsCompare : MonoBehaviour
     {
         Friends F1 = friends[0];
         float F1Meter = F1.Meter;
-        float ff = ForText.Instance.Meter - F1Meter;
+        float ff = RunManager.Instance.Meter - F1Meter;
 
-        if ((int)(Mathf.Abs(ff)) <= ForText.Instance.FriendViewDist)
+        if ((int)(Mathf.Abs(ff)) <= RunManager.Instance.FriendViewDist)
             Debug.Log("친구 " + F1.ID + "이 일정 거리 안에 있습니다.");
     }
 
