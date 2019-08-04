@@ -22,11 +22,13 @@ public class FriendManage : SingletonBehaviour<FriendManage>
     GameObject FriendButton;
     public GameObject AddFriendSuccess;
     public Text CurrentDistance;
+    int GrabHandPage = 0;
+    public GameObject[] GrabHandPageControlButton = new GameObject[2];
 
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
@@ -51,44 +53,70 @@ public class FriendManage : SingletonBehaviour<FriendManage>
         AddFriendSuccess.gameObject.GetComponentInChildren<Text>().text = NewFriend.name;
     }
 
-    public void FriendDisplay()
+    public void FriendDisplay(bool isInitiate)
     {
-        //int YPosition = 200;
-        /*for(int i=0; i<ExistingButtonArray.Length; i++)
+        if (isInitiate)
         {
-            Destroy(ExistingButtonArray[i]);
-        }*/
-        for (int i = 0; i < 4; i++)
+            UIControl.Instance.PanelOnOff(1);
+            GrabHandPage = 0;
+        }
+        if (GrabHandPage == 0)
+        {
+            if (FriendList.Count <= 4)
+            {
+                GrabHandPageControlButton[0].gameObject.SetActive(false);
+                GrabHandPageControlButton[1].gameObject.SetActive(false);
+            }
+            else
+            {
+                GrabHandPageControlButton[0].gameObject.SetActive(false);
+                GrabHandPageControlButton[1].gameObject.SetActive(true);
+            }
+        }
+        else if (GrabHandPage == FriendList.Count / 4)
+        {
+            GrabHandPageControlButton[0].gameObject.SetActive(true);
+            GrabHandPageControlButton[1].gameObject.SetActive(false);
+        }
+        else
+        {
+            GrabHandPageControlButton[0].gameObject.SetActive(true);
+            GrabHandPageControlButton[1].gameObject.SetActive(true);
+        }
+            for (int i = 0; i < 4; i++)
         {
             GrabHandButtonArray[i].gameObject.SetActive(true);
-            if (i >= FriendList.Count)
+            if (i >= FriendList.Count - 4 * GrabHandPage) 
                 GrabHandButtonArray[i].gameObject.SetActive(false);
         }
-        int ButtonCount = 0;
-        foreach(Friend F in FriendList)
+        for (int i = 0; i < 4; i++) 
         {
-            /*FriendButton = Instantiate(GrabHandButton, GrabHandPanel.transform.position, Quaternion.identity, GrabHandPanel.transform);
-            FriendButton.transform.localPosition = new Vector3(0, YPosition, 0);*/
-            //GrabHandButtonArray[ButtonCount].gameObject.SetActive(true);
-            GameObject FriendButton = GrabHandButtonArray[ButtonCount];
-            Text[] TextArray = FriendButton.gameObject.GetComponentsInChildren<Text>();
-            TextArray[0].text = F.name;
-            foreach(Image I in FriendButton.GetComponentsInChildren<Image>())
+            GameObject FriendButton = GrabHandButtonArray[i];
+            Debug.Log(+i);
+            if (i < FriendList.Count % 4)
             {
-                if(!I.GetComponent<Button>()) I.sprite = F.profileimage.sprite;
+                Text[] TextArray = FriendButton.gameObject.GetComponentsInChildren<Text>();
+                TextArray[0].text = FriendList[4 * GrabHandPage + i].name;
+                Debug.Log(+(4*GrabHandPage+i));
+                /*foreach (Image I in FriendButton.GetComponentsInChildren<Image>())
+                {
+                    if (!I.GetComponent<Button>())
+                    {
+                        I.sprite = FriendList[4 + GrabHandPage + i].profileimage.sprite;
+                        break;
+                    }
+                }*/
+                FriendButton.gameObject.GetComponentsInChildren<Image>()[1].sprite = FriendList[4 * GrabHandPage + i].profileimage.sprite;
+                TextArray[1].text = FriendList[4 * GrabHandPage + i].distance.ToString();
             }
-            TextArray[1].text = F.distance.ToString();
-            ButtonCount++;
-            //YPosition -= 170;
         }
     }
-    /*public void GrabHand(int index)
+    public void GrabHandPageControl(bool Isup)
     {
-        Debug.Log(+index);
-        Debug.Log(+FriendList.Count);
-        int AverageDistance = (MyDistance + FriendList[index].distance) / 2;
-        MyDistance = AverageDistance;
-        FriendList[index].distance = AverageDistance;
-        FriendDisplay();
-    }*/
+        if (Isup)
+            GrabHandPage++;
+        else
+            GrabHandPage--;
+        FriendDisplay(false);
+    }
 }

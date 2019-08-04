@@ -24,7 +24,7 @@ public class ButtonControl : MonoBehaviour
         int AverageDistance = (FriendManage.Instance.MyDistance + FriendManage.Instance.FriendList[index].distance) / 2;
         FriendManage.Instance.MyDistance = AverageDistance;
         FriendManage.Instance.FriendList[index].distance = AverageDistance;
-        FriendManage.Instance.FriendDisplay();
+        FriendManage.Instance.FriendDisplay(false);
         GrabHandSuccess.gameObject.SetActive(true);
         GrabHandFriendName.text = FriendManage.Instance.FriendList[index].name;
         GrabHandDistance.text = AverageDistance.ToString();
