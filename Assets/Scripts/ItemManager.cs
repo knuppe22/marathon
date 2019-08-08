@@ -1,19 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
 
 public class ItemManager : SingletonBehaviour<ItemManager>
 {
-    Dictionary<string, Item> itemlist = new Dictionary<string, Item>();
-    string[] Itemname = { "Stone", "Pine", "Maple", "Ginkgo", "Mashmellow", "Asphalt", "Tuxedo", "Red", "Blue", "Green", "Purple", "Black" };
-    List<Item> PossItem = new List<Item>();
+    public Dictionary<string, Item> itemlist = new Dictionary<string, Item>();
+    //public List<Item> itemList2;
+    public List<string> PossItem = new List<string>();
 
     public List<string> ClothQ = new List<string>();
     public List<string> BackGroundQ = new List<string>();
     public List<string> RoadQ = new List<string>();
 
-    string m_strPath = "Assets/Resources/";
+    public List<string> AllQ = new List<string>();
 
     public void Awake() //Start보다 먼저 실행.
     {
@@ -21,7 +20,7 @@ public class ItemManager : SingletonBehaviour<ItemManager>
         itemlist.Add("Pine", new Item("Pine", 1000, Item.Property.Background, 3, 1.5f, 0, 0, 0));
         itemlist.Add("Maple", new Item("Maple", 1000, Item.Property.Background, 3, 1.5f, 0, 0, 0));
         itemlist.Add("Ginkgo", new Item("Ginkgo", 1000, Item.Property.Background, 3, 1.5f, 0, 0, 0));
-        itemlist.Add("Mashmellow", new Item("Mashmellow", 600, Item.Property.Background, 3, 0.3f, 0, 0, 0));
+        itemlist.Add("Mashmellow", new Item("Mashmellow", 600, Item.Property.Background, 3, 0, 0, 0, 0.3f));
         itemlist.Add("Asphalt", new Item("Asphalt", 4000, Item.Property.Road, 1, 0, 500, 0, 0));
         itemlist.Add("Tuxedo", new Item("Tuxedo", 4000, Item.Property.Cloth, 1, 3, 0, 1, 0));
         itemlist.Add("Red", new Item("Red", 100, Item.Property.Cloth, 1, 0.1f, 0, 0, 0));
@@ -33,80 +32,30 @@ public class ItemManager : SingletonBehaviour<ItemManager>
 
     void Start()
     {
-        string _Filestr = "Assets/Resources/ItemData.txt";
-        FileInfo fi = new FileInfo(_Filestr);
+        /*
+        PossItem = RunManager.Instance.users[AuthManager.Instance.CurrentUserId].items;
 
-        if (fi.Exists)
+        foreach (string item in PossItem)
         {
-            Parse();
-        }
-    }
-
-    public void CreateData(string strData, int presposs)
-    {
-        FileStream f = new FileStream(m_strPath + "ItemData.txt", FileMode.Create, FileAccess.Write);
-        StreamWriter writer = new StreamWriter(f, System.Text.Encoding.Unicode);
-
-        writer.WriteLine(strData);
-
-        FileStream f2 = new FileStream(m_strPath + "ItemData.txt", FileMode.Append, FileAccess.Write);
-        StreamWriter writer2 = new StreamWriter(f, System.Text.Encoding.Unicode);
-
-        writer2.WriteLine(presposs.ToString());
-
-        writer.Close();
-        writer2.Close();
-    }
-
-    public void AppendData(string strData, int presposs)
-    {
-        FileStream f = new FileStream(m_strPath + "ItemData.txt", FileMode.Create, FileAccess.Write);
-        StreamWriter writer = new StreamWriter(f, System.Text.Encoding.Unicode);
-
-        writer.WriteLine(strData);
-
-        FileStream f2 = new FileStream(m_strPath + "ItemData.txt", FileMode.Append, FileAccess.Write);
-        StreamWriter writer2 = new StreamWriter(f, System.Text.Encoding.Unicode);
-
-        writer2.WriteLine(presposs.ToString());
-
-        writer.Close();
-        writer2.Close();
-    }
-
-    public void Parse()
-    {
-        TextAsset data = Resources.Load("Data", typeof(TextAsset)) as TextAsset;
-        StringReader sr = new StringReader(data.text);
-
-        string ItemNameData;
-        int ItemPossess;
-
-        while ((ItemNameData = sr.ReadLine()) != null)
-        {
-            for (int i = 0; i < Itemname.Length; i++)
-            {
-                if (ItemNameData == Itemname[i])
-                {
-                    itemlist.TryGetValue(Itemname[i], out Item item);
-                    PossItem.Add(item);
-
-                    ItemPossess = int.Parse(sr.ReadLine());
-
-                    itemlist[ItemNameData].PresPoss = ItemPossess;
-                }
-            }
+            itemlist[item].PresPoss++;
         }
 
-        sr.Close();
         ApplyItemEffect();
+
+        AllQ = RunManager.Instance.users[AuthManager.Instance.CurrentUserId].equippedItems;
+        
+        foreach(string item in AllQ)
+        {
+            itemlist[item].Equipment++;
+        }
+        */
     }
 
     public void BuyItem(string name)
     {
         if(itemlist[name].PresPoss >= itemlist[name].Maximum)
         {
-            Debug.Log("실패");
+            Debug.Log("더 이상 소지할 수 없습니다.");
         }
 
         else
@@ -115,11 +64,15 @@ public class ItemManager : SingletonBehaviour<ItemManager>
             {
                 itemlist[name].PresPoss++;
                 ApplyItemEffect();
+
+                PossItem.Add(name);
+
+                DBManager.Instance.SetUserValue("items", PossItem);
             }
 
             else
             {
-                Debug.Log("돈 부족");
+                Debug.Log("골드가 부족합니다.");
             }
         }
     }
@@ -151,6 +104,9 @@ public class ItemManager : SingletonBehaviour<ItemManager>
                     {
                         ClothQ.Add(item);
                         itemlist[item].Equipment++;
+                        AllQ.Add(item);
+
+                        RunManager.Instance.users[AuthManager.Instance.CurrentUserId].equippedItems = AllQ;
                     }
                 }
 
@@ -161,8 +117,13 @@ public class ItemManager : SingletonBehaviour<ItemManager>
                         string RemoveItem = ClothQ[0];
                         itemlist[RemoveItem].Equipment--;
                         ClothQ.RemoveAt(0);
+                        AllQ.Remove(RemoveItem);
+
                         ClothQ.Add(item);
                         itemlist[item].Equipment++;
+                        AllQ.Add(item);
+
+                        RunManager.Instance.users[AuthManager.Instance.CurrentUserId].equippedItems = AllQ;
                     }
                 }
 
@@ -179,6 +140,9 @@ public class ItemManager : SingletonBehaviour<ItemManager>
                     {
                         RoadQ.Add(item);
                         itemlist[item].Equipment++;
+                        AllQ.Add(item);
+
+                        RunManager.Instance.users[AuthManager.Instance.CurrentUserId].equippedItems = AllQ;
                     }
                 }
 
@@ -189,8 +153,13 @@ public class ItemManager : SingletonBehaviour<ItemManager>
                         string RemoveItem = RoadQ[0];
                         itemlist[RemoveItem].Equipment--;
                         RoadQ.RemoveAt(0);
+                        AllQ.Remove(RemoveItem);
+
                         RoadQ.Add(item);
                         itemlist[item].Equipment++;
+                        AllQ.Add(item);
+
+                        RunManager.Instance.users[AuthManager.Instance.CurrentUserId].equippedItems = AllQ;
                     }
                 }
 
@@ -207,6 +176,9 @@ public class ItemManager : SingletonBehaviour<ItemManager>
                     {
                         BackGroundQ.Add(item);
                         itemlist[item].Equipment++;
+                        AllQ.Add(item);
+
+                        RunManager.Instance.users[AuthManager.Instance.CurrentUserId].equippedItems = AllQ;
                     }
                 }
 
@@ -216,29 +188,15 @@ public class ItemManager : SingletonBehaviour<ItemManager>
                     {
                         BackGroundQ.Add(item);
                         itemlist[item].Equipment++;
+                        AllQ.Add(item);
+
+                        RunManager.Instance.users[AuthManager.Instance.CurrentUserId].equippedItems = AllQ;
                     }
 
                     else
                         Debug.Log("더이상 장착할 수 없습니다.");
                 }
                 break;
-        }
-    }
-
-    private void OnApplicationQuit()
-    {
-        if (PossItem.Count != 0)
-        {
-            Item save = PossItem[0];
-            CreateData(save.Name, save.PresPoss);
-            if (PossItem.Count != 1)
-            {
-                for (int i = 1; i < PossItem.Count; i++)
-                {
-                    save = PossItem[i];
-                    AppendData(save.Name, save.PresPoss);
-                }
-            }
         }
     }
 }

@@ -10,7 +10,7 @@ public class FriendsCompare : MonoBehaviour
 
     void MakeFriend()
     {
-        Friends A = new Friends(21, 1000);
+        Friends A = new Friends("21", 1000);
         friends.Add(A);
     }
 

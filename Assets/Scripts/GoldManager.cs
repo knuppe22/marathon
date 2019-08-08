@@ -7,15 +7,19 @@ using System.IO;
 public class GoldManager : SingletonBehaviour<GoldManager>
 {
     [SerializeField]
-    private Text Gold;
+    public Text Gold;
     public int gold;
-    string m_strPath = "Assets/Resources/";
+    //string m_strPath = "Assets/Resources/";
 
 
     // Start is called before the first frame update
     void Start()
     {
-        FileInfo fi = new FileInfo(m_strPath + "goldData.txt");
+
+        //GoldManager.Instance.gold = users[AuthManager.Instance.CurrentUserId].gold;
+        //GoldManager.Instance.Gold.text = GoldManager.Instance.gold.ToString();
+
+        /*FileInfo fi = new FileInfo(m_strPath + "goldData.txt");
 
         if (fi.Exists)
         {
@@ -27,10 +31,10 @@ public class GoldManager : SingletonBehaviour<GoldManager>
         {
             gold = 0;
             Gold.text = gold.ToString();
-        }
+        }*/
     }
 
-    public void CreateData(string strData)
+    /*public void CreateData(string strData)
     {
         FileStream f = new FileStream(m_strPath + "goldData.txt", FileMode.Create, FileAccess.Write);
         StreamWriter writer = new StreamWriter(f, System.Text.Encoding.Unicode);
@@ -47,7 +51,7 @@ public class GoldManager : SingletonBehaviour<GoldManager>
 
         gold = int.Parse(sr.ReadLine());
         sr.Close();
-    }
+    }*/
 
     public bool UseMoney(int price)
     {
@@ -59,16 +63,5 @@ public class GoldManager : SingletonBehaviour<GoldManager>
 
         else
             return false;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    private void OnApplicationQuit()
-    {
-        CreateData(gold.ToString());
     }
 }

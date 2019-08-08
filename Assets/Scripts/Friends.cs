@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Friends
 {
-    public int ID;
+    public string ID;
     public float Meter;
+    public List<Item> Items;
 
-    public Friends(int ID, float Meter)
+    public Friends(string ID, float Meter)
     {
         this.ID = ID;
         this.Meter = Meter;
