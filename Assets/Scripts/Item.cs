@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item
+//[CreateAssetMenu(fileName = "New Item", menuName = "Item")]
+public class Item // : ScriptableObject
 {
     public enum Property { Cloth, Background, Road }; // Enumerators.cs 를 만들어서 이걸 넣으면 어디에서든 가능.
-
+    
     public string Name;
     public int Price;
     public Property property;
@@ -19,7 +20,7 @@ public class Item
 
     //ClothQ, BackGroundQ, RoadQ를 따로 만들어서 size를 정하기. 만약 Maximum이면 pop 및 --, 새로넣은거 ++
 
-    public Item(string Name, int Price, Property property, int Maximum, float PlusRSpeed, int PlusFView, float PlusHGold, float PlusCGold)
+     public Item(string Name, int Price, Property property, int Maximum, float PlusRSpeed, int PlusFView, float PlusHGold, float PlusCGold)
     {
         this.Name = Name;
         this.Price = Price;
