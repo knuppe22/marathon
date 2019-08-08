@@ -13,6 +13,7 @@ public class User
     public string lastOnline; // "yyyy-MM-ddTHH:mm:ss" 형식으로 사용
     public List<string> friends;
     public List<string> items;
+    public List<string> equippedItems;
 
     public User()
     {

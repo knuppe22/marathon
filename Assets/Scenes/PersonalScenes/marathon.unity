@@ -652,9 +652,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e2f4e14825c064da999ee8151430b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemList2:
+  - {fileID: 11400000, guid: a6ebceb7aca9e1d4e9a7c8fd4bd34a85, type: 2}
+  - {fileID: 11400000, guid: 3503b59b53c8aa544bb44ac4f5c38ac3, type: 2}
+  - {fileID: 11400000, guid: 38b9bc843ee7bbf458da84dc0c9aa27b, type: 2}
+  - {fileID: 11400000, guid: ce93af5073da4b24a86e7587b6d225d0, type: 2}
+  - {fileID: 11400000, guid: 513d1a4e70640cc4d99e1934f295ba56, type: 2}
+  - {fileID: 11400000, guid: 32085e86bec7a33469773220f88731f4, type: 2}
+  - {fileID: 11400000, guid: 68190a05bbde99743a2b40576e3fa62a, type: 2}
+  - {fileID: 11400000, guid: 6bba9706811020243bc2b7dc353a4e55, type: 2}
+  - {fileID: 11400000, guid: 5ff3b117b5bc6d245948c7623316fed3, type: 2}
+  - {fileID: 11400000, guid: 7ce6a9187858a534bb0d61a935760d15, type: 2}
+  - {fileID: 11400000, guid: 003cf07e9918bba429f3e5a5a6990f71, type: 2}
+  - {fileID: 11400000, guid: 00b95c7dd19b11746989c51bd8688b6a, type: 2}
   ClothQ: []
   BackGroundQ: []
   RoadQ: []
+  AllQ: []
 --- !u!4 &893918164
 Transform:
   m_ObjectHideFlags: 0
