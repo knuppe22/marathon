@@ -519,7 +519,7 @@ GameObject:
   - component: {fileID: 62822892}
   - component: {fileID: 62822891}
   m_Layer: 5
-  m_Name: Marathon Uniform-Purple
+  m_Name: ShopButton4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -822,80 +822,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &101092515
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 101092516}
-  - component: {fileID: 101092518}
-  - component: {fileID: 101092517}
-  m_Layer: 5
-  m_Name: SoldOutImage2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &101092516
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101092515}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2076418519}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -164.8, y: -164.19998}
-  m_SizeDelta: {x: 326.4, y: 356.6}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &101092517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101092515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: c58ca68d30aac5a4aae6b81cba4061db, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
---- !u!222 &101092518
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101092515}
-  m_CullTransparentMesh: 0
 --- !u!1 &120210852 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4889324587363532619, guid: c2508b5033c7ced4ea6090b414c258d0,
@@ -994,7 +920,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 198824133}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &198824133
@@ -1501,80 +1438,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 380554328}
   m_CullTransparentMesh: 0
---- !u!1 &408158748
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 408158749}
-  - component: {fileID: 408158751}
-  - component: {fileID: 408158750}
-  m_Layer: 5
-  m_Name: SoldOutImage0
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &408158749
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 408158748}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2076418519}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -164.80008, y: 191.00005}
-  m_SizeDelta: {x: 326.4, y: 356.6}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &408158750
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 408158748}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: c58ca68d30aac5a4aae6b81cba4061db, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
---- !u!222 &408158751
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 408158748}
-  m_CullTransparentMesh: 0
 --- !u!1 &437460845 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6085244964563986400, guid: eda0576eae1f7f744827e53021fce94f,
@@ -1594,7 +1457,7 @@ GameObject:
   - component: {fileID: 477571473}
   - component: {fileID: 477571472}
   m_Layer: 5
-  m_Name: Marathon Uniform-Green
+  m_Name: ShopButton2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1877,80 +1740,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &519696906
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 519696907}
-  - component: {fileID: 519696909}
-  - component: {fileID: 519696908}
-  m_Layer: 5
-  m_Name: SoldOutImage3
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &519696907
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519696906}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2076418519}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 164.8, y: -164.19997}
-  m_SizeDelta: {x: 326.4, y: 356.6}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &519696908
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519696906}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: c58ca68d30aac5a4aae6b81cba4061db, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
---- !u!222 &519696909
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519696906}
-  m_CullTransparentMesh: 0
 --- !u!1001 &585169168
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2813,7 +2602,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.9100342, y: -33.900024}
+  m_AnchoredPosition: {x: 0.91015625, y: -33.900024}
   m_SizeDelta: {x: -155.59, y: -1017.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &858895154
@@ -3033,7 +2822,7 @@ GameObject:
   - component: {fileID: 972666385}
   - component: {fileID: 972666384}
   m_Layer: 5
-  m_Name: Marathon Uniform-Blue
+  m_Name: ShopButton1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3671,7 +3460,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1423198680
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3692,7 +3481,7 @@ RectTransform:
   - {fileID: 1543874386}
   - {fileID: 380554329}
   m_Father: {fileID: 2076418519}
-  m_RootOrder: 10
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3749,7 +3538,7 @@ GameObject:
   - component: {fileID: 1443010122}
   - component: {fileID: 1443010121}
   m_Layer: 5
-  m_Name: Marathon Uniform-Red
+  m_Name: ShopButton3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3928,94 +3717,10 @@ MonoBehaviour:
   - {fileID: 886111674}
   - {fileID: 1269730548}
   PurchaseConfirmPanel: {fileID: 1423198679}
-  ItemInfos:
-  - ItemName: " \uB9C8\uB77C\uD1A4 \uBCF5\uC7A5-\uD30C\uB791"
-    ItemVisual: {fileID: 0}
-    ItemEffectsDescription: "\uBCF5\uC7A5 \uC544\uC774\uD15C\n\uD50C\uB808\uC774\uC5B4
-      \uC18D\uB3C4 +0.1m/s"
-    ItemPrice: 100
-    MaxQuantity: 1
-    CurrentQuantity: 0
-  - ItemName: " \uB9C8\uB77C\uD1A4 \uBCF5\uC7A5-\uCD08\uB85D"
-    ItemVisual: {fileID: 0}
-    ItemEffectsDescription: "\uBCF5\uC7A5 \uC544\uC774\uD15C\n\uD50C\uB808\uC774\uC5B4
-      \uC18D\uB3C4 +0.1m/s"
-    ItemPrice: 100
-    MaxQuantity: 1
-    CurrentQuantity: 0
-  - ItemName: " \uB9C8\uB77C\uD1A4 \uBCF5\uC7A5-\uBE68\uAC15"
-    ItemVisual: {fileID: 0}
-    ItemEffectsDescription: "\uBCF5\uC7A5 \uC544\uC774\uD15C\n\uD50C\uB808\uC774\uC5B4
-      \uC18D\uB3C4 +0.1m/s"
-    ItemPrice: 100
-    MaxQuantity: 1
-    CurrentQuantity: 0
-  - ItemName: " \uB9C8\uB77C\uD1A4 \uBCF5\uC7A5-\uBCF4\uB77C"
-    ItemVisual: {fileID: 0}
-    ItemEffectsDescription: "\uBCF5\uC7A5 \uC544\uC774\uD15C\n\uD50C\uB808\uC774\uC5B4
-      \uC18D\uB3C4 +0.1m/s\n\uC2DC\uC57C +50m"
-    ItemPrice: 200
-    MaxQuantity: 1
-    CurrentQuantity: 0
-  - ItemName: " \uB9C8\uB77C\uD1A4 \uBCF5\uC7A5-\uAC80\uC815"
-    ItemVisual: {fileID: 0}
-    ItemEffectsDescription: "\uBCF5\uC7A5 \uC544\uC774\uD15C\n\uD50C\uB808\uC774\uC5B4
-      \uC18D\uB3C4 +0.1m/s\n\uC190 \uC7A1\uC544\uC8FC\uAE30 \uACE8\uB4DC +20%\n"
-    ItemPrice: 200
-    MaxQuantity: 1
-    CurrentQuantity: 0
-  - ItemName: " \uB3CC\uB9F9\uC774"
-    ItemVisual: {fileID: 0}
-    ItemEffectsDescription: "\uBC30\uACBD \uC544\uC774\uD15C\n\uD50C\uB808\uC774\uC5B4
-      \uC18D\uB3C4 +1m/s"
-    ItemPrice: 500
-    MaxQuantity: 3
-    CurrentQuantity: 0
-  - ItemName: " \uB9C8\uC2DC\uBA5C\uB85C"
-    ItemVisual: {fileID: 0}
-    ItemEffectsDescription: "\uBC30\uACBD \uC544\uC774\uD15C\n\uCCB4\uD06C\uD3EC\uC778\uD2B8
-      \uC774\uBCA4\uD2B8 \uACE8\uB4DC +30%"
-    ItemPrice: 600
-    MaxQuantity: 3
-    CurrentQuantity: 0
-  - ItemName: " \uC18C\uB098\uBB34"
-    ItemVisual: {fileID: 0}
-    ItemEffectsDescription: "\uBC30\uACBD \uC544\uC774\uD15C\n\uD50C\uB808\uC774\uC5B4
-      \uC18D\uB3C4 +1.5m/s"
-    ItemPrice: 1000
-    MaxQuantity: 3
-    CurrentQuantity: 0
-  - ItemName: " \uB2E8\uD48D\uB098\uBB34"
-    ItemVisual: {fileID: 0}
-    ItemEffectsDescription: "\uBC30\uACBD \uC544\uC774\uD15C\n\uD50C\uB808\uC774\uC5B4
-      \uC18D\uB3C4 +1.5m/s"
-    ItemPrice: 1000
-    MaxQuantity: 3
-    CurrentQuantity: 0
-  - ItemName: " \uC740\uD589\uB098\uBB34"
-    ItemVisual: {fileID: 0}
-    ItemEffectsDescription: "\uBC30\uACBD \uC544\uC774\uD15C\n\uD50C\uB808\uC774\uC5B4
-      \uC18D\uB3C4 +1.5m/s"
-    ItemPrice: 1000
-    MaxQuantity: 3
-    CurrentQuantity: 0
-  - ItemName: " \uC544\uC2A4\uD314\uD2B8"
-    ItemVisual: {fileID: 0}
-    ItemEffectsDescription: "\uB3C4\uB85C \uC544\uC774\uD15C\n\uC2DC\uC57C +500m"
-    ItemPrice: 4000
-    MaxQuantity: 1
-    CurrentQuantity: 0
-  - ItemName: " \uD131\uC2DC\uB3C4"
-    ItemVisual: {fileID: 0}
-    ItemEffectsDescription: "\uBCF5\uC7A5 \uC544\uC774\uD15C\n\uD50C\uB808\uC774\uC5B4
-      \uC18D\uB3C4 +3m/s\n\uC190 \uC7A1\uC544\uC8FC\uAE30 \uACE8\uB4DC +100%"
-    ItemPrice: 4000
-    MaxQuantity: 1
-    CurrentQuantity: 0
   RequestedItemIndex: 0
   PurchaseItemName: {fileID: 1371213839}
   PurchaseItemEffects: {fileID: 735348041}
-  PurchaseItemImage: {fileID: 0}
+  PurchaseItemImage: {fileID: 720026590}
   PurchaseItemPrice: {fileID: 62351996}
   ShopItemButton:
   - {fileID: 972666382}
@@ -4313,80 +4018,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e23b4a3f7025204388e09ac742a9945, type: 3}
---- !u!1 &1474677964
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1474677965}
-  - component: {fileID: 1474677967}
-  - component: {fileID: 1474677966}
-  m_Layer: 5
-  m_Name: SoldOutImage1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &1474677965
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1474677964}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2076418519}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 164.8, y: 191}
-  m_SizeDelta: {x: 326.4, y: 356.6}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1474677966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1474677964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: c58ca68d30aac5a4aae6b81cba4061db, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
---- !u!222 &1474677967
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1474677964}
-  m_CullTransparentMesh: 0
 --- !u!224 &1502303151 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7849877411596292099, guid: 245b8c9fe51985f4cadbdd24bd51e01f,
@@ -5559,7 +5190,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2076418517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5614,10 +5245,6 @@ RectTransform:
   - {fileID: 477571471}
   - {fileID: 1443010120}
   - {fileID: 62822890}
-  - {fileID: 408158749}
-  - {fileID: 1474677965}
-  - {fileID: 101092516}
-  - {fileID: 519696907}
   - {fileID: 1423198680}
   m_Father: {fileID: 2139446803}
   m_RootOrder: 6
@@ -7058,7 +6685,7 @@ PrefabInstance:
     - target: {fileID: 7849877411596292099, guid: 245b8c9fe51985f4cadbdd24bd51e01f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7849877411596292099, guid: 245b8c9fe51985f4cadbdd24bd51e01f,
         type: 3}
