@@ -16,7 +16,7 @@ public class ItemInfo
 }
 public class UIControl : SingletonBehaviour<UIControl>
 {
-    public GameObject[] SuccessPanel = new GameObject[2];
+    public GameObject[] PopupPanel = new GameObject[3];
     public GameObject[] PanelArray = new GameObject[3];
     int ShopPage = 0;
     public GameObject ShopUI;
@@ -30,6 +30,12 @@ public class UIControl : SingletonBehaviour<UIControl>
     public Text PurchaseItemPrice;
     string[] ItemNameArray = { "Blue", "Green", "Red", "Purple", "Black", "Stone", "Mashmellow", "Pine", "Maple", "Ginkgo", "Asphalt", "Tuxedo" };
     public GameObject[] ShopItemButton = new GameObject[4];
+    public GameObject CheckpointPopup;
+    public int[] CheckpointTime = new int[2]; //체크포인트 이벤트 발생 시간(우선 프레임단위)
+    public int CheckpointGoldperPerson;
+    public int PeoplenuminScreen;
+    bool CheckPointEvent;
+    public Text CheckpointMessage;
 
     // Start is called before the first frame update
     void Start()
@@ -40,15 +46,22 @@ public class UIControl : SingletonBehaviour<UIControl>
     // Update is called once per frame
     void Update()
     {
+
         if (Input.GetMouseButtonDown(0))
         {
-            for (int i=0; i<2; i++)
+            for (int i=0; i<3; i++)
             {
-                if (SuccessPanel[i].gameObject.activeSelf)
+                if (PopupPanel[i].gameObject.activeSelf)
                 {
-                    SuccessPanel[i].SetActive(false);
+                    PopupPanel[i].SetActive(false);
                 }
             }
+        }
+        if (CheckPointEvent)
+        {
+            CheckpointPopup.gameObject.SetActive(true);
+            CheckpointMessage.text = "19:05에 " + PeoplenuminScreen + "명이 화면 상에 존재했습니다.\n" + CheckpointGoldperPerson * PeoplenuminScreen + "G를 획득하였습니다.";
+            CheckPointEvent = false;
         }
     }
     public void PanelOnOff(int index)
@@ -133,5 +146,13 @@ public class UIControl : SingletonBehaviour<UIControl>
         //PurchaseItemImage = ItemInfos[itemindex].ItemVisual;
         PurchaseItemEffects.text = ItemInfos[4*ShopPage+itemindex].ItemEffectsDescription;
         PurchaseItemPrice.text = ItemInfos[4 * ShopPage + itemindex].ItemPrice + "G";
+    }
+    public void CheckpointTest()
+    {
+        CheckPointEvent = true;
+    }
+    public void EquipItem()
+    {
+        ItemManager.Instance.EquipmentItem(ItemNameArray[RequestedItemIndex]);
     }
 }
