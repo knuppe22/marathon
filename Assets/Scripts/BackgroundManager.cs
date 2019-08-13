@@ -133,7 +133,6 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
     {
         for (int i = 0; i < 5; i++)
         {
-            //Debug.Log(i);
             if(inLane[i] < 0)
             {
                 waitingTime[i] -= Time.deltaTime;
