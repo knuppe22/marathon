@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 [System.Serializable]
 public class ItemInfo
@@ -73,6 +74,16 @@ public class UIControl : SingletonBehaviour<UIControl>
                 {
                     PopupPanel[i].SetActive(false);
                 }
+                if (PanelArray[i].gameObject.activeSelf && EventSystem.current.IsPointerOverGameObject() == false)
+                {
+                    if (i == 2)
+                    {
+                        if (!PurchaseConfirmPanel.activeSelf)
+                            PanelArray[i].SetActive(false);
+                    }
+                    else
+                    PanelArray[i].SetActive(false);
+                }
             }
         }
         if (CheckPointEvent)
@@ -140,11 +151,11 @@ public class UIControl : SingletonBehaviour<UIControl>
     }
     public void PurchaseDenial()
     {
-        PurchaseConfirmPanel.gameObject.SetActive(false);
+        //PurchaseConfirmPanel.gameObject.SetActive(false);
     }
     public void PurchaseConfirm()
     {
-        PurchaseConfirmPanel.gameObject.SetActive(false);
+        //PurchaseConfirmPanel.gameObject.SetActive(false);
         if (ItemManager.Instance.itemlist[ItemNameArray[RequestedItemIndex]].PresPoss >= ItemManager.Instance.itemlist[ItemNameArray[RequestedItemIndex]].Maximum)
         {
             Debug.Log("더 이상 구매할 수 없습니다");
@@ -176,5 +187,9 @@ public class UIControl : SingletonBehaviour<UIControl>
     public void EquipItem()
     {
         ItemManager.Instance.EquipmentItem(ItemNameArray[RequestedItemIndex]);
+    }
+    public void Off(GameObject Target)
+    {
+        Target.SetActive(false);
     }
 }
