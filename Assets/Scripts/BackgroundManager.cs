@@ -176,7 +176,7 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
         sprt = playerObj.GetComponent<SpriteRenderer>();
         sprt.sortingOrder = 15;
         playerObj.transform.position = Vector2.Lerp(runnerLane[0], runnerLane[1], 0.5f);
-
+        playerObj.GetComponent<TextMesh>().text = RunManager.Instance.Meter.ToString();
 
     }
 
@@ -184,11 +184,29 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
     {
         AddFriendObj(id);
 
+        float per = (RunManager.Instance.users[id].score - RunManager.Instance.Meter) / RunManager.Instance.FriendViewDist / 2 + 0.5f;
+
+
         SpriteRenderer sprt;
 
         sprt = friendObj[id].GetComponent<SpriteRenderer>();
-        sprt.sortingOrder = friendLanePos[id] + 10;
-        //playerObj.transform.position = Vector2.Lerp(runnerLane[0], runnerLane[1], 0.5f);
+
+        if (per>=0 && per<=1)
+        {
+            sprt.enabled = true;
+            sprt.sortingOrder = friendLanePos[id] + 10;
+            playerObj.transform.position = Vector2.Lerp(runnerLane[0], runnerLane[1], per) +
+                new Vector2(Mathf.Cos(Mathf.Deg2Rad * (roadAngle + 90)), Mathf.Sin(Mathf.Deg2Rad * (roadAngle + 90)))
+                * runnerLaneWidth / 10 * (friendLanePos[id] - 5);
+
+            playerObj.GetComponent<TextMesh>().text = RunManager.Instance.users[id].score.ToString();
+        }
+        else
+        {
+            sprt.enabled = false;
+        }
+
+
     }
 
     void AddFriendObj(string id)

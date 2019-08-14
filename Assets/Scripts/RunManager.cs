@@ -71,13 +71,13 @@ public class RunManager : SingletonBehaviour<RunManager>
     {
         time += Time.deltaTime;
 
-        if(time > 10)
+        /*if(time > 10)
         {
             User me = await DBManager.Instance.GetUser();
             users[AuthManager.Instance.CurrentUserId] = me;
 
             time = 0;
-        }
+        }*/
 
         Meter += RunSpeed * Time.deltaTime;
         MeterText.text = ((int)Meter).ToString();

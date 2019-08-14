@@ -10,7 +10,6 @@ public class GoldButton : MonoBehaviour
 
     public void Click()
     {
-        GoldManager G = GameObject.Find("Gold").GetComponent<GoldManager>();
         GoldManager.Instance.gold += 100;
         Gold.text = GoldManager.Instance.gold.ToString();
     }
