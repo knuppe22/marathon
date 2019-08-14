@@ -24,7 +24,8 @@ public class RunManager : SingletonBehaviour<RunManager>
         User me = await DBManager.Instance.GetUser();
         users.Add(AuthManager.Instance.CurrentUserId, me);
 
-        //AuthManager, DBManager만 있는 씬을 따로 만들어서
+        //AuthManager, DBManager만 있는 씬을 따로 만들어서 씬을 변경?
+        //await 두 개가 동시에 되는가.
 
         Meter = users[AuthManager.Instance.CurrentUserId].score + RunSpeed * CalcOnline();
         MeterText.text = ((int)Meter).ToString();
@@ -36,6 +37,7 @@ public class RunManager : SingletonBehaviour<RunManager>
 
         foreach (string item in ItemManager.Instance.PossItem)
         {
+            
             ItemManager.Instance.itemlist[item].PresPoss++;
         }
 
@@ -45,37 +47,23 @@ public class RunManager : SingletonBehaviour<RunManager>
 
         foreach (string item in ItemManager.Instance.AllQ)
         {
+            
             ItemManager.Instance.itemlist[item].Equipment++;
         }
-
         
         //DBManager.Instance.SetUser(users[AuthManager.Instance.CurrentUserId]); 자기꺼 저장.
-
-        /*string _Filestr = "Assets/Resources/Data.txt";
-        FileInfo fi = new FileInfo(_Filestr);
-
-        if (fi.Exists)
-        {
-            Parse();
-            MeterText.text = IntMeter.ToString();
-        }
-
-        else
-        {
-            MeterText.text = "0";
-        }*/
     }
 
 
-    async void Update()
+    void Update()
     {
         time += Time.deltaTime;
 
-        /*if(time > 10)
-        {
-            User me = await DBManager.Instance.GetUser();
-            users[AuthManager.Instance.CurrentUserId] = me;
+        CheckPointEvent();
 
+        if(time > 10)
+        {
+            //DBManager.Instance.SetUser(users[AuthManager.Instance.CurrentUserId]);
             time = 0;
         }*/
 
@@ -100,45 +88,39 @@ public class RunManager : SingletonBehaviour<RunManager>
 
     private void OnApplicationQuit()
     {
+        UpdateUserData();
+    }
+
+    void UpdateUserData()
+    {
+        int gold = GoldManager.Instance.gold;
+        float score = Meter;
         users[AuthManager.Instance.CurrentUserId].UpdateLastOnline();
+
+        users[AuthManager.Instance.CurrentUserId].gold = gold;
+        users[AuthManager.Instance.CurrentUserId].score = score;
+
         DBManager.Instance.SetUser(users[AuthManager.Instance.CurrentUserId]);
-
-        /*CreateData(Meter.ToString());
-        AppendData(RunSpeed.ToString());*/
     }
 
-
-    /*string m_strPath = "Assets/Resources/";
-
-    public void CreateData(string strData)
+    void CheckPointEvent()
     {
-        FileStream f = new FileStream(m_strPath + "Data.txt", FileMode.Create, FileAccess.Write);
-        StreamWriter writer = new StreamWriter(f, System.Text.Encoding.Unicode);
+        users[AuthManager.Instance.CurrentUserId].UpdateLastOnline();
+        string onlineTime = users[AuthManager.Instance.CurrentUserId].lastOnline;
 
-        writer.WriteLine(strData);
+        DateTime time = DateTime.Parse(onlineTime);
 
-        writer.Close();
+        if(time.Minute == 0)
+        {
+            int friendView = 0;
+            float gainGold = 100 * friendView * CheckGoldRate;
+
+            GoldManager.Instance.gold += (int)gainGold;
+
+
+        }
+
+        //checkpointevent는 정각부터 ~ 정각 59초까지.
+        //만약 재형선배님이 저장할 string을 만들어주신다면 저장되어있는 시간과 비교하여 실행.
     }
-
-    public void AppendData(string strData)
-    {
-        FileStream f = new FileStream(m_strPath + "Data.txt", FileMode.Append, FileAccess.Write);
-        StreamWriter writer = new StreamWriter(f, System.Text.Encoding.Unicode);
-
-        writer.WriteLine(strData);
-
-        writer.Close();
-    }
-
-    public void Parse()
-    {
-        TextAsset data = Resources.Load("Data", typeof(TextAsset)) as TextAsset;
-        StringReader sr = new StringReader(data.text);
-
-        Meter = float.Parse(sr.ReadLine());
-        IntMeter = (int)Meter;
-        RunSpeed = float.Parse(sr.ReadLine());
-
-        sr.Close();
-    }*/
 }
