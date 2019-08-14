@@ -9,55 +9,19 @@ public class GoldManager : SingletonBehaviour<GoldManager>
     [SerializeField]
     public Text Gold;
     public int gold;
-    //string m_strPath = "Assets/Resources/";
-
-
-    // Start is called before the first frame update
+    
     void Start()
     {
-
         //GoldManager.Instance.gold = users[AuthManager.Instance.CurrentUserId].gold;
         //GoldManager.Instance.Gold.text = GoldManager.Instance.gold.ToString();
-
-        /*FileInfo fi = new FileInfo(m_strPath + "goldData.txt");
-
-        if (fi.Exists)
-        {
-            Parse();
-            Gold.text = gold.ToString();
-        }
-
-        else
-        {
-            gold = 0;
-            Gold.text = gold.ToString();
-        }*/
     }
-
-    /*public void CreateData(string strData)
-    {
-        FileStream f = new FileStream(m_strPath + "goldData.txt", FileMode.Create, FileAccess.Write);
-        StreamWriter writer = new StreamWriter(f, System.Text.Encoding.Unicode);
-
-        writer.WriteLine(strData);
-
-        writer.Close();
-    }
-
-    public void Parse()
-    {
-        TextAsset data = Resources.Load("goldData", typeof(TextAsset)) as TextAsset;
-        StringReader sr = new StringReader(data.text);
-
-        gold = int.Parse(sr.ReadLine());
-        sr.Close();
-    }*/
 
     public bool UseMoney(int price)
     {
         if (gold >= price)
         {
             gold -= price;
+            Gold.text = gold.ToString();
             return true;
         }
 
