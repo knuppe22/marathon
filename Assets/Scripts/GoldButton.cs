@@ -10,40 +10,17 @@ public class GoldButton : MonoBehaviour
 
     public void Click()
     {
-        GoldManager.Instance.gold += 100;
-        Gold.text = GoldManager.Instance.gold.ToString();
+        GoldManager.Instance.EarnMoney(100);
     }
 
     public void Hundred()
     {
-        int P = 100;
-        
-        if (GoldManager.Instance.UseMoney(P) == true)
-        {
-            GoldManager.Instance.gold -= P;
-            Gold.text = GoldManager.Instance.gold.ToString();
-        }
-
-        else
-        {
-            Debug.Log("골드가 부족합니다.");
-        }
+        GoldManager.Instance.UseMoney(100);
     }
 
     public void Twohundred()
     {
-        int P = 200;
-
-        if (GoldManager.Instance.UseMoney(P) == true)
-        {
-            GoldManager.Instance.gold -= P;
-            Gold.text = GoldManager.Instance.gold.ToString();
-        }
-
-        else
-        {
-            Debug.Log("골드가 부족합니다.");
-        }
+        GoldManager.Instance.UseMoney(200);
     }
 
     public void ButtonA()

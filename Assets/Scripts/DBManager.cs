@@ -64,7 +64,7 @@ public class DBManager : SingletonBehaviour<DBManager>
     
     public void SetUserValue(string key, object value)
     {
-        // key에 들어갈 수 있는 것들: "name", "score", "gold", "online", "lastOnline", "friends", "items"
+        // key에 들어갈 수 있는 것들: "name", "score", "gold", "online", "lastOnline", "friends", "items", "equippedItems"
         CurrentUserReference.Child(key).SetValueAsync(value);
     }
 }

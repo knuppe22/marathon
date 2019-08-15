@@ -176,7 +176,7 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
         sprt = playerObj.GetComponent<SpriteRenderer>();
         sprt.sortingOrder = 15;
         playerObj.transform.position = Vector2.Lerp(runnerLane[0], runnerLane[1], 0.5f);
-        playerObj.GetComponentInChildren<TextMesh>().text = ((int)RunManager.Instance.Meter).ToString();
+        playerObj.GetComponentInChildren<TextMesh>().text = RunManager.Instance.MeterForm((int)RunManager.Instance.Meter);
 
     }
 
@@ -199,7 +199,7 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
                 new Vector2(Mathf.Cos(Mathf.Deg2Rad * (roadAngle + 90)), Mathf.Sin(Mathf.Deg2Rad * (roadAngle + 90)))
                 * runnerLaneWidth / 10 * (friendLanePos[id] - 5);
 
-            playerObj.GetComponentInChildren<TextMesh>().text = ((int)RunManager.Instance.users[id].score).ToString();
+            playerObj.GetComponentInChildren<TextMesh>().text = RunManager.Instance.MeterForm((int)RunManager.Instance.users[id].score);
         }
         else
         {
@@ -227,7 +227,7 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
         if (ItemManager.Instance.ClothQ.Count > 0) target = ItemManager.Instance.ClothQ[0];
         else target = "Normal";
 
-        if (!runnerAnimations.ContainsKey(target)) runnerAnimations.Add(target, Resources.Load<AnimationClip>("Runner/" + target));
+        if (!runnerAnimations.ContainsKey(target)) runnerAnimations.Add(target, Resources.Load<AnimationClip>("Sprites/Runner/" + target));
 
         AnimatorOverrideController aoc = new AnimatorOverrideController(playerObj.GetComponent<Animator>().runtimeAnimatorController);
         var anims = new List<KeyValuePair<AnimationClip, AnimationClip>>();
@@ -243,7 +243,7 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
         if (ItemManager.Instance.ClothQ.Count > 0) target = ItemManager.Instance.ClothQ[0];
         else target = "Normal";
 
-        if (!runnerAnimations.ContainsKey(target)) runnerAnimations.Add(target, Resources.Load<AnimationClip>("Runner/" + target));
+        if (!runnerAnimations.ContainsKey(target)) runnerAnimations.Add(target, Resources.Load<AnimationClip>("Sprites/Runner/" + target));
 
         AnimatorOverrideController aoc = new AnimatorOverrideController(playerObj.GetComponent<Animator>().runtimeAnimatorController);
         var anims = new List<KeyValuePair<AnimationClip, AnimationClip>>();
@@ -258,7 +258,8 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
         for (int i = 0; i < ItemManager.Instance.BackGroundQ.Count; i++)
         {
             target = ItemManager.Instance.BackGroundQ[i];
-            if (!backSprites.ContainsKey(target)) backSprites.Add(target, Resources.Load<Sprite>("Background/" + target + ".png"));
+            if (!backSprites.ContainsKey(target)) backSprites.Add(target, Resources.Load<Sprite>("Sprites/Background/" + target));
+            Debug.Log(backSprites[target]);
             backObj[i].GetComponent<SpriteRenderer>().sprite = backSprites[target];
             backObj[i].GetComponent<SpriteRenderer>().enabled = true;
         }
@@ -274,7 +275,7 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
         if (ItemManager.Instance.RoadQ.Count > 0) target = ItemManager.Instance.RoadQ[0];
         else target = "Normal";
 
-        if (!roadSprites.ContainsKey(target)) backSprites.Add(target, Resources.Load<Sprite>("Road/" + target));
+        if (!roadSprites.ContainsKey(target)) roadSprites.Add(target, Resources.Load<Sprite>("Sprites/Road/" + target));
         roadObj.GetComponent<SpriteRenderer>().sprite = roadSprites[target];
     }
 }

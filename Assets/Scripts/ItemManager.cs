@@ -107,6 +107,7 @@ public class ItemManager : SingletonBehaviour<ItemManager>
                         AllQ.Add(item);
 
                         RunManager.Instance.users[AuthManager.Instance.CurrentUserId].equippedItems = AllQ;
+                        DBManager.Instance.SetUserValue("equippedItems", AllQ);
                     }
                 }
 
@@ -124,6 +125,7 @@ public class ItemManager : SingletonBehaviour<ItemManager>
                         AllQ.Add(item);
 
                         RunManager.Instance.users[AuthManager.Instance.CurrentUserId].equippedItems = AllQ;
+                        DBManager.Instance.SetUserValue("equippedItems", AllQ);
                     }
                 }
 
@@ -143,6 +145,7 @@ public class ItemManager : SingletonBehaviour<ItemManager>
                         AllQ.Add(item);
 
                         RunManager.Instance.users[AuthManager.Instance.CurrentUserId].equippedItems = AllQ;
+                        DBManager.Instance.SetUserValue("equippedItems", AllQ);
                     }
                 }
 
@@ -160,6 +163,7 @@ public class ItemManager : SingletonBehaviour<ItemManager>
                         AllQ.Add(item);
 
                         RunManager.Instance.users[AuthManager.Instance.CurrentUserId].equippedItems = AllQ;
+                        DBManager.Instance.SetUserValue("equippedItems", AllQ);
                     }
                 }
 
@@ -179,6 +183,7 @@ public class ItemManager : SingletonBehaviour<ItemManager>
                         AllQ.Add(item);
 
                         RunManager.Instance.users[AuthManager.Instance.CurrentUserId].equippedItems = AllQ;
+                        DBManager.Instance.SetUserValue("equippedItems", AllQ);
                     }
                 }
 
@@ -191,6 +196,7 @@ public class ItemManager : SingletonBehaviour<ItemManager>
                         AllQ.Add(item);
 
                         RunManager.Instance.users[AuthManager.Instance.CurrentUserId].equippedItems = AllQ;
+                        DBManager.Instance.SetUserValue("equippedItems", AllQ);
                     }
 
                     else
@@ -198,5 +204,8 @@ public class ItemManager : SingletonBehaviour<ItemManager>
                 }
                 break;
         }
+        BackgroundManager.Instance.SetBackgroundImage();
+        BackgroundManager.Instance.SetRoadImage();
+        BackgroundManager.Instance.SetRunnerImage();
     }
 }

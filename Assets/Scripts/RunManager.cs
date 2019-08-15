@@ -47,8 +47,8 @@ public class RunManager : SingletonBehaviour<RunManager>
                 Meter = users[AuthManager.Instance.CurrentUserId].score + RunSpeed * CalcOnline();
                 MeterText.text = ((int)Meter).ToString();
 
-                GoldManager.Instance.gold = users[AuthManager.Instance.CurrentUserId].gold;
-                GoldManager.Instance.Gold.text = GoldManager.Instance.gold.ToString();
+                GoldManager.Instance.SetGold(users[AuthManager.Instance.CurrentUserId].gold);
+                GoldManager.Instance.Gold.text = GoldManager.Instance.GetGold().ToString();
 
                 ItemManager.Instance.PossItem = users[AuthManager.Instance.CurrentUserId].items;
 
@@ -67,6 +67,9 @@ public class RunManager : SingletonBehaviour<RunManager>
 
                     ItemManager.Instance.itemlist[item].Equipment++;
                 }
+                BackgroundManager.Instance.SetBackgroundImage();
+                BackgroundManager.Instance.SetRoadImage();
+                BackgroundManager.Instance.SetRunnerImage();
             }
             else
             {
@@ -109,7 +112,7 @@ public class RunManager : SingletonBehaviour<RunManager>
 
     void UpdateUserData()
     {
-        int gold = GoldManager.Instance.gold;
+        int gold = GoldManager.Instance.GetGold();
         float score = Meter;
         users[AuthManager.Instance.CurrentUserId].UpdateLastOnline();
 
@@ -132,7 +135,7 @@ public class RunManager : SingletonBehaviour<RunManager>
             int friendView = 0;
             float gainGold = 100 * friendView * CheckGoldRate;
 
-            GoldManager.Instance.gold += (int)gainGold;
+            GoldManager.Instance.EarnMoney((int)gainGold);
 
 
         }
@@ -143,6 +146,16 @@ public class RunManager : SingletonBehaviour<RunManager>
 
     public string MeterForm(int score)
     {
+        int[] cut = new int[] { 10000000, 10000 , -1 };
+        int[] div = new int[] { 1000000, 1000, 1 };
+        string[] suffix = new string[] { "Mm", "km", "m" };
+
+        for(int i=0; i<cut.Length; i++)
+        {
+            if (score >= cut[i])
+                return (score / div[i]) + suffix[i];
+        }
+
         return "";
     }
 }
