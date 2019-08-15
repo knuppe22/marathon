@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -8,6 +9,7 @@ using Firebase.Auth;
 public class AuthManager : SingletonBehaviour<AuthManager>
 {
     public string CurrentUserId { get; private set; }
+    public Action onSignIn;
 
     async void Awake()
     {
@@ -16,14 +18,17 @@ public class AuthManager : SingletonBehaviour<AuthManager>
         if (dependencyStatus == DependencyStatus.Available)
         {
             await SignIn();
-
+            
             DBManager.Instance.SetDatabase();
+            onSignIn();
         }
         else
         {
             Debug.LogError(string.Format("Could not resolve all Firebase dependencies: {0}", dependencyStatus));
             // Firebase Unity SDK is not safe to use here.
         }
+
+
     }
 
     async Task SignIn()

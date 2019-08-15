@@ -10,11 +10,6 @@ public class GoldManager : SingletonBehaviour<GoldManager>
     public Text Gold;
     public int gold;
     
-    void Start()
-    {
-        //GoldManager.Instance.gold = users[AuthManager.Instance.CurrentUserId].gold;
-        //GoldManager.Instance.Gold.text = GoldManager.Instance.gold.ToString();
-    }
 
     public bool UseMoney(int price)
     {

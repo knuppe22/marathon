@@ -49,6 +49,7 @@ public class DBManager : SingletonBehaviour<DBManager>
             else
             {
                 Debug.LogFormat("GetUser({0}) succeeded but no data", userId);
+                return new User();
             }
         }
 
@@ -57,6 +58,7 @@ public class DBManager : SingletonBehaviour<DBManager>
 
     public void SetUser(User userData)
     {
+        Debug.Log("GOLD : " + userData.gold);
         CurrentUserReference.SetRawJsonValueAsync(JsonUtility.ToJson(userData));
     }
     

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using System;
+using System.Threading.Tasks;
 
 public class RunManager : SingletonBehaviour<RunManager>
 {
@@ -19,56 +20,71 @@ public class RunManager : SingletonBehaviour<RunManager>
     public float CheckGoldRate = 1;
     float time = 0;
 
-    async void Start()
+    bool dbBoolA, dbBoolB;
+    User tmpUser;
+
+
+    async void Update()
     {
-        User me = await DBManager.Instance.GetUser();
-        users.Add(AuthManager.Instance.CurrentUserId, me);
-
-        //AuthManager, DBManager만 있는 씬을 따로 만들어서 씬을 변경?
-        //await 두 개가 동시에 되는가.
-
-        Meter = users[AuthManager.Instance.CurrentUserId].score + RunSpeed * CalcOnline();
-        MeterText.text = ((int)Meter).ToString();
-
-        GoldManager.Instance.gold = users[AuthManager.Instance.CurrentUserId].gold;
-        GoldManager.Instance.Gold.text = GoldManager.Instance.gold.ToString();
-
-        ItemManager.Instance.PossItem = users[AuthManager.Instance.CurrentUserId].items;
-
-        foreach (string item in ItemManager.Instance.PossItem)
+        if (DBManager.Instance.RootReference == null)
+            return;
+        if (!dbBoolA)
         {
-            
-            ItemManager.Instance.itemlist[item].PresPoss++;
+            dbBoolA = true;
+            tmpUser = await DBManager.Instance.GetUser();
         }
-
-        ItemManager.Instance.ApplyItemEffect();
-
-        ItemManager.Instance.AllQ = users[AuthManager.Instance.CurrentUserId].equippedItems;
-
-        foreach (string item in ItemManager.Instance.AllQ)
+        else if (tmpUser != null)
         {
-            
-            ItemManager.Instance.itemlist[item].Equipment++;
+            if(!dbBoolB)
+            {
+                //이전 start
+                dbBoolB = true;
+                users.Add(AuthManager.Instance.CurrentUserId, tmpUser);
+
+                //AuthManager, DBManager만 있는 씬을 따로 만들어서 씬을 변경?
+                //await 두 개가 동시에 되는가.
+
+                Meter = users[AuthManager.Instance.CurrentUserId].score + RunSpeed * CalcOnline();
+                MeterText.text = ((int)Meter).ToString();
+
+                GoldManager.Instance.gold = users[AuthManager.Instance.CurrentUserId].gold;
+                GoldManager.Instance.Gold.text = GoldManager.Instance.gold.ToString();
+
+                ItemManager.Instance.PossItem = users[AuthManager.Instance.CurrentUserId].items;
+
+                foreach (string item in ItemManager.Instance.PossItem)
+                {
+
+                    ItemManager.Instance.itemlist[item].PresPoss++;
+                }
+
+                ItemManager.Instance.ApplyItemEffect();
+
+                ItemManager.Instance.AllQ = users[AuthManager.Instance.CurrentUserId].equippedItems;
+
+                foreach (string item in ItemManager.Instance.AllQ)
+                {
+
+                    ItemManager.Instance.itemlist[item].Equipment++;
+                }
+            }
+            else
+            {
+                //이전 update
+                time += Time.deltaTime;
+
+                //CheckPointEvent();
+
+                if (time > 10)
+                {
+                    UpdateUserData();
+                    time = 0;
+                }
+
+                Meter += RunSpeed * Time.deltaTime;
+                MeterText.text = ((int)Meter).ToString();
+            }
         }
-        
-        //DBManager.Instance.SetUser(users[AuthManager.Instance.CurrentUserId]); 자기꺼 저장.
-    }
-
-
-    void Update()
-    {
-        time += Time.deltaTime;
-
-        CheckPointEvent();
-
-        if(time > 10)
-        {
-            //DBManager.Instance.SetUser(users[AuthManager.Instance.CurrentUserId]);
-            time = 0;
-        }*/
-
-        Meter += RunSpeed * Time.deltaTime;
-        MeterText.text = ((int)Meter).ToString();
     }
 
     float CalcOnline()
@@ -80,7 +96,7 @@ public class RunManager : SingletonBehaviour<RunManager>
         DateTime present = DateTime.Parse(users[AuthManager.Instance.CurrentUserId].lastOnline);
 
         TimeSpan span = present.Subtract(last);
-
+        
         if (span.TotalSeconds >= 300) return 300;
 
         else return (float)span.TotalSeconds;
@@ -88,7 +104,7 @@ public class RunManager : SingletonBehaviour<RunManager>
 
     private void OnApplicationQuit()
     {
-        UpdateUserData();
+
     }
 
     void UpdateUserData()
@@ -100,7 +116,8 @@ public class RunManager : SingletonBehaviour<RunManager>
         users[AuthManager.Instance.CurrentUserId].gold = gold;
         users[AuthManager.Instance.CurrentUserId].score = score;
 
-        DBManager.Instance.SetUser(users[AuthManager.Instance.CurrentUserId]);
+        if (DBManager.Instance.RootReference != null)
+            DBManager.Instance.SetUser(users[AuthManager.Instance.CurrentUserId]);
     }
 
     void CheckPointEvent()
@@ -122,5 +139,10 @@ public class RunManager : SingletonBehaviour<RunManager>
 
         //checkpointevent는 정각부터 ~ 정각 59초까지.
         //만약 재형선배님이 저장할 string을 만들어주신다면 저장되어있는 시간과 비교하여 실행.
+    }
+
+    public string MeterForm(int score)
+    {
+        return "";
     }
 }

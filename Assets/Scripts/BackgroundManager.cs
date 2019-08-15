@@ -176,7 +176,7 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
         sprt = playerObj.GetComponent<SpriteRenderer>();
         sprt.sortingOrder = 15;
         playerObj.transform.position = Vector2.Lerp(runnerLane[0], runnerLane[1], 0.5f);
-        playerObj.GetComponent<TextMesh>().text = RunManager.Instance.Meter.ToString();
+        playerObj.GetComponentInChildren<TextMesh>().text = ((int)RunManager.Instance.Meter).ToString();
 
     }
 
@@ -199,7 +199,7 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
                 new Vector2(Mathf.Cos(Mathf.Deg2Rad * (roadAngle + 90)), Mathf.Sin(Mathf.Deg2Rad * (roadAngle + 90)))
                 * runnerLaneWidth / 10 * (friendLanePos[id] - 5);
 
-            playerObj.GetComponent<TextMesh>().text = RunManager.Instance.users[id].score.ToString();
+            playerObj.GetComponentInChildren<TextMesh>().text = ((int)RunManager.Instance.users[id].score).ToString();
         }
         else
         {
@@ -240,7 +240,7 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
     {
         string target = "";
 
-        /*if (ItemManager.Instance.ClothQ.Count > 0) target = ItemManager.Instance.ClothQ[0];
+        if (ItemManager.Instance.ClothQ.Count > 0) target = ItemManager.Instance.ClothQ[0];
         else target = "Normal";
 
         if (!runnerAnimations.ContainsKey(target)) runnerAnimations.Add(target, Resources.Load<AnimationClip>("Runner/" + target));
@@ -250,7 +250,7 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
         foreach (var a in aoc.animationClips)
             anims.Add(new KeyValuePair<AnimationClip, AnimationClip>(a, runnerAnimations[target]));
         aoc.ApplyOverrides(anims);
-        playerObj.GetComponent<Animator>().runtimeAnimatorController = aoc;*/
+        playerObj.GetComponent<Animator>().runtimeAnimatorController = aoc;
     }
     public void SetBackgroundImage()
     {
@@ -258,7 +258,7 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
         for (int i = 0; i < ItemManager.Instance.BackGroundQ.Count; i++)
         {
             target = ItemManager.Instance.BackGroundQ[i];
-            if (!backSprites.ContainsKey(target)) backSprites.Add(target, Resources.Load<Sprite>("Background/" + target));
+            if (!backSprites.ContainsKey(target)) backSprites.Add(target, Resources.Load<Sprite>("Background/" + target + ".png"));
             backObj[i].GetComponent<SpriteRenderer>().sprite = backSprites[target];
             backObj[i].GetComponent<SpriteRenderer>().enabled = true;
         }
