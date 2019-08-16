@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using System;
-using System.Threading.Tasks;
 
 public class RunManager : SingletonBehaviour<RunManager>
 {

@@ -9,7 +9,6 @@ using Firebase.Auth;
 public class AuthManager : SingletonBehaviour<AuthManager>
 {
     public string CurrentUserId { get; private set; }
-    public Action onSignIn;
 
     async void Awake()
     {
@@ -20,7 +19,6 @@ public class AuthManager : SingletonBehaviour<AuthManager>
             await SignIn();
             
             DBManager.Instance.SetDatabase();
-            onSignIn();
         }
         else
         {
