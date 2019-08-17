@@ -255,7 +255,7 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
     public void SetBackgroundImage()
     {
         string target = "";
-        for (int i = 0; i < ItemManager.Instance.BackGroundQ.Count; i++)
+        for (int i = 0; i < Mathf.Min(ItemManager.Instance.BackGroundQ.Count, 5); i++)
         {
             target = ItemManager.Instance.BackGroundQ[i];
             if (!backSprites.ContainsKey(target)) backSprites.Add(target, Resources.Load<Sprite>("Sprites/Background/" + target));
