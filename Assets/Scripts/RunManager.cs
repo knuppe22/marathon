@@ -50,10 +50,11 @@ public class RunManager : SingletonBehaviour<RunManager>
                 GoldManager.Instance.Gold.text = GoldManager.Instance.GetGold().ToString();
 
                 ItemManager.Instance.PossItem = users[AuthManager.Instance.CurrentUserId].items;
+                
 
                 foreach (string item in ItemManager.Instance.PossItem)
                 {
-
+                    Debug.Log("MyItems: " + item);
                     ItemManager.Instance.itemlist[item].PresPoss++;
                 }
 
@@ -63,7 +64,19 @@ public class RunManager : SingletonBehaviour<RunManager>
 
                 foreach (string item in ItemManager.Instance.AllQ)
                 {
+                    switch (ItemManager.Instance.itemlist[item].property)
+                    {
+                        case Item.Property.Cloth:
+                            ItemManager.Instance.ClothQ.Add(item);
+                            break;
+                        case Item.Property.Road:
+                            ItemManager.Instance.RoadQ.Add(item);
+                            break;
+                        case Item.Property.Background:
+                            ItemManager.Instance.BackGroundQ.Add(item);
+                            break;
 
+                    }
                     ItemManager.Instance.itemlist[item].Equipment++;
                 }
                 BackgroundManager.Instance.SetBackgroundImage();

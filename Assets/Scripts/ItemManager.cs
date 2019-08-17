@@ -174,7 +174,7 @@ public class ItemManager : SingletonBehaviour<ItemManager>
                 break;
 
             case Item.Property.Background:
-                if(BackGroundQ.Count == 0)
+                if(BackGroundQ.Count <= 4)
                 {
                     if (itemlist[item].Equipment < itemlist[item].PresPoss)
                     {
@@ -191,6 +191,11 @@ public class ItemManager : SingletonBehaviour<ItemManager>
                 {
                     if (itemlist[item].Equipment < itemlist[item].PresPoss)
                     {
+                        string RemoveItem = BackGroundQ[0];
+                        BackGroundQ.RemoveAt(0);
+                        AllQ.Remove(RemoveItem);
+                        itemlist[RemoveItem].Equipment--;
+
                         BackGroundQ.Add(item);
                         itemlist[item].Equipment++;
                         AllQ.Add(item);
