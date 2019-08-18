@@ -180,7 +180,7 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
 
     }
 
-    void SetRunner(string id)
+    public void SetRunner(string id)
     {
         AddFriendObj(id);
 

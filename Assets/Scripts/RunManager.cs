@@ -145,11 +145,38 @@ public class RunManager : SingletonBehaviour<RunManager>
         if(time.Minute == 0)
         {
             int friendView = 0;
-            float gainGold = 100 * friendView * CheckGoldRate;
+            float gainGold;
 
-            GoldManager.Instance.EarnMoney((int)gainGold);
+            foreach(string friend in users[AuthManager.Instance.CurrentUserId].friends)
+            {
+                float per = (RunManager.Instance.users[friend].score - RunManager.Instance.Meter) / RunManager.Instance.FriendViewDist / 2 + 0.5f;
 
+                if (0 <= per && per <= 1) friendView++;
+            }
+            
+            gainGold = 100 * friendView * CheckGoldRate;
 
+            string checkedTime = users[AuthManager.Instance.CurrentUserId].checkedTime;
+            DateTime check = DateTime.Parse(checkedTime);
+
+            if(time.Date != check.Date)
+            {
+                GoldManager.Instance.EarnMoney((int)gainGold);
+                DBManager.Instance.SetUserValue("checkedTime", onlineTime);
+                users[AuthManager.Instance.CurrentUserId].checkedTime = onlineTime;
+            }
+
+            else
+            {
+                if(time.Hour != check.Hour)
+                {
+                    GoldManager.Instance.EarnMoney((int)gainGold);
+                    DBManager.Instance.SetUserValue("checkedTime", onlineTime);
+                    users[AuthManager.Instance.CurrentUserId].checkedTime = onlineTime;
+                }
+            }
+
+            //GoldManager.Instance.EarnMoney((int)gainGold);
         }
 
         //checkpointevent는 정각부터 ~ 정각 59초까지.

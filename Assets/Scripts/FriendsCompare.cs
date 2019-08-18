@@ -15,7 +15,6 @@ public class FriendsCompare : MonoBehaviour
         strfriends = RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends;
         
     }
-    */
 
     private void Start()
     {
@@ -39,14 +38,20 @@ public class FriendsCompare : MonoBehaviour
         if ((int)(Mathf.Abs(ff)) <= RunManager.Instance.FriendViewDist)
             Debug.Log("친구 " + F1.ID + "이 일정 거리 안에 있습니다.");
     }
+    */
 
     void Update()
     {
         time += Time.deltaTime;
 
-        if (time >= 2)
+        if (time >= 10)
         {
-            Checkout();
+            foreach(string friend in RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends)
+            {
+                BackgroundManager.Instance.SetRunner(friend);
+                BackgroundManager.Instance.SetRunnerImage(friend);
+            }
+
             time = 0;
         }
     }
