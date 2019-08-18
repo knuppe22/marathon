@@ -40,27 +40,34 @@ public class UIControl : SingletonBehaviour<UIControl>
     bool CheckPointEvent;
     public Text CheckpointMessage;
     Dictionary<string, ItemInfo> ItemInfos = new Dictionary<string, ItemInfo>();
+    public Image EquippedCloth;
+    public Image EquippedRoad;
+    public Image[] EquippedBackground = new Image[5];
+    public Text CurrentGold;
 
     void Awake()
     {
-        ItemInfos.Add("Blue", new ItemInfo("마라톤 복장-파랑", "", "복장 아이템\n플레이어 속도 +0.1m/s"));
-        ItemInfos.Add("Green", new ItemInfo("마라톤 복장-초록", "", "복장 아이템\n플레이어 속도 +0.1m/s"));
-        ItemInfos.Add("Red", new ItemInfo("마라톤 복장-빨강", "", "복장 아이템\n플레이어 속도 +0.1m/s"));
-        ItemInfos.Add("Purple", new ItemInfo("마라톤 복장-보라", "", "복장 아이템\n플레이어 속도 +0.1m/s\n시야 +50m"));
-        ItemInfos.Add("Black", new ItemInfo("마라톤 복장-검정", "", "복장 아이템\n플레이어 속도 +0.1m/s\n손 잡아주기 골드 +20%"));
+        ItemInfos.Add("Blue", new ItemInfo("마라톤 복장-파랑", "Sprites/Thumbnail/tb_runnerB", "복장 아이템\n플레이어 속도 +0.1m/s"));
+        ItemInfos.Add("Green", new ItemInfo("마라톤 복장-초록", "Sprites/Thumbnail/tb_runnerG", "복장 아이템\n플레이어 속도 +0.1m/s"));
+        ItemInfos.Add("Red", new ItemInfo("마라톤 복장-빨강", "Sprites/Thumbnail/tb_runnerR", "복장 아이템\n플레이어 속도 +0.1m/s"));
+        ItemInfos.Add("Purple", new ItemInfo("마라톤 복장-보라", "Sprites/Thumbnail/tb_runnerP", "복장 아이템\n플레이어 속도 +0.1m/s\n시야 +50m"));
+        ItemInfos.Add("Black", new ItemInfo("마라톤 복장-검정", "Sprites/Thumbnail/tb_runnerW", "복장 아이템\n플레이어 속도 +0.1m/s\n손 잡아주기 골드 +20%"));
         ItemInfos.Add("Stone", new ItemInfo("돌맹이", "Sprites/Thumbnail/tb_rock", "배경 아이템\n플레이어 속도 +1m/s"));
         ItemInfos.Add("Mashmellow", new ItemInfo("마시멜로", "Sprites/Thumbnail/tb_silage", "배경 아이템\n체크포인트 이벤트 골드 +30%"));
         ItemInfos.Add("Pine", new ItemInfo("소나무", "Sprites/Thumbnail/tb_tree", "배경 아이템\n플레이어 속도 +1.5m/s"));
         ItemInfos.Add("Maple", new ItemInfo("단풍나무", "Sprites/Thumbnail/tb_maple", "배경 아이템\n플레이어 속도 +1.5m/s"));
         ItemInfos.Add("Ginkgo", new ItemInfo("은행나무", "Sprites/Thumbnail/tb_ginkgo", "배경 아이템\n플레이어 속도 +1.5m/s"));
-        ItemInfos.Add("Asphalt", new ItemInfo("아스팔트", "", "도로 아이템\n시야 +500m"));
-        ItemInfos.Add("Tuxedo", new ItemInfo("턱시도", "", "복장 아이템\n플레이어 속도 +3m/s\n손 잡아주기 골드 +100%"));
+        ItemInfos.Add("Asphalt", new ItemInfo("아스팔트", "Sprites/Road/Asphalt", "도로 아이템\n시야 +500m"));
+        ItemInfos.Add("Tuxedo", new ItemInfo("턱시도", "Sprites/Thumbnail/tb_runnerT", "복장 아이템\n플레이어 속도 +3m/s\n손 잡아주기 골드 +100%"));
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (GoldManager.Instance.Gold)
+            GoldManager.Instance.EarnMoney(5000);
+        else
+            Debug.Log("Gold has null value");
     }
 
     // Update is called once per frame
@@ -92,6 +99,7 @@ public class UIControl : SingletonBehaviour<UIControl>
             CheckpointMessage.text = "19:05에 " + PeoplenuminScreen + "명이 화면 상에 존재했습니다.\n" + CheckpointGoldperPerson * PeoplenuminScreen + "G를 획득하였습니다.";
             CheckPointEvent = false;
         }
+        //CurrentGold.text = GoldManager.Instance.Gold.text;
     }
     public void PanelOnOff(int index)
     {
@@ -137,7 +145,6 @@ public class UIControl : SingletonBehaviour<UIControl>
             else
                 TextArray[0].text = ItemInfos[ItemNameArray[4 * ShopPage + i]].ItemName;
             TextArray[1].text = ItemManager.Instance.itemlist[ItemNameArray[4*ShopPage+i]].Price + "G";
-            Debug.Log(ItemInfos[ItemNameArray[4 * ShopPage + i]].ItemVisualLocation);
             ShopItemButton[i].gameObject.GetComponentsInChildren<Image>()[1].sprite = Resources.Load<Sprite>(ItemInfos[ItemNameArray[4*ShopPage+i]].ItemVisualLocation);
         }
     }
@@ -187,7 +194,13 @@ public class UIControl : SingletonBehaviour<UIControl>
     public void EquipItem()
     {
         ItemManager.Instance.EquipmentItem(ItemNameArray[RequestedItemIndex]);
-    }
+        if (ItemManager.Instance.ClothQ.Count > 0)
+            EquippedCloth.sprite = Resources.Load<Sprite>(ItemInfos[ItemManager.Instance.ClothQ[0]].ItemVisualLocation);
+        if (ItemManager.Instance.RoadQ.Count > 0)
+            EquippedRoad.sprite = Resources.Load<Sprite>(ItemInfos[ItemManager.Instance.RoadQ[0]].ItemVisualLocation);
+        for (int i = 0; i < ItemManager.Instance.BackGroundQ.Count; i++)
+            EquippedBackground[i].sprite = Resources.Load<Sprite>(ItemInfos[ItemManager.Instance.BackGroundQ[i]].ItemVisualLocation);
+        }
     public void Off(GameObject Target)
     {
         Target.SetActive(false);
