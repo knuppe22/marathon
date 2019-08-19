@@ -64,10 +64,7 @@ public class UIControl : SingletonBehaviour<UIControl>
     // Start is called before the first frame update
     void Start()
     {
-        if (GoldManager.Instance.Gold)
-            GoldManager.Instance.EarnMoney(5000);
-        else
-            Debug.Log("Gold has null value");
+       
     }
 
     // Update is called once per frame
@@ -99,7 +96,6 @@ public class UIControl : SingletonBehaviour<UIControl>
             CheckpointMessage.text = "19:05에 " + PeoplenuminScreen + "명이 화면 상에 존재했습니다.\n" + CheckpointGoldperPerson * PeoplenuminScreen + "G를 획득하였습니다.";
             CheckPointEvent = false;
         }
-        //CurrentGold.text = GoldManager.Instance.Gold.text;
     }
     public void PanelOnOff(int index)
     {
@@ -194,8 +190,15 @@ public class UIControl : SingletonBehaviour<UIControl>
     public void EquipItem()
     {
         ItemManager.Instance.EquipmentItem(ItemNameArray[RequestedItemIndex]);
-        if (ItemManager.Instance.ClothQ.Count > 0)
-            EquippedCloth.sprite = Resources.Load<Sprite>(ItemInfos[ItemManager.Instance.ClothQ[0]].ItemVisualLocation);
+		foreach(string equipment in ItemManager.Instance.ClothQ)
+		{
+			Debug.Log("Currently equipped clothes"+equipment);
+		}
+		if (ItemManager.Instance.ClothQ.Count > 0)
+		{
+			EquippedCloth.sprite = Resources.Load<Sprite>(ItemInfos[ItemManager.Instance.ClothQ[0]].ItemVisualLocation);
+			Debug.Log("Cloth is equipped");
+		}
         if (ItemManager.Instance.RoadQ.Count > 0)
             EquippedRoad.sprite = Resources.Load<Sprite>(ItemInfos[ItemManager.Instance.RoadQ[0]].ItemVisualLocation);
         for (int i = 0; i < ItemManager.Instance.BackGroundQ.Count; i++)
