@@ -185,16 +185,16 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
         if (RunManager.Instance.users.ContainsKey(id))
         {
             float per = (RunManager.Instance.users[id].score - RunManager.Instance.Meter) / RunManager.Instance.FriendViewDist / 2 + 0.5f;
-
+            Debug.Log("Friend: " + id + " " + per);
             SpriteRenderer sprt;
 
             sprt = friendObj[id].GetComponent<SpriteRenderer>();
 
             if (per >= 0 && per <= 1)
             {
-                sprt.enabled = true;
+                friendObj[id].SetActive(true);
                 sprt.sortingOrder = friendLanePos[id] + 10;
-                playerObj.transform.position = Vector2.Lerp(runnerLane[0], runnerLane[1], per) +
+                friendObj[id].transform.position = Vector2.Lerp(runnerLane[0], runnerLane[1], per) +
                     new Vector2(Mathf.Cos(Mathf.Deg2Rad * (roadAngle + 90)), Mathf.Sin(Mathf.Deg2Rad * (roadAngle + 90)))
                     * runnerLaneWidth / 10 * (friendLanePos[id] - 5);
 
@@ -202,7 +202,7 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
             }
             else
             {
-                sprt.enabled = false;
+                friendObj[id].SetActive(false);
             }
         }
     }

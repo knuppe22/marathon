@@ -9,7 +9,7 @@ public class RunManager : SingletonBehaviour<RunManager>
 {
     [SerializeField]
     private Text MeterText;
-
+    
     public Dictionary<string, User> users = new Dictionary<string, User>();
 
     public float Meter = 0;
@@ -79,6 +79,13 @@ public class RunManager : SingletonBehaviour<RunManager>
                     }
                     ItemManager.Instance.itemlist[item].Equipment++;
                 }
+
+                foreach (string friend in users[AuthManager.Instance.CurrentUserId].friends)
+                {
+                    User tmpFriend = await DBManager.Instance.GetUser(friend);
+                    if (users.ContainsKey(friend)) users[friend] = tmpFriend;
+                    else users.Add(friend, tmpFriend);
+                }
                 BackgroundManager.Instance.SetBackgroundImage();
                 BackgroundManager.Instance.SetRoadImage();
                 BackgroundManager.Instance.SetRunnerImage();
@@ -90,14 +97,18 @@ public class RunManager : SingletonBehaviour<RunManager>
 
                 //CheckPointEvent();
 
-                if (time > 10)
+                if (time > 5)
                 {
+                    time = 0;
                     UpdateUserData();
                     foreach (string friend in users[AuthManager.Instance.CurrentUserId].friends)
                     {
+                        User tmpFriend = await DBManager.Instance.GetUser(friend);
+                        if (users.ContainsKey(friend)) users[friend] = tmpFriend;
+                        else users.Add(friend, tmpFriend);
                         BackgroundManager.Instance.SetRunnerImage(friend);
                     }
-                    time = 0;
+                    
                 }
 
                 Meter += RunSpeed * Time.deltaTime;
