@@ -46,11 +46,7 @@ public class FriendsCompare : MonoBehaviour
 
         if (time >= 10)
         {
-            foreach(string friend in RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends)
-            {
-                BackgroundManager.Instance.SetRunner(friend);
-                BackgroundManager.Instance.SetRunnerImage(friend);
-            }
+
 
             time = 0;
         }

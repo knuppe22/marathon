@@ -13,7 +13,7 @@ public class RunManager : SingletonBehaviour<RunManager>
     public Dictionary<string, User> users = new Dictionary<string, User>();
 
     public float Meter = 0;
-    public float RunSpeed = 5;
+    public float RunSpeed = 3;
     public int FriendViewDist = 10000;
     public float HandGoldRate = 1;
     public float CheckGoldRate = 1;
@@ -93,6 +93,10 @@ public class RunManager : SingletonBehaviour<RunManager>
                 if (time > 10)
                 {
                     UpdateUserData();
+                    foreach (string friend in users[AuthManager.Instance.CurrentUserId].friends)
+                    {
+                        BackgroundManager.Instance.SetRunnerImage(friend);
+                    }
                     time = 0;
                 }
 

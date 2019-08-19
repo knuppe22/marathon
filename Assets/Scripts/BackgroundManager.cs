@@ -182,31 +182,29 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
 
     public void SetRunner(string id)
     {
-        AddFriendObj(id);
-
-        float per = (RunManager.Instance.users[id].score - RunManager.Instance.Meter) / RunManager.Instance.FriendViewDist / 2 + 0.5f;
-
-
-        SpriteRenderer sprt;
-
-        sprt = friendObj[id].GetComponent<SpriteRenderer>();
-
-        if (per>=0 && per<=1)
+        if (RunManager.Instance.users.ContainsKey(id))
         {
-            sprt.enabled = true;
-            sprt.sortingOrder = friendLanePos[id] + 10;
-            playerObj.transform.position = Vector2.Lerp(runnerLane[0], runnerLane[1], per) +
-                new Vector2(Mathf.Cos(Mathf.Deg2Rad * (roadAngle + 90)), Mathf.Sin(Mathf.Deg2Rad * (roadAngle + 90)))
-                * runnerLaneWidth / 10 * (friendLanePos[id] - 5);
+            float per = (RunManager.Instance.users[id].score - RunManager.Instance.Meter) / RunManager.Instance.FriendViewDist / 2 + 0.5f;
 
-            playerObj.GetComponentInChildren<TextMesh>().text = RunManager.Instance.MeterForm((int)RunManager.Instance.users[id].score);
+            SpriteRenderer sprt;
+
+            sprt = friendObj[id].GetComponent<SpriteRenderer>();
+
+            if (per >= 0 && per <= 1)
+            {
+                sprt.enabled = true;
+                sprt.sortingOrder = friendLanePos[id] + 10;
+                playerObj.transform.position = Vector2.Lerp(runnerLane[0], runnerLane[1], per) +
+                    new Vector2(Mathf.Cos(Mathf.Deg2Rad * (roadAngle + 90)), Mathf.Sin(Mathf.Deg2Rad * (roadAngle + 90)))
+                    * runnerLaneWidth / 10 * (friendLanePos[id] - 5);
+
+                playerObj.GetComponentInChildren<TextMesh>().text = RunManager.Instance.MeterForm((int)RunManager.Instance.users[id].score);
+            }
+            else
+            {
+                sprt.enabled = false;
+            }
         }
-        else
-        {
-            sprt.enabled = false;
-        }
-
-
     }
 
     void AddFriendObj(string id)
@@ -238,19 +236,23 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
     }
     public void SetRunnerImage(string id)
     {
-        string target = "";
+        if (RunManager.Instance.users.ContainsKey(id))
+        {
+            AddFriendObj(id);
+            string target = "";
 
-        if (ItemManager.Instance.ClothQ.Count > 0) target = ItemManager.Instance.ClothQ[0];
-        else target = "Normal";
+            if (ItemManager.Instance.ClothQ.Count > 0) target = ItemManager.Instance.ClothQ[0];
+            else target = "Normal";
 
-        if (!runnerAnimations.ContainsKey(target)) runnerAnimations.Add(target, Resources.Load<AnimationClip>("Sprites/Runner/" + target));
+            if (!runnerAnimations.ContainsKey(target)) runnerAnimations.Add(target, Resources.Load<AnimationClip>("Sprites/Runner/" + target));
 
-        AnimatorOverrideController aoc = new AnimatorOverrideController(playerObj.GetComponent<Animator>().runtimeAnimatorController);
-        var anims = new List<KeyValuePair<AnimationClip, AnimationClip>>();
-        foreach (var a in aoc.animationClips)
-            anims.Add(new KeyValuePair<AnimationClip, AnimationClip>(a, runnerAnimations[target]));
-        aoc.ApplyOverrides(anims);
-        playerObj.GetComponent<Animator>().runtimeAnimatorController = aoc;
+            AnimatorOverrideController aoc = new AnimatorOverrideController(playerObj.GetComponent<Animator>().runtimeAnimatorController);
+            var anims = new List<KeyValuePair<AnimationClip, AnimationClip>>();
+            foreach (var a in aoc.animationClips)
+                anims.Add(new KeyValuePair<AnimationClip, AnimationClip>(a, runnerAnimations[target]));
+            aoc.ApplyOverrides(anims);
+            playerObj.GetComponent<Animator>().runtimeAnimatorController = aoc;
+        }
     }
     public void SetBackgroundImage()
     {
