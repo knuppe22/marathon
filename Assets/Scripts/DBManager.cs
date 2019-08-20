@@ -17,6 +17,14 @@ public class DBManager : SingletonBehaviour<DBManager>
     {
         get { return UserReference.Child(AuthManager.Instance.CurrentUserId); }
     }
+    public DatabaseReference LocationReference
+    {
+        get { return RootReference.Child("locations"); }
+    }
+    public DatabaseReference CurrentLocationReference
+    {
+        get { return LocationReference.Child(AuthManager.Instance.CurrentUserId); }
+    }
 
     public void SetDatabase()
     {
@@ -24,8 +32,7 @@ public class DBManager : SingletonBehaviour<DBManager>
 
         RootReference = FirebaseDatabase.DefaultInstance.RootReference;
     }
-
-    // TODO: 여러가지 DB 정보 get, set 하는 함수 만들기
+    
     public async Task<User> GetUser()
     {
         return await GetUser(AuthManager.Instance.CurrentUserId);
@@ -65,7 +72,40 @@ public class DBManager : SingletonBehaviour<DBManager>
     public void SetUserValue(string key, object value)
     {
         // key에 들어갈 수 있는 것들: "name", "score", "gold", "online", "lastOnline", "friends", "items", "equippedItems"
+        // 위치정보 불가!!!
         Debug.Log("ValueSet " + key);
         CurrentUserReference.Child(key).SetValueAsync(value);
+    }
+
+    public void SetLocation(float latitude, float longitude)
+    {
+        CurrentLocationReference.Child("latitude").SetValueAsync(latitude);
+        CurrentLocationReference.Child("longitude").SetValueAsync(longitude);
+    }
+
+    public async Task<Dictionary<string, GeoCoord>> GetLocations()
+    {
+        Task<DataSnapshot> task = LocationReference.GetValueAsync();
+        await task;
+
+        if (task.IsFaulted)
+        {
+            Debug.LogErrorFormat("GetLocation() failed");
+        }
+        else if (task.IsCompleted)
+        {
+            if (task.Result.Exists)
+            {
+                Debug.LogFormat("GetLocation() succeeded");
+                return JsonUtility.FromJson<Dictionary<string, GeoCoord>>(task.Result.GetRawJsonValue());
+            }
+            else
+            {
+                Debug.LogFormat("GetLocation() succeeded but no data");
+                return new Dictionary<string, GeoCoord>();
+            }
+        }
+
+        return null;
     }
 }
