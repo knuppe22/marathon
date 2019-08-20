@@ -29,28 +29,7 @@ public class ItemManager : SingletonBehaviour<ItemManager>
         itemlist.Add("Purple", new Item("Purple", 200, Item.Property.Cloth, 1, 0.1f, 50, 0, 0));
         itemlist.Add("Black", new Item("Black", 200, Item.Property.Cloth, 1, 0.1f, 0, 0.2f, 0));
     }
-
-    void Start()
-    {
-        /*
-        PossItem = RunManager.Instance.users[AuthManager.Instance.CurrentUserId].items;
-
-        foreach (string item in PossItem)
-        {
-            itemlist[item].PresPoss++;
-        }
-
-        ApplyItemEffect();
-
-        AllQ = RunManager.Instance.users[AuthManager.Instance.CurrentUserId].equippedItems;
-        
-        foreach(string item in AllQ)
-        {
-            itemlist[item].Equipment++;
-        }
-        */
-    }
-
+    
     public void BuyItem(string name)
     {
         if(itemlist[name].PresPoss >= itemlist[name].Maximum)
