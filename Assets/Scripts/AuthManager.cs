@@ -31,11 +31,11 @@ public class AuthManager : SingletonBehaviour<AuthManager>
 
     async Task SignIn()
     {
-#if UNITY_EDITOR
-        Task<FirebaseUser> task = FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync("kucatdog@gmail.com", "1234567890");
-#else
+//#if UNITY_EDITOR
+//        Task<FirebaseUser> task = FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync("kucatdog@gmail.com", "1234567890");
+//#else
         Task<FirebaseUser> task = FirebaseAuth.DefaultInstance.SignInAnonymouslyAsync();
-#endif
+//#endif
         await task;
 
         if (task.IsCanceled)
