@@ -56,7 +56,7 @@ public class UIControl : SingletonBehaviour<UIControl>
         ItemInfos.Add("Mashmellow", new ItemInfo("마시멜로", "Sprites/Thumbnail/tb_silage", "배경 아이템\n체크포인트 이벤트 골드 +30%"));
         ItemInfos.Add("Pine", new ItemInfo("소나무", "Sprites/Thumbnail/tb_tree", "배경 아이템\n플레이어 속도 +1.5m/s"));
         ItemInfos.Add("Maple", new ItemInfo("단풍나무", "Sprites/Thumbnail/tb_maple", "배경 아이템\n플레이어 속도 +1.5m/s"));
-        ItemInfos.Add("Ginkgo", new ItemInfo("은행나무", "Sprites/Thumbnail/tb_ginkgo", "배경 아이템\n플레이어 속도 +1.5m/s"));
+        ItemInfos.Add("Ginkgo", new ItemInfo("은행나무", "Sprites/Thumbnail/tb_gingko", "배경 아이템\n플레이어 속도 +1.5m/s"));
         ItemInfos.Add("Asphalt", new ItemInfo("아스팔트", "Sprites/Road/Asphalt", "도로 아이템\n시야 +500m"));
         ItemInfos.Add("Tuxedo", new ItemInfo("턱시도", "Sprites/Thumbnail/tb_runnerT", "복장 아이템\n플레이어 속도 +3m/s\n손 잡아주기 골드 +100%"));
     }
@@ -78,7 +78,7 @@ public class UIControl : SingletonBehaviour<UIControl>
                 {
                     PopupPanel[i].SetActive(false);
                 }
-                if (PanelArray[i].gameObject.activeSelf && EventSystem.current.IsPointerOverGameObject() == false)
+                /*if (PanelArray[i].gameObject.activeSelf && EventSystem.current.IsPointerOverGameObject() == false)
                 {
                     if (i == 2)
                     {
@@ -87,7 +87,7 @@ public class UIControl : SingletonBehaviour<UIControl>
                     }
                     else
                     PanelArray[i].SetActive(false);
-                }
+                }*/
             }
         }
         if (CheckPointEvent)
@@ -143,6 +143,7 @@ public class UIControl : SingletonBehaviour<UIControl>
             TextArray[1].text = ItemManager.Instance.itemlist[ItemNameArray[4*ShopPage+i]].Price + "G";
             ShopItemButton[i].gameObject.GetComponentsInChildren<Image>()[1].sprite = Resources.Load<Sprite>(ItemInfos[ItemNameArray[4*ShopPage+i]].ItemVisualLocation);
         }
+        ShowEquippedItems();
     }
     public void ShopPageControl(bool Isup)
     {
@@ -190,22 +191,39 @@ public class UIControl : SingletonBehaviour<UIControl>
     public void EquipItem()
     {
         ItemManager.Instance.EquipmentItem(ItemNameArray[RequestedItemIndex]);
-		foreach(string equipment in ItemManager.Instance.ClothQ)
-		{
-			Debug.Log("Currently equipped clothes"+equipment);
-		}
-		if (ItemManager.Instance.ClothQ.Count > 0)
+        ShowEquippedItems();
+    }
+    public void Off(GameObject Target)
+    {
+        Target.SetActive(false);
+    }
+    void ShowEquippedItems()
+    {
+        if (ItemManager.Instance.ClothQ.Count > 0)
 		{
 			EquippedCloth.sprite = Resources.Load<Sprite>(ItemInfos[ItemManager.Instance.ClothQ[0]].ItemVisualLocation);
 			Debug.Log("Cloth is equipped");
 		}
         if (ItemManager.Instance.RoadQ.Count > 0)
             EquippedRoad.sprite = Resources.Load<Sprite>(ItemInfos[ItemManager.Instance.RoadQ[0]].ItemVisualLocation);
-        for (int i = 0; i < ItemManager.Instance.BackGroundQ.Count; i++)
+        for (int i = 0; i<ItemManager.Instance.BackGroundQ.Count; i++)
             EquippedBackground[i].sprite = Resources.Load<Sprite>(ItemInfos[ItemManager.Instance.BackGroundQ[i]].ItemVisualLocation);
-        }
-    public void Off(GameObject Target)
+    }
+    public void PanelOff()
     {
-        Target.SetActive(false);
+        for (int i = 0; i < 3; i++)
+        {
+            if (PanelArray[i].gameObject.activeSelf)
+            {
+                if (i == 2)
+                {
+                    if (!PurchaseConfirmPanel.activeSelf)
+                        PanelArray[i].SetActive(false);
+                }
+                else
+                    PanelArray[i].SetActive(false);
+            }
+        }
     }
 }
+
