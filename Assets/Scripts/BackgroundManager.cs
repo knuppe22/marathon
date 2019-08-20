@@ -194,11 +194,11 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
             {
                 friendObj[id].SetActive(true);
                 sprt.sortingOrder = friendLanePos[id] + 10;
-                friendObj[id].transform.position = Vector2.Lerp(runnerLane[0], runnerLane[1], per) +
+                friendObj[id].transform.position = Vector2.Lerp(runnerLane[0], runnerLane[1], per) -
                     new Vector2(Mathf.Cos(Mathf.Deg2Rad * (roadAngle + 90)), Mathf.Sin(Mathf.Deg2Rad * (roadAngle + 90)))
                     * runnerLaneWidth / 10 * (friendLanePos[id] - 5);
 
-                playerObj.GetComponentInChildren<TextMesh>().text = RunManager.Instance.MeterForm((int)RunManager.Instance.users[id].score);
+                friendObj[id].GetComponentInChildren<TextMesh>().text = RunManager.Instance.MeterForm((int)RunManager.Instance.users[id].score);
             }
             else
             {
@@ -241,7 +241,7 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
             AddFriendObj(id);
             string target = "";
 
-            if (ItemManager.Instance.ClothQ.Count > 0) target = ItemManager.Instance.ClothQ[0];
+            foreach (string item in RunManager.Instance.users[id].equippedItems) if (ItemManager.Instance.itemlist[item].property == Item.Property.Cloth) target = item;
             else target = "Normal";
 
             if (!runnerAnimations.ContainsKey(target)) runnerAnimations.Add(target, Resources.Load<AnimationClip>("Sprites/Runner/" + target));
