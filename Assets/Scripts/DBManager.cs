@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -77,13 +78,12 @@ public class DBManager : SingletonBehaviour<DBManager>
         CurrentUserReference.Child(key).SetValueAsync(value);
     }
 
-    public void SetLocation(float latitude, float longitude)
+    public void SetLocation(Location location)
     {
-        CurrentLocationReference.Child("latitude").SetValueAsync(latitude);
-        CurrentLocationReference.Child("longitude").SetValueAsync(longitude);
+        CurrentLocationReference.SetRawJsonValueAsync(JsonUtility.ToJson(location));
     }
 
-    public async Task<Dictionary<string, GeoCoord>> GetLocations()
+    public async Task<Dictionary<string, Location>> GetLocations()
     {
         Task<DataSnapshot> task = LocationReference.GetValueAsync();
         await task;
@@ -97,15 +97,40 @@ public class DBManager : SingletonBehaviour<DBManager>
             if (task.Result.Exists)
             {
                 Debug.LogFormat("GetLocation() succeeded");
-                return JsonUtility.FromJson<Dictionary<string, GeoCoord>>(task.Result.GetRawJsonValue());
+                return JsonUtility.FromJson<Dictionary<string, Location>>(task.Result.GetRawJsonValue());
             }
             else
             {
                 Debug.LogFormat("GetLocation() succeeded but no data");
-                return new Dictionary<string, GeoCoord>();
+                return new Dictionary<string, Location>();
             }
         }
 
         return null;
+    }
+
+    public async Task<List<string>> GetNearUsers(Location location)
+    {
+        Dictionary<string, Location> locations = await GetLocations();
+
+        List<string> nearUsers = new List<string>();
+
+        if (locations == null) return null;
+
+        foreach(KeyValuePair<string, Location> pair in locations)
+        {
+            if (Location.Distance(location, pair.Value) < 50)
+            {
+                DateTime last = DateTime.Parse(pair.Value.lastOnline);
+                TimeSpan span = DateTime.Now.Subtract(last);
+
+                if (span.TotalSeconds < 60)
+                {
+                    nearUsers.Add(pair.Key);
+                }
+            }
+        }
+
+        return nearUsers;
     }
 }

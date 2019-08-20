@@ -20,8 +20,13 @@ public class RunManager : SingletonBehaviour<RunManager>
     float time = 0;
 
     bool dbBoolA, dbBoolB;
+    bool gpsBool;
     User tmpUser;
 
+    void Start()
+    {
+        Input.location.Start();
+    }
 
     async void Update()
     {
@@ -89,8 +94,10 @@ public class RunManager : SingletonBehaviour<RunManager>
                 BackgroundManager.Instance.SetBackgroundImage();
                 BackgroundManager.Instance.SetRoadImage();
                 BackgroundManager.Instance.SetRunnerImage();
+
+                UpdateUserData();
             }
-            else
+            else if (gpsBool)
             {
                 //이전 update
                 time += Time.deltaTime;
@@ -147,7 +154,13 @@ public class RunManager : SingletonBehaviour<RunManager>
         users[AuthManager.Instance.CurrentUserId].score = score;
 
         if (DBManager.Instance.RootReference != null)
+        {
             DBManager.Instance.SetUser(users[AuthManager.Instance.CurrentUserId]);
+            
+            if (gpsBool)
+                DBManager.Instance.SetLocation(new Location(Input.location.lastData, users[AuthManager.Instance.CurrentUserId].lastOnline));
+        }
+
     }
 
     void CheckPointEvent()
