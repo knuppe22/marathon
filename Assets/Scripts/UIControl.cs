@@ -44,6 +44,8 @@ public class UIControl : SingletonBehaviour<UIControl>
     public Image EquippedRoad;
     public Image[] EquippedBackground = new Image[5];
     public Text CurrentGold;
+    public GameObject NameInputPanel;
+    public Text PlayerNameInput;
 
     void Awake()
     {
@@ -224,6 +226,38 @@ public class UIControl : SingletonBehaviour<UIControl>
                     PanelArray[i].SetActive(false);
             }
         }
+    }
+    public void CallNameInputPanel() /*이름 입력 창 활성화 함수*/
+    {
+        NameInputPanel.gameObject.SetActive(true);
+    }
+    public void SetPlayerName() /*플레이어 이름 지정 함수, 확인 버튼 누르면 호출*/
+    {
+        string MyName;
+        MyName = PlayerNameInput.text;
+        Debug.Log(MyName);
+        /*
+         
+
+
+
+
+
+
+
+        DB 수정
+
+
+
+
+
+
+
+
+
+
+
+        */
     }
 }
 

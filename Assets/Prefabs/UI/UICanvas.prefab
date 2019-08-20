@@ -5243,7 +5243,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6678915932461155187}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 638725303142062419}
+        m_MethodName: PanelOff
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &8788376560556561603
@@ -5332,6 +5343,8 @@ MonoBehaviour:
   - {fileID: 8852762401906298251}
   - {fileID: 2198891563288332035}
   CurrentGold: {fileID: 4274914978921103572}
+  NameInputPanel: {fileID: 0}
+  PlayerNameInput: {fileID: 0}
 --- !u!114 &943694280
 MonoBehaviour:
   m_ObjectHideFlags: 0
