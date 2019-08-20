@@ -14,7 +14,7 @@ public class RunManager : SingletonBehaviour<RunManager>
 
     public float Meter = 0;
     public float RunSpeed = 3;
-    public int FriendViewDist = 10000;
+    public float FriendViewDist = 5000;
     public float HandGoldRate = 1;
     public float CheckGoldRate = 1;
     float time = 0;

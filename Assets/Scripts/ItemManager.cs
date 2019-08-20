@@ -16,13 +16,13 @@ public class ItemManager : SingletonBehaviour<ItemManager>
 
     public void Awake() //Start보다 먼저 실행.
     {
-        itemlist.Add("Stone", new Item("Stone", 500, Item.Property.Background, 3, 1, 0, 0, 0));
-        itemlist.Add("Pine", new Item("Pine", 1000, Item.Property.Background, 3, 1.5f, 0, 0, 0));
-        itemlist.Add("Maple", new Item("Maple", 1000, Item.Property.Background, 3, 1.5f, 0, 0, 0));
-        itemlist.Add("Ginkgo", new Item("Ginkgo", 1000, Item.Property.Background, 3, 1.5f, 0, 0, 0));
+        itemlist.Add("Stone", new Item("Stone", 500, Item.Property.Background, 3, 0.5f, 0, 0, 0));
+        itemlist.Add("Pine", new Item("Pine", 1000, Item.Property.Background, 3, 0.8f, 0, 0, 0));
+        itemlist.Add("Maple", new Item("Maple", 1000, Item.Property.Background, 3, 0.8f, 0, 0, 0));
+        itemlist.Add("Ginkgo", new Item("Ginkgo", 1000, Item.Property.Background, 3, 0.8f, 0, 0, 0));
         itemlist.Add("Mashmellow", new Item("Mashmellow", 600, Item.Property.Background, 3, 0, 0, 0, 0.3f));
-        itemlist.Add("Asphalt", new Item("Asphalt", 4000, Item.Property.Road, 1, 0, 500, 0, 0));
-        itemlist.Add("Tuxedo", new Item("Tuxedo", 4000, Item.Property.Cloth, 1, 3, 0, 1, 0));
+        itemlist.Add("Asphalt", new Item("Asphalt", 4000, Item.Property.Road, 1, 0, 5000, 0, 0));
+        itemlist.Add("Tuxedo", new Item("Tuxedo", 4000, Item.Property.Cloth, 1, 1.5f, 0, 1, 0));
         itemlist.Add("Red", new Item("Red", 100, Item.Property.Cloth, 1, 0.1f, 0, 0, 0));
         itemlist.Add("Blue", new Item("Blue", 100, Item.Property.Cloth, 1, 0.1f, 0, 0, 0));
         itemlist.Add("Green", new Item("Green", 100, Item.Property.Cloth, 1, 0.1f, 0, 0, 0));

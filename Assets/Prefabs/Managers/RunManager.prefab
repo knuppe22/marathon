@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MeterText: {fileID: 0}
   Meter: 0
-  RunSpeed: 5
-  FriendViewDist: 10000
+  RunSpeed: 3
+  FriendViewDist: 5000
   HandGoldRate: 1
   CheckGoldRate: 1
