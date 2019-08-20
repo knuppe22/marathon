@@ -4,6 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+public class Friend
+{
+    public string name;
+    public Image profileimage;
+    public int distance;
+}
+
 [System.Serializable]
 public class ItemInfo
 {
@@ -46,6 +53,23 @@ public class UIControl : SingletonBehaviour<UIControl>
     public Text CurrentGold;
     public GameObject NameInputPanel;
     public Text PlayerNameInput;
+
+    //FriendManage에 있던 전역변수들
+    public int MyDistance = 500;
+    public GameObject GrabHandPanel;
+    int InputDistance = 3000;
+    public GameObject[] GrabHandButtonArray = new GameObject[4];
+    GameObject FriendButton;
+    public GameObject AddFriendSuccess;
+    public Text CurrentDistance;
+    int GrabHandPage = 0;
+    public GameObject[] GrabHandPageControlButton = new GameObject[2];
+    public List<Friend> FriendList = new List<Friend>();
+
+    //ButtonControl에 있던 전역변수들
+    public GameObject GrabHandSuccess;
+    public Text GrabHandFriendName;
+    public Text GrabHandDistance;
 
     void Awake()
     {
@@ -98,6 +122,7 @@ public class UIControl : SingletonBehaviour<UIControl>
             CheckpointMessage.text = "19:05에 " + PeoplenuminScreen + "명이 화면 상에 존재했습니다.\n" + CheckpointGoldperPerson * PeoplenuminScreen + "G를 획득하였습니다.";
             CheckPointEvent = false;
         }
+        CurrentDistance.text = MyDistance.ToString();
     }
     public void PanelOnOff(int index)
     {
@@ -258,6 +283,98 @@ public class UIControl : SingletonBehaviour<UIControl>
 
 
         */
+    }
+    //FriendManage에서 가져온 함수들
+    public void AddFriend(GameObject AddFriendButton) //현재 버튼 자체에서 정보 가져옴. 수정 필요
+    {
+        Friend NewFriend = new Friend();
+        /*NewFriend.name = InputName.text;
+        NewFriend.profileimage = InputProfileImage;
+        NewFriend.distance = InputDistance;
+        FriendList.Add(NewFriend);*/
+        NewFriend.name = AddFriendButton.gameObject.GetComponentInChildren<Text>().text;
+        NewFriend.profileimage = AddFriendButton.gameObject.GetComponentsInChildren<Image>()[1];
+        NewFriend.distance = InputDistance;
+        FriendList.Add(NewFriend);
+        AddFriendSuccess.gameObject.SetActive(true);
+        AddFriendSuccess.gameObject.GetComponentInChildren<Text>().text = NewFriend.name;
+    }
+    public void FriendDisplay(bool isInitiate)
+    {
+        if (isInitiate)
+        {
+            UIControl.Instance.PanelOnOff(1);
+            GrabHandPage = 0;
+        }
+        if (GrabHandPage == 0)
+        {
+            if (FriendList.Count <= 4)
+            {
+                GrabHandPageControlButton[0].gameObject.SetActive(false);
+                GrabHandPageControlButton[1].gameObject.SetActive(false);
+            }
+            else
+            {
+                GrabHandPageControlButton[0].gameObject.SetActive(false);
+                GrabHandPageControlButton[1].gameObject.SetActive(true);
+            }
+        }
+        else if (GrabHandPage == FriendList.Count / 4)
+        {
+            GrabHandPageControlButton[0].gameObject.SetActive(true);
+            GrabHandPageControlButton[1].gameObject.SetActive(false);
+        }
+        else
+        {
+            GrabHandPageControlButton[0].gameObject.SetActive(true);
+            GrabHandPageControlButton[1].gameObject.SetActive(true);
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            GrabHandButtonArray[i].gameObject.SetActive(true);
+            if (i >= FriendList.Count - 4 * GrabHandPage)
+                GrabHandButtonArray[i].gameObject.SetActive(false);
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            GameObject FriendButton = GrabHandButtonArray[i];
+            Debug.Log(+i);
+            if (i < FriendList.Count % 4)
+            {
+                Text[] TextArray = FriendButton.gameObject.GetComponentsInChildren<Text>();
+                TextArray[0].text = FriendList[4 * GrabHandPage + i].name;
+                Debug.Log(+(4 * GrabHandPage + i));
+                /*foreach (Image I in FriendButton.GetComponentsInChildren<Image>())
+                {
+                    if (!I.GetComponent<Button>())
+                    {
+                        I.sprite = FriendList[4 + GrabHandPage + i].profileimage.sprite;
+                        break;
+                    }
+                }*/
+                FriendButton.gameObject.GetComponentsInChildren<Image>()[1].sprite = FriendList[4 * GrabHandPage + i].profileimage.sprite;
+                TextArray[1].text = FriendList[4 * GrabHandPage + i].distance.ToString();
+            }
+        }
+    }
+    public void GrabHandPageControl(bool Isup)
+    {
+        if (Isup)
+            GrabHandPage++;
+        else
+            GrabHandPage--;
+        FriendDisplay(false);
+    }
+    //ButtonControl에 있던 함수들
+    public void GrabHand(int index) //페이지 기반 수정 필요
+    {
+        int AverageDistance = (MyDistance + FriendList[index].distance) / 2;
+        MyDistance = AverageDistance;
+        FriendList[index].distance = AverageDistance;
+        FriendDisplay(false);
+        GrabHandSuccess.gameObject.SetActive(true);
+        GrabHandFriendName.text = FriendList[index].name;
+        GrabHandDistance.text = AverageDistance.ToString();
     }
 }
 
