@@ -4,11 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using System;
+using UnityEngine.SceneManagement;
 
 public class RunManager : SingletonBehaviour<RunManager>
 {
     [SerializeField]
     private Text MeterText;
+    public GameObject LoadImage;
     
     public Dictionary<string, User> users = new Dictionary<string, User>();
 
@@ -22,7 +24,10 @@ public class RunManager : SingletonBehaviour<RunManager>
     bool dbBoolA, dbBoolB;
     User tmpUser;
 
-
+    private void Start()
+    {
+        LoadImage.SetActive(true);
+    }
     async void Update()
     {
         if (DBManager.Instance.RootReference == null)
@@ -44,10 +49,8 @@ public class RunManager : SingletonBehaviour<RunManager>
                 //await 두 개가 동시에 되는가.
 
                 Meter = users[AuthManager.Instance.CurrentUserId].score + RunSpeed * CalcOnline();
-                MeterText.text = ((int)Meter).ToString();
 
                 GoldManager.Instance.SetGold(users[AuthManager.Instance.CurrentUserId].gold);
-                GoldManager.Instance.Gold.text = GoldManager.Instance.GetGold().ToString();
 
                 ItemManager.Instance.PossItem = users[AuthManager.Instance.CurrentUserId].items;
                 
@@ -89,10 +92,12 @@ public class RunManager : SingletonBehaviour<RunManager>
                 BackgroundManager.Instance.SetBackgroundImage();
                 BackgroundManager.Instance.SetRoadImage();
                 BackgroundManager.Instance.SetRunnerImage();
+                LoadImage.SetActive(false);
             }
             else
             {
                 //이전 update
+                LoadImage.SetActive(false);
                 time += Time.deltaTime;
 
                 //CheckPointEvent();
@@ -135,6 +140,12 @@ public class RunManager : SingletonBehaviour<RunManager>
     private void OnApplicationQuit()
     {
 
+    }
+
+    private void OnApplicationPause(bool pause)
+    {
+        if (!pause)
+            SceneManager.LoadScene("bgTest");
     }
 
     void UpdateUserData()

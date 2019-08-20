@@ -18,6 +18,7 @@ public class GoldManager : SingletonBehaviour<GoldManager>
     public void SetGold(int _gold)
     {
         gold = _gold;
+        Gold.text = gold.ToString() + "G";
     }
 
     public bool UseMoney(int price)
@@ -25,7 +26,7 @@ public class GoldManager : SingletonBehaviour<GoldManager>
         if (gold >= price)
         {
             gold -= price;
-            Gold.text = gold.ToString();
+            Gold.text = gold.ToString() + "G";
             RunManager.Instance.users[AuthManager.Instance.CurrentUserId].gold = gold;
             DBManager.Instance.SetUserValue("gold", gold);
             return true;
@@ -38,7 +39,7 @@ public class GoldManager : SingletonBehaviour<GoldManager>
     public void EarnMoney(int money)
     {
         gold += money;
-        Gold.text = gold.ToString();
+        Gold.text = gold.ToString() + "G";
         RunManager.Instance.users[AuthManager.Instance.CurrentUserId].gold = gold;
         DBManager.Instance.SetUserValue("gold", gold);
     }
