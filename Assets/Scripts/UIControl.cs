@@ -78,7 +78,7 @@ public class UIControl : SingletonBehaviour<UIControl>
                 {
                     PopupPanel[i].SetActive(false);
                 }
-                if (PanelArray[i].gameObject.activeSelf && EventSystem.current.IsPointerOverGameObject() == false)
+                /*if (PanelArray[i].gameObject.activeSelf && EventSystem.current.IsPointerOverGameObject() == false)
                 {
                     if (i == 2)
                     {
@@ -87,7 +87,7 @@ public class UIControl : SingletonBehaviour<UIControl>
                     }
                     else
                     PanelArray[i].SetActive(false);
-                }
+                }*/
             }
         }
         if (CheckPointEvent)
@@ -208,6 +208,22 @@ public class UIControl : SingletonBehaviour<UIControl>
             EquippedRoad.sprite = Resources.Load<Sprite>(ItemInfos[ItemManager.Instance.RoadQ[0]].ItemVisualLocation);
         for (int i = 0; i<ItemManager.Instance.BackGroundQ.Count; i++)
             EquippedBackground[i].sprite = Resources.Load<Sprite>(ItemInfos[ItemManager.Instance.BackGroundQ[i]].ItemVisualLocation);
+    }
+    public void PanelOff()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (PanelArray[i].gameObject.activeSelf)
+            {
+                if (i == 2)
+                {
+                    if (!PurchaseConfirmPanel.activeSelf)
+                        PanelArray[i].SetActive(false);
+                }
+                else
+                    PanelArray[i].SetActive(false);
+            }
+        }
     }
 }
 
