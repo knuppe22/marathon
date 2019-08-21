@@ -55,21 +55,26 @@ public class UIControl : SingletonBehaviour<UIControl>
     public Text PlayerNameInput;
 
     //FriendManage에 있던 전역변수들
-    public int MyDistance = 500;
+    public float MyDistance = 500;
     public GameObject GrabHandPanel;
     int InputDistance = 3000;
     public GameObject[] GrabHandButtonArray = new GameObject[4];
-    GameObject FriendButton;
     public GameObject AddFriendSuccess;
     public Text CurrentDistance;
     int GrabHandPage = 0;
     public GameObject[] GrabHandPageControlButton = new GameObject[2];
     public List<Friend> FriendList = new List<Friend>();
+    int AddFriendPage = 0;
+    public GameObject[] AddFriendPageControlButton = new GameObject[2];
+    public GameObject[] AddFriendButtons = new GameObject[4];
 
     //ButtonControl에 있던 전역변수들
     public GameObject GrabHandSuccess;
     public Text GrabHandFriendName;
     public Text GrabHandDistance;
+
+    public List<string> MyFriends = new List<string>();//내 친구 아이디 목록
+    public List<string> NearbyUsers = new List<string>();//주변 유저 아이디 목록
 
     void Awake() //아이템 등록 완전자동화 가능?
     {
@@ -104,16 +109,6 @@ public class UIControl : SingletonBehaviour<UIControl>
                 {
                     PopupPanel[i].SetActive(false);
                 }
-                /*if (PanelArray[i].gameObject.activeSelf && EventSystem.current.IsPointerOverGameObject() == false)
-                {
-                    if (i == 2)
-                    {
-                        if (!PurchaseConfirmPanel.activeSelf)
-                            PanelArray[i].SetActive(false);
-                    }
-                    else
-                    PanelArray[i].SetActive(false);
-                }*/
             }
         }
         if (CheckPointEvent)
@@ -123,6 +118,14 @@ public class UIControl : SingletonBehaviour<UIControl>
             CheckPointEvent = false;
         }
         CurrentDistance.text = MyDistance.ToString();
+        for (int i = 0; i < 4; i++)
+        {
+            if (i < MyFriends.Count % 4)
+            {
+                Text[] TextArray = GrabHandButtonArray[i].gameObject.GetComponentsInChildren<Text>();
+                TextArray[1].text = RunManager.Instance.users[MyFriends[4 * GrabHandPage + i]].score.ToString();
+            }
+        }
     }
     public void PanelOnOff(int index)
     {
@@ -161,12 +164,11 @@ public class UIControl : SingletonBehaviour<UIControl>
         for(int i=0; i<4; i++)
         {
             Text[] TextArray = ShopItemButton[i].gameObject.GetComponentsInChildren<Text>();
-            if (ItemManager.Instance.itemlist[ItemNameArray[4 * ShopPage + i]].Maximum > 1)
-                TextArray[0].text = ItemInfos[ItemNameArray[4 * ShopPage + i]].ItemName + "(" 
-                +ItemManager.Instance.itemlist[ItemNameArray[4 * ShopPage + i]].PresPoss + "/" 
-                +ItemManager.Instance.itemlist[ItemNameArray[4 * ShopPage + i]].Maximum + ")";
-            else
-                TextArray[0].text = ItemInfos[ItemNameArray[4 * ShopPage + i]].ItemName;
+            {
+                TextArray[0].text = ItemInfos[ItemNameArray[4 * ShopPage + i]].ItemName + "("
+                + ItemManager.Instance.itemlist[ItemNameArray[4 * ShopPage + i]].PresPoss + "/"
+                + ItemManager.Instance.itemlist[ItemNameArray[4 * ShopPage + i]].Maximum + ")";
+            }
             TextArray[1].text = ItemManager.Instance.itemlist[ItemNameArray[4*ShopPage+i]].Price + "G";
             ShopItemButton[i].gameObject.GetComponentsInChildren<Image>()[1].sprite = Resources.Load<Sprite>(ItemInfos[ItemNameArray[4*ShopPage+i]].ItemVisualLocation);
         }
@@ -179,10 +181,6 @@ public class UIControl : SingletonBehaviour<UIControl>
         else
             ShopPage--;
         ShopUIDisplay(false);
-    }
-    public void PurchaseDenial()
-    {
-        //PurchaseConfirmPanel.gameObject.SetActive(false);
     }
     public void PurchaseConfirm()
     {
@@ -201,12 +199,11 @@ public class UIControl : SingletonBehaviour<UIControl>
     {
         PurchaseConfirmPanel.gameObject.SetActive(true);
         RequestedItemIndex = 4*ShopPage+itemindex;
-        if (ItemManager.Instance.itemlist[ItemNameArray[RequestedItemIndex]].Maximum > 1)
-            PurchaseItemName.text = ItemInfos[ItemNameArray[RequestedItemIndex]].ItemName + "(" 
-          + ItemManager.Instance.itemlist[ItemNameArray[RequestedItemIndex]].PresPoss + "/" 
-          + ItemManager.Instance.itemlist[ItemNameArray[RequestedItemIndex]].Maximum + ")";
-        else
-            PurchaseItemName.text = ItemInfos[ItemNameArray[RequestedItemIndex]].ItemName;
+        {
+            PurchaseItemName.text = ItemInfos[ItemNameArray[RequestedItemIndex]].ItemName + "("
+            + ItemManager.Instance.itemlist[ItemNameArray[RequestedItemIndex]].PresPoss + "/"
+            + ItemManager.Instance.itemlist[ItemNameArray[RequestedItemIndex]].Maximum + ")";
+        }
         PurchaseItemImage.sprite = Resources.Load<Sprite>(ItemInfos[ItemNameArray[RequestedItemIndex]].ItemVisualLocation);
         PurchaseItemEffects.text = ItemInfos[ItemNameArray[RequestedItemIndex]].ItemEffectsDescription;
         PurchaseItemPrice.text = ItemManager.Instance.itemlist[ItemNameArray[RequestedItemIndex]].Price + "G";
@@ -242,13 +239,11 @@ public class UIControl : SingletonBehaviour<UIControl>
         {
             if (PanelArray[i].gameObject.activeSelf)
             {
-                if (i == 2)
+                PanelArray[i].SetActive(false);
+                if (i == 2 && PurchaseConfirmPanel.activeSelf) 
                 {
-                    if (!PurchaseConfirmPanel.activeSelf)
-                        PanelArray[i].SetActive(false);
+                    PurchaseConfirmPanel.gameObject.SetActive(false);
                 }
-                else
-                    PanelArray[i].SetActive(false);
             }
         }
     }
@@ -293,7 +288,6 @@ public class UIControl : SingletonBehaviour<UIControl>
         NewFriend.distance = InputDistance;
         FriendList.Add(NewFriend);*/
         NewFriend.name = AddFriendButton.gameObject.GetComponentInChildren<Text>().text;
-        NewFriend.profileimage = AddFriendButton.gameObject.GetComponentsInChildren<Image>()[1];
         NewFriend.distance = InputDistance;
         FriendList.Add(NewFriend);
         AddFriendSuccess.gameObject.SetActive(true);
@@ -308,7 +302,7 @@ public class UIControl : SingletonBehaviour<UIControl>
         }
         if (GrabHandPage == 0)
         {
-            if (FriendList.Count <= 4)
+            if (MyFriends.Count <= 4)
             {
                 GrabHandPageControlButton[0].gameObject.SetActive(false);
                 GrabHandPageControlButton[1].gameObject.SetActive(false);
@@ -319,7 +313,7 @@ public class UIControl : SingletonBehaviour<UIControl>
                 GrabHandPageControlButton[1].gameObject.SetActive(true);
             }
         }
-        else if (GrabHandPage == FriendList.Count / 4)
+        else if (GrabHandPage == MyFriends.Count / 4)
         {
             GrabHandPageControlButton[0].gameObject.SetActive(true);
             GrabHandPageControlButton[1].gameObject.SetActive(false);
@@ -332,28 +326,16 @@ public class UIControl : SingletonBehaviour<UIControl>
         for (int i = 0; i < 4; i++)
         {
             GrabHandButtonArray[i].gameObject.SetActive(true);
-            if (i >= FriendList.Count - 4 * GrabHandPage)
+            if (i >= MyFriends.Count - 4 * GrabHandPage)
                 GrabHandButtonArray[i].gameObject.SetActive(false);
         }
         for (int i = 0; i < 4; i++)
         {
-            GameObject FriendButton = GrabHandButtonArray[i];
-            Debug.Log(+i);
-            if (i < FriendList.Count % 4)
+            if (i < MyFriends.Count % 4)
             {
-                Text[] TextArray = FriendButton.gameObject.GetComponentsInChildren<Text>();
-                TextArray[0].text = FriendList[4 * GrabHandPage + i].name;
-                Debug.Log(+(4 * GrabHandPage + i));
-                /*foreach (Image I in FriendButton.GetComponentsInChildren<Image>())
-                {
-                    if (!I.GetComponent<Button>())
-                    {
-                        I.sprite = FriendList[4 + GrabHandPage + i].profileimage.sprite;
-                        break;
-                    }
-                }*/
-                FriendButton.gameObject.GetComponentsInChildren<Image>()[1].sprite = FriendList[4 * GrabHandPage + i].profileimage.sprite;
-                TextArray[1].text = FriendList[4 * GrabHandPage + i].distance.ToString();
+                Text[] TextArray = GrabHandButtonArray[i].gameObject.GetComponentsInChildren<Text>();
+                TextArray[0].text = RunManager.Instance.users[MyFriends[4 * GrabHandPage + i]].name;
+                TextArray[1].text = RunManager.Instance.users[MyFriends[4 * GrabHandPage + i]].score.ToString();
             }
         }
     }
@@ -368,12 +350,32 @@ public class UIControl : SingletonBehaviour<UIControl>
     //ButtonControl에 있던 함수들
     public void GrabHand(int index) //페이지 기반 수정 필요
     {
-        int AverageDistance = (MyDistance + FriendList[index].distance) / 2;
+        float AverageDistance = (MyDistance + RunManager.Instance.users[MyFriends[GrabHandPage * 4 + index]].score) / 2;
         MyDistance = AverageDistance;
-        FriendList[index].distance = AverageDistance;
+        /*
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * DB 수정 필요(손잡기 대상 친구의 점수를 내 점수와 친구 점수의 평균으로 수정)
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         */
         FriendDisplay(false);
         GrabHandSuccess.gameObject.SetActive(true);
-        GrabHandFriendName.text = FriendList[index].name;
+        GrabHandFriendName.text = MyFriends[4*GrabHandPage+index];
         GrabHandDistance.text = AverageDistance.ToString();
     }
     string GenerateItemEffectsDescription(Item GenerateTarget)
@@ -409,6 +411,74 @@ public class UIControl : SingletonBehaviour<UIControl>
         }
         Effects = Effects.Substring(0, Effects.Length - 1);
         return Effects;
+    }
+    public void AddFriendDisplay(bool isInitiate)
+    {
+        if (isInitiate)
+        {
+            PanelOnOff(0);
+            AddFriendPage = 0;
+        }
+        if (AddFriendPage == 0)
+        {
+            if (NearbyUsers.Count <= 4)
+            {
+                AddFriendPageControlButton[0].gameObject.SetActive(false);
+                AddFriendPageControlButton[1].gameObject.SetActive(false);
+            }
+            else
+            {
+                AddFriendPageControlButton[0].gameObject.SetActive(false);
+                AddFriendPageControlButton[1].gameObject.SetActive(true);
+            }
+        }
+        else if (AddFriendPage == NearbyUsers.Count / 4)
+        {
+            AddFriendPageControlButton[0].gameObject.SetActive(true);
+            AddFriendPageControlButton[1].gameObject.SetActive(false);
+        }
+        else
+        {
+            AddFriendPageControlButton[0].gameObject.SetActive(true);
+            AddFriendPageControlButton[1].gameObject.SetActive(true);
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            AddFriendButtons[i].gameObject.SetActive(true);
+            if (i >= NearbyUsers.Count - 4 * AddFriendPage)
+                AddFriendButtons[i].gameObject.SetActive(false);
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            if (i < NearbyUsers.Count % 4)
+            {
+                AddFriendButtons[i].gameObject.GetComponentInChildren<Text>().text = RunManager.Instance.users[NearbyUsers[4 * AddFriendPage + i]].name;
+            }
+        }
+    }
+    public void UnequipBackgroundItem(int index)
+    {
+        string ItemToUnequip;
+        ItemToUnequip = ItemManager.Instance.BackGroundQ[index];
+        ItemManager.Instance.BackGroundQ.RemoveAt(index);
+        ItemManager.Instance.AllQ.Remove(ItemToUnequip);
+        ShowEquippedItems();
+    }
+    public void UnequipClothItem()
+    {
+        string ItemToUnequip;
+        ItemToUnequip = ItemManager.Instance.ClothQ[0];
+        ItemManager.Instance.ClothQ.RemoveAt(0);
+        ItemManager.Instance.AllQ.Remove(ItemToUnequip);
+        ShowEquippedItems();
+    }
+    public void UnequipRoadItem()
+    {
+        string ItemToUnequip;
+        ItemToUnequip = ItemManager.Instance.RoadQ[0];
+        ItemManager.Instance.RoadQ.RemoveAt(0);
+        ItemManager.Instance.AllQ.Remove(ItemToUnequip);
+        ShowEquippedItems();
     }
 }
 
