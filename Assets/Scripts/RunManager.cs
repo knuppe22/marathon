@@ -22,12 +22,15 @@ public class RunManager : SingletonBehaviour<RunManager>
     float time = 0;
 
     bool dbBoolA, dbBoolB;
+    bool gpsBool;
     User tmpUser;
 
     private void Start()
     {
         LoadImage.SetActive(true);
+        Input.location.Start();
     }
+
     async void Update()
     {
         if (DBManager.Instance.RootReference == null)
@@ -93,8 +96,10 @@ public class RunManager : SingletonBehaviour<RunManager>
                 BackgroundManager.Instance.SetRoadImage();
                 BackgroundManager.Instance.SetRunnerImage();
                 LoadImage.SetActive(false);
+
+                UpdateUserData();
             }
-            else
+            else if (gpsBool)
             {
                 //이전 update
                 LoadImage.SetActive(false);
@@ -158,7 +163,13 @@ public class RunManager : SingletonBehaviour<RunManager>
         users[AuthManager.Instance.CurrentUserId].score = score;
 
         if (DBManager.Instance.RootReference != null)
+        {
             DBManager.Instance.SetUser(users[AuthManager.Instance.CurrentUserId]);
+            
+            if (gpsBool)
+                DBManager.Instance.SetLocation(new Location(Input.location.lastData, users[AuthManager.Instance.CurrentUserId].lastOnline));
+        }
+
     }
 
     void CheckPointEvent()
