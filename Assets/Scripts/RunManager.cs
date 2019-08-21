@@ -142,9 +142,10 @@ public class RunManager : SingletonBehaviour<RunManager>
         else return (float)span.TotalSeconds;
     }
 
-    private void OnApplicationQuit()
+    public void ChangeName(string name)
     {
-
+        users[AuthManager.Instance.CurrentUserId].name = name;
+        DBManager.Instance.SetUserValue("name", name);
     }
 
     private void OnApplicationPause(bool pause)
@@ -212,12 +213,7 @@ public class RunManager : SingletonBehaviour<RunManager>
                     users[AuthManager.Instance.CurrentUserId].checkedTime = onlineTime;
                 }
             }
-
-            //GoldManager.Instance.EarnMoney((int)gainGold);
         }
-
-        //checkpointevent는 정각부터 ~ 정각 59초까지.
-        //만약 재형선배님이 저장할 string을 만들어주신다면 저장되어있는 시간과 비교하여 실행.
     }
 
     public string MeterForm(int score)
