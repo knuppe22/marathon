@@ -15,16 +15,4 @@ public class FriendsCompare : MonoBehaviour
 
         DBManager.Instance.SetUserValue("friends", strfriends);
     }
-
-    void Update()
-    {
-        time += Time.deltaTime;
-
-        if (time >= 10)
-        {
-
-
-            time = 0;
-        }
-    }
 }

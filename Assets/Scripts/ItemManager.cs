@@ -26,8 +26,10 @@ public class ItemManager : SingletonBehaviour<ItemManager>
         itemlist.Add("Red", new Item("Red", 100, Item.Property.Cloth, 1, 0.1f, 0, 0, 0));
         itemlist.Add("Blue", new Item("Blue", 100, Item.Property.Cloth, 1, 0.1f, 0, 0, 0));
         itemlist.Add("Green", new Item("Green", 100, Item.Property.Cloth, 1, 0.1f, 0, 0, 0));
-        itemlist.Add("Purple", new Item("Purple", 200, Item.Property.Cloth, 1, 0.1f, 50, 0, 0));
+        itemlist.Add("Purple", new Item("Purple", 200, Item.Property.Cloth, 1, 0.1f, 500, 0, 0));
         itemlist.Add("Black", new Item("Black", 200, Item.Property.Cloth, 1, 0.1f, 0, 0.2f, 0));
+        itemlist.Add("Scarecrow", new Item("Scarecrow", 2000, Item.Property.Background, 1, 0.8f, 1000, 0.4f, 0.4f));
+        itemlist.Add("Cactus", new Item("Cactus", 1500, Item.Property.Background, 2, 1, 0, 0, 0));
     }
     
     public void BuyItem(string name)
