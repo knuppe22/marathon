@@ -27,7 +27,7 @@ public class AuthScene : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene("PlayScene");
+            SceneManager.LoadScene("bgTest");
         }
     }
 
