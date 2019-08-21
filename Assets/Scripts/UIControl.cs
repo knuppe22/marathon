@@ -71,20 +71,20 @@ public class UIControl : SingletonBehaviour<UIControl>
     public Text GrabHandFriendName;
     public Text GrabHandDistance;
 
-    void Awake()
+    void Awake() //아이템 등록 완전자동화 가능?
     {
-        ItemInfos.Add("Blue", new ItemInfo("마라톤 복장-파랑", "Sprites/Thumbnail/tb_runnerB", "복장 아이템\n플레이어 속도 +0.1m/s"));
-        ItemInfos.Add("Green", new ItemInfo("마라톤 복장-초록", "Sprites/Thumbnail/tb_runnerG", "복장 아이템\n플레이어 속도 +0.1m/s"));
-        ItemInfos.Add("Red", new ItemInfo("마라톤 복장-빨강", "Sprites/Thumbnail/tb_runnerR", "복장 아이템\n플레이어 속도 +0.1m/s"));
-        ItemInfos.Add("Purple", new ItemInfo("마라톤 복장-보라", "Sprites/Thumbnail/tb_runnerP", "복장 아이템\n플레이어 속도 +0.1m/s\n시야 +50m"));
-        ItemInfos.Add("Black", new ItemInfo("마라톤 복장-검정", "Sprites/Thumbnail/tb_runnerW", "복장 아이템\n플레이어 속도 +0.1m/s\n손 잡아주기 골드 +20%"));
-        ItemInfos.Add("Stone", new ItemInfo("돌맹이", "Sprites/Thumbnail/tb_rock", "배경 아이템\n플레이어 속도 +1m/s"));
-        ItemInfos.Add("Mashmellow", new ItemInfo("마시멜로", "Sprites/Thumbnail/tb_silage", "배경 아이템\n체크포인트 이벤트 골드 +30%"));
-        ItemInfos.Add("Pine", new ItemInfo("소나무", "Sprites/Thumbnail/tb_tree", "배경 아이템\n플레이어 속도 +1.5m/s"));
-        ItemInfos.Add("Maple", new ItemInfo("단풍나무", "Sprites/Thumbnail/tb_maple", "배경 아이템\n플레이어 속도 +1.5m/s"));
-        ItemInfos.Add("Ginkgo", new ItemInfo("은행나무", "Sprites/Thumbnail/tb_gingko", "배경 아이템\n플레이어 속도 +1.5m/s"));
-        ItemInfos.Add("Asphalt", new ItemInfo("아스팔트", "Sprites/Road/Asphalt", "도로 아이템\n시야 +500m"));
-        ItemInfos.Add("Tuxedo", new ItemInfo("턱시도", "Sprites/Thumbnail/tb_runnerT", "복장 아이템\n플레이어 속도 +3m/s\n손 잡아주기 골드 +100%"));
+        ItemInfos.Add("Blue", new ItemInfo("마라톤 복장-파랑", "Sprites/Thumbnail/tb_runnerB", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Blue"])));
+        ItemInfos.Add("Green", new ItemInfo("마라톤 복장-초록", "Sprites/Thumbnail/tb_runnerG", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Green"])));
+        ItemInfos.Add("Red", new ItemInfo("마라톤 복장-빨강", "Sprites/Thumbnail/tb_runnerR", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Red"])));
+        ItemInfos.Add("Purple", new ItemInfo("마라톤 복장-보라", "Sprites/Thumbnail/tb_runnerP", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Purple"])));
+        ItemInfos.Add("Black", new ItemInfo("마라톤 복장-검정", "Sprites/Thumbnail/tb_runnerW", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Black"])));
+        ItemInfos.Add("Stone", new ItemInfo("돌맹이", "Sprites/Thumbnail/tb_rock", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Stone"])));
+        ItemInfos.Add("Mashmellow", new ItemInfo("마시멜로", "Sprites/Thumbnail/tb_silage", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Mashmellow"])));
+        ItemInfos.Add("Pine", new ItemInfo("소나무", "Sprites/Thumbnail/tb_tree", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Pine"])));
+        ItemInfos.Add("Maple", new ItemInfo("단풍나무", "Sprites/Thumbnail/tb_maple", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Maple"])));
+        ItemInfos.Add("Ginkgo", new ItemInfo("은행나무", "Sprites/Thumbnail/tb_gingko", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Ginkgo"])));
+        ItemInfos.Add("Asphalt", new ItemInfo("아스팔트", "Sprites/Road/Asphalt", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Asphalt"])));
+        ItemInfos.Add("Tuxedo", new ItemInfo("턱시도", "Sprites/Thumbnail/tb_runnerT", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Tuxedo"])));
     }
 
     // Start is called before the first frame update
@@ -375,6 +375,40 @@ public class UIControl : SingletonBehaviour<UIControl>
         GrabHandSuccess.gameObject.SetActive(true);
         GrabHandFriendName.text = FriendList[index].name;
         GrabHandDistance.text = AverageDistance.ToString();
+    }
+    string GenerateItemEffectsDescription(Item GenerateTarget)
+    {
+        string Effects = "0";
+        switch (GenerateTarget.property)
+        {
+            case Item.Property.Cloth:
+                Effects = "복장 아이템\n";
+                break;
+            case Item.Property.Road:
+                Effects = "도로 아이템\n";
+                break;
+            case Item.Property.Background:
+                Effects = "배경 아이템\n";
+                break;
+        }
+        if (GenerateTarget.PlusRSpeed > 0)
+        {
+            Effects += "플레이어 속도 +" + GenerateTarget.PlusRSpeed + "m/s\n";
+        }
+        if (GenerateTarget.PlusFView > 0)
+        {
+            Effects += "시야 +" + GenerateTarget.PlusFView + "m\n";
+        }
+        if (GenerateTarget.PlusHGold > 0)
+        {
+            Effects += "손 잡아주기 골드 +" + GenerateTarget.PlusHGold * 100 + "%\n";
+        }
+        if (GenerateTarget.PlusCGold > 0)
+        {
+            Effects += "체크포인트 이벤트 골드 +" + GenerateTarget.PlusCGold * 100 + "%\n";
+        }
+        Effects = Effects.Substring(0, Effects.Length - 1);
+        return Effects;
     }
 }
 
