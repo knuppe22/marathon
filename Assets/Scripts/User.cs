@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public class User
 {
-    public string name = "Noname";
+    public string name;
     public float score = 0;
     public int gold = 0;
     public bool online = false;
