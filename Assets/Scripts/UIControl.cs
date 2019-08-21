@@ -4,13 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Friend
-{
-    public string name;
-    public Image profileimage;
-    public int distance;
-}
-
 [System.Serializable]
 public class ItemInfo
 {
@@ -65,7 +58,6 @@ public class UIControl : SingletonBehaviour<UIControl>
     public Text CurrentDistance;
     int GrabHandPage = 0;
     public GameObject[] GrabHandPageControlButton = new GameObject[2];
-    public List<Friend> FriendList = new List<Friend>();
     int AddFriendPage = 0;
     public GameObject[] AddFriendPageControlButton = new GameObject[2];
     public GameObject[] AddFriendButtons = new GameObject[4];
@@ -122,10 +114,10 @@ public class UIControl : SingletonBehaviour<UIControl>
         CurrentDistance.text = MyDistance.ToString();
         for (int i = 0; i < 4; i++)
         {
-            if (i < MyFriends.Count % 4)
+            if (i < RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count % 4)
             {
                 Text[] TextArray = GrabHandButtonArray[i].gameObject.GetComponentsInChildren<Text>();
-                TextArray[1].text = RunManager.Instance.users[MyFriends[4 * GrabHandPage + i]].score.ToString();
+                TextArray[1].text = RunManager.Instance.users[RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[4 * GrabHandPage + i]].score.ToString();
             }
         }
     }
@@ -280,7 +272,7 @@ public class UIControl : SingletonBehaviour<UIControl>
         }
         if (GrabHandPage == 0)
         {
-            if (MyFriends.Count <= 4)
+            if (RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count <= 4)
             {
                 GrabHandPageControlButton[0].gameObject.SetActive(false);
                 GrabHandPageControlButton[1].gameObject.SetActive(false);
@@ -291,7 +283,7 @@ public class UIControl : SingletonBehaviour<UIControl>
                 GrabHandPageControlButton[1].gameObject.SetActive(true);
             }
         }
-        else if (GrabHandPage == MyFriends.Count / 4)
+        else if (GrabHandPage == RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count / 4)
         {
             GrabHandPageControlButton[0].gameObject.SetActive(true);
             GrabHandPageControlButton[1].gameObject.SetActive(false);
@@ -304,17 +296,17 @@ public class UIControl : SingletonBehaviour<UIControl>
         for (int i = 0; i < 4; i++)
         {
             GrabHandButtonArray[i].gameObject.SetActive(true);
-            if (i >= MyFriends.Count - 4 * GrabHandPage)
+            if (i >= RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count - 4 * GrabHandPage)
                 GrabHandButtonArray[i].gameObject.SetActive(false);
         }
         for (int i = 0; i < 4; i++)
         {
             GameObject FriendButton = GrabHandButtonArray[i];
-            if (i < FriendList.Count % 4)
+            if (i < RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count % 4)
             {
                 Text[] TextArray = GrabHandButtonArray[i].gameObject.GetComponentsInChildren<Text>();
-                TextArray[0].text = RunManager.Instance.users[MyFriends[4 * GrabHandPage + i]].name;
-                TextArray[1].text = RunManager.Instance.users[MyFriends[4 * GrabHandPage + i]].score.ToString();
+                TextArray[0].text = RunManager.Instance.users[RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[4 * GrabHandPage + i]].name;
+                TextArray[1].text = RunManager.Instance.users[RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[4 * GrabHandPage + i]].score.ToString();
             }
         }
     }
@@ -329,7 +321,7 @@ public class UIControl : SingletonBehaviour<UIControl>
     //ButtonControl에 있던 함수들
     public void GrabHand(int index) //페이지 기반 수정 필요
     {
-        float AverageDistance = (MyDistance + RunManager.Instance.users[MyFriends[GrabHandPage * 4 + index]].score) / 2;
+        float AverageDistance = (MyDistance + RunManager.Instance.users[RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[GrabHandPage * 4 + index]].score) / 2;
         MyDistance = AverageDistance;
         /*
          * 
@@ -354,7 +346,7 @@ public class UIControl : SingletonBehaviour<UIControl>
          */
         FriendDisplay(false);
         GrabHandSuccess.gameObject.SetActive(true);
-        GrabHandFriendName.text = MyFriends[4*GrabHandPage+index];
+        GrabHandFriendName.text = RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[4*GrabHandPage+index];
         GrabHandDistance.text = AverageDistance.ToString();
     }
     string GenerateItemEffectsDescription(Item GenerateTarget)
