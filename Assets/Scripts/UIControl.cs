@@ -282,12 +282,13 @@ public class UIControl : SingletonBehaviour<UIControl>
         AddFriendSuccess.gameObject.SetActive(true);
         AddFriendSuccess.gameObject.GetComponentInChildren<Text>().text = "";
     }
-    public void FriendDisplay(bool isInitiate)
+    public async void FriendDisplay(bool isInitiate)
     {
         if (isInitiate)
         {
             UIControl.Instance.PanelOnOff(1);
             GrabHandPage = 0;
+            MyFriends = await RunManager.Instance.NearFriends();
         }
         if (GrabHandPage == 0)
         {
