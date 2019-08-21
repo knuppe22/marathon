@@ -53,6 +53,8 @@ public class UIControl : SingletonBehaviour<UIControl>
     public Text CurrentGold;
     public GameObject NameInputPanel;
     public Text PlayerNameInput;
+    public GameObject PurchaseButton;
+    public GameObject EquipButton;
 
     //FriendManage에 있던 전역변수들
     public float MyDistance = 500;
@@ -193,21 +195,18 @@ public class UIControl : SingletonBehaviour<UIControl>
         { 
             ItemManager.Instance.BuyItem(ItemNameArray[RequestedItemIndex]);
         }
+        PurchaseUIUpdate();
         ShopUIDisplay(false);
     }
     public void Purchase(int itemindex)
     {
         PurchaseConfirmPanel.gameObject.SetActive(true);
-        RequestedItemIndex = 4*ShopPage+itemindex;
-        {
-            PurchaseItemName.text = ItemInfos[ItemNameArray[RequestedItemIndex]].ItemName + "("
-            + ItemManager.Instance.itemlist[ItemNameArray[RequestedItemIndex]].PresPoss + "/"
-            + ItemManager.Instance.itemlist[ItemNameArray[RequestedItemIndex]].Maximum + ")";
-        }
+        RequestedItemIndex = 4 * ShopPage + itemindex;
         PurchaseItemImage.sprite = Resources.Load<Sprite>(ItemInfos[ItemNameArray[RequestedItemIndex]].ItemVisualLocation);
         PurchaseItemEffects.text = ItemInfos[ItemNameArray[RequestedItemIndex]].ItemEffectsDescription;
         PurchaseItemPrice.text = ItemManager.Instance.itemlist[ItemNameArray[RequestedItemIndex]].Price + "G";
-    }
+        PurchaseUIUpdate();
+    }   
     public void CheckpointTest()//테스트용
     {
         CheckPointEvent = true;
@@ -215,6 +214,7 @@ public class UIControl : SingletonBehaviour<UIControl>
     public void EquipItem()
     {
         ItemManager.Instance.EquipmentItem(ItemNameArray[RequestedItemIndex]);
+        PurchaseUIUpdate();
         ShowEquippedItems();
     }
     public void Off(GameObject Target)
@@ -479,6 +479,24 @@ public class UIControl : SingletonBehaviour<UIControl>
         ItemManager.Instance.RoadQ.RemoveAt(0);
         ItemManager.Instance.AllQ.Remove(ItemToUnequip);
         ShowEquippedItems();
+    }
+    void PurchaseUIUpdate()
+    {
+        PurchaseButton.gameObject.SetActive(true);
+        EquipButton.gameObject.SetActive(true);
+        {
+            PurchaseItemName.text = ItemInfos[ItemNameArray[RequestedItemIndex]].ItemName + "("
+            + ItemManager.Instance.itemlist[ItemNameArray[RequestedItemIndex]].PresPoss + "/"
+            + ItemManager.Instance.itemlist[ItemNameArray[RequestedItemIndex]].Maximum + ")";
+        }
+        if (ItemManager.Instance.itemlist[ItemNameArray[RequestedItemIndex]].PresPoss == ItemManager.Instance.itemlist[ItemNameArray[RequestedItemIndex]].Maximum)
+        {
+            PurchaseButton.gameObject.SetActive(false);
+        }
+        if (ItemManager.Instance.itemlist[ItemNameArray[RequestedItemIndex]].Equipment == ItemManager.Instance.itemlist[ItemNameArray[RequestedItemIndex]].PresPoss)
+        {
+            EquipButton.gameObject.SetActive(false);
+        }
     }
 }
 

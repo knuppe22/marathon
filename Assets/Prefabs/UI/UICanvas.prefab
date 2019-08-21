@@ -5717,6 +5717,8 @@ MonoBehaviour:
   CurrentGold: {fileID: 4274914978921103572}
   NameInputPanel: {fileID: 0}
   PlayerNameInput: {fileID: 0}
+  PurchaseButton: {fileID: 116889856335920648}
+  EquipButton: {fileID: 116889855150314753}
   MyDistance: 500
   GrabHandPanel: {fileID: 5930650285525943178}
   GrabHandButtonArray:
