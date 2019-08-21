@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/PersonalScenes/Firebase.unity
     guid: 92c08028b2639b74589bbd79514bde4b
   - enabled: 1

@@ -96,35 +96,26 @@ public class RunManager : SingletonBehaviour<RunManager>
     async void Update()
     {
         if (!startFinished) return;
+        
+        time += Time.deltaTime;
 
-#if !UNITY_EDITOR
-        if (gpsBool)
+        //CheckPointEvent();
+
+        if (time > 5)
         {
-#endif
-            //이전 update
-            LoadImage.SetActive(false);
-            time += Time.deltaTime;
-
-            //CheckPointEvent();
-
-            if (time > 5)
+            time = 0;
+            UpdateUserData();
+            foreach (string friend in users[AuthManager.Instance.CurrentUserId].friends)
             {
-                time = 0;
-                UpdateUserData();
-                foreach (string friend in users[AuthManager.Instance.CurrentUserId].friends)
-                {
-                    User tmpFriend = await DBManager.Instance.GetUser(friend);
-                    if (users.ContainsKey(friend)) users[friend] = tmpFriend;
-                    else users.Add(friend, tmpFriend);
-                    BackgroundManager.Instance.SetRunnerImage(friend);
-                }
+                User tmpFriend = await DBManager.Instance.GetUser(friend);
+                if (users.ContainsKey(friend)) users[friend] = tmpFriend;
+                else users.Add(friend, tmpFriend);
+                BackgroundManager.Instance.SetRunnerImage(friend);
             }
-
-            Meter += RunSpeed * Time.deltaTime;
-            MeterText.text = ((int)Meter).ToString();
-#if !UNITY_EDITOR
         }
-#endif
+
+        Meter += RunSpeed * Time.deltaTime;
+        MeterText.text = ((int)Meter).ToString();
     }
 
     float CalcOnline()
