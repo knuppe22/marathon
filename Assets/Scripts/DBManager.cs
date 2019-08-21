@@ -69,6 +69,10 @@ public class DBManager : SingletonBehaviour<DBManager>
         Debug.Log("GOLD : " + userData.gold);
         CurrentUserReference.SetRawJsonValueAsync(JsonUtility.ToJson(userData));
     }
+    public async Task SetUserAsync(User userData)
+    {
+        await CurrentUserReference.SetRawJsonValueAsync(JsonUtility.ToJson(userData));
+    }
     
     public void SetUserValue(string key, object value)
     {

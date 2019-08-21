@@ -36,12 +36,12 @@ public class AuthScene : MonoBehaviour
         namingUI.SetActive(true);
     }
 
-    public void SetName()
+    public async void SetName()
     {
         if (!inputText.text.Equals(""))
         {
             curUser.name = inputText.text;
-            DBManager.Instance.SetUser(curUser);
+            await DBManager.Instance.SetUserAsync(curUser);
             SceneManager.LoadScene("bgTest");
         }
     }
