@@ -4,6 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+public class Friend
+{
+    public string name;
+    public Image profileimage;
+    public int distance;
+}
+
 [System.Serializable]
 public class ItemInfo
 {
@@ -44,21 +51,40 @@ public class UIControl : SingletonBehaviour<UIControl>
     public Image EquippedRoad;
     public Image[] EquippedBackground = new Image[5];
     public Text CurrentGold;
+    public GameObject NameInputPanel;
+    public Text PlayerNameInput;
 
-    void Awake()
+    //FriendManage에 있던 전역변수들
+    public int MyDistance = 500;
+    public GameObject GrabHandPanel;
+    int InputDistance = 3000;
+    public GameObject[] GrabHandButtonArray = new GameObject[4];
+    GameObject FriendButton;
+    public GameObject AddFriendSuccess;
+    public Text CurrentDistance;
+    int GrabHandPage = 0;
+    public GameObject[] GrabHandPageControlButton = new GameObject[2];
+    public List<Friend> FriendList = new List<Friend>();
+
+    //ButtonControl에 있던 전역변수들
+    public GameObject GrabHandSuccess;
+    public Text GrabHandFriendName;
+    public Text GrabHandDistance;
+
+    void Awake() //아이템 등록 완전자동화 가능?
     {
-        ItemInfos.Add("Blue", new ItemInfo("마라톤 복장-파랑", "Sprites/Thumbnail/tb_runnerB", "복장 아이템\n플레이어 속도 +0.1m/s"));
-        ItemInfos.Add("Green", new ItemInfo("마라톤 복장-초록", "Sprites/Thumbnail/tb_runnerG", "복장 아이템\n플레이어 속도 +0.1m/s"));
-        ItemInfos.Add("Red", new ItemInfo("마라톤 복장-빨강", "Sprites/Thumbnail/tb_runnerR", "복장 아이템\n플레이어 속도 +0.1m/s"));
-        ItemInfos.Add("Purple", new ItemInfo("마라톤 복장-보라", "Sprites/Thumbnail/tb_runnerP", "복장 아이템\n플레이어 속도 +0.1m/s\n시야 +50m"));
-        ItemInfos.Add("Black", new ItemInfo("마라톤 복장-검정", "Sprites/Thumbnail/tb_runnerW", "복장 아이템\n플레이어 속도 +0.1m/s\n손 잡아주기 골드 +20%"));
-        ItemInfos.Add("Stone", new ItemInfo("돌맹이", "Sprites/Thumbnail/tb_rock", "배경 아이템\n플레이어 속도 +1m/s"));
-        ItemInfos.Add("Mashmellow", new ItemInfo("마시멜로", "Sprites/Thumbnail/tb_silage", "배경 아이템\n체크포인트 이벤트 골드 +30%"));
-        ItemInfos.Add("Pine", new ItemInfo("소나무", "Sprites/Thumbnail/tb_tree", "배경 아이템\n플레이어 속도 +1.5m/s"));
-        ItemInfos.Add("Maple", new ItemInfo("단풍나무", "Sprites/Thumbnail/tb_maple", "배경 아이템\n플레이어 속도 +1.5m/s"));
-        ItemInfos.Add("Ginkgo", new ItemInfo("은행나무", "Sprites/Thumbnail/tb_gingko", "배경 아이템\n플레이어 속도 +1.5m/s"));
-        ItemInfos.Add("Asphalt", new ItemInfo("아스팔트", "Sprites/Road/Asphalt", "도로 아이템\n시야 +500m"));
-        ItemInfos.Add("Tuxedo", new ItemInfo("턱시도", "Sprites/Thumbnail/tb_runnerT", "복장 아이템\n플레이어 속도 +3m/s\n손 잡아주기 골드 +100%"));
+        ItemInfos.Add("Blue", new ItemInfo("마라톤 복장-파랑", "Sprites/Thumbnail/tb_runnerB", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Blue"])));
+        ItemInfos.Add("Green", new ItemInfo("마라톤 복장-초록", "Sprites/Thumbnail/tb_runnerG", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Green"])));
+        ItemInfos.Add("Red", new ItemInfo("마라톤 복장-빨강", "Sprites/Thumbnail/tb_runnerR", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Red"])));
+        ItemInfos.Add("Purple", new ItemInfo("마라톤 복장-보라", "Sprites/Thumbnail/tb_runnerP", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Purple"])));
+        ItemInfos.Add("Black", new ItemInfo("마라톤 복장-검정", "Sprites/Thumbnail/tb_runnerW", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Black"])));
+        ItemInfos.Add("Stone", new ItemInfo("돌맹이", "Sprites/Thumbnail/tb_rock", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Stone"])));
+        ItemInfos.Add("Mashmellow", new ItemInfo("마시멜로", "Sprites/Thumbnail/tb_silage", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Mashmellow"])));
+        ItemInfos.Add("Pine", new ItemInfo("소나무", "Sprites/Thumbnail/tb_tree", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Pine"])));
+        ItemInfos.Add("Maple", new ItemInfo("단풍나무", "Sprites/Thumbnail/tb_maple", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Maple"])));
+        ItemInfos.Add("Ginkgo", new ItemInfo("은행나무", "Sprites/Thumbnail/tb_gingko", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Ginkgo"])));
+        ItemInfos.Add("Asphalt", new ItemInfo("아스팔트", "Sprites/Road/Asphalt", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Asphalt"])));
+        ItemInfos.Add("Tuxedo", new ItemInfo("턱시도", "Sprites/Thumbnail/tb_runnerT", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Tuxedo"])));
     }
 
     // Start is called before the first frame update
@@ -96,6 +122,7 @@ public class UIControl : SingletonBehaviour<UIControl>
             CheckpointMessage.text = "19:05에 " + PeoplenuminScreen + "명이 화면 상에 존재했습니다.\n" + CheckpointGoldperPerson * PeoplenuminScreen + "G를 획득하였습니다.";
             CheckPointEvent = false;
         }
+        CurrentDistance.text = MyDistance.ToString();
     }
     public void PanelOnOff(int index)
     {
@@ -224,6 +251,164 @@ public class UIControl : SingletonBehaviour<UIControl>
                     PanelArray[i].SetActive(false);
             }
         }
+    }
+    public void CallNameInputPanel() /*이름 입력 창 활성화 함수*/
+    {
+        NameInputPanel.gameObject.SetActive(true);
+    }
+    public void SetPlayerName() /*플레이어 이름 지정 함수, 확인 버튼 누르면 호출*/
+    {
+        string MyName;
+        MyName = PlayerNameInput.text;
+        Debug.Log(MyName);
+        /*
+         
+
+
+
+
+
+
+
+        DB 수정
+
+
+
+
+
+
+
+
+
+
+
+        */
+    }
+    //FriendManage에서 가져온 함수들
+    public void AddFriend(GameObject AddFriendButton) //현재 버튼 자체에서 정보 가져옴. 수정 필요
+    {
+        Friend NewFriend = new Friend();
+        /*NewFriend.name = InputName.text;
+        NewFriend.profileimage = InputProfileImage;
+        NewFriend.distance = InputDistance;
+        FriendList.Add(NewFriend);*/
+        NewFriend.name = AddFriendButton.gameObject.GetComponentInChildren<Text>().text;
+        NewFriend.profileimage = AddFriendButton.gameObject.GetComponentsInChildren<Image>()[1];
+        NewFriend.distance = InputDistance;
+        FriendList.Add(NewFriend);
+        AddFriendSuccess.gameObject.SetActive(true);
+        AddFriendSuccess.gameObject.GetComponentInChildren<Text>().text = NewFriend.name;
+    }
+    public void FriendDisplay(bool isInitiate)
+    {
+        if (isInitiate)
+        {
+            UIControl.Instance.PanelOnOff(1);
+            GrabHandPage = 0;
+        }
+        if (GrabHandPage == 0)
+        {
+            if (FriendList.Count <= 4)
+            {
+                GrabHandPageControlButton[0].gameObject.SetActive(false);
+                GrabHandPageControlButton[1].gameObject.SetActive(false);
+            }
+            else
+            {
+                GrabHandPageControlButton[0].gameObject.SetActive(false);
+                GrabHandPageControlButton[1].gameObject.SetActive(true);
+            }
+        }
+        else if (GrabHandPage == FriendList.Count / 4)
+        {
+            GrabHandPageControlButton[0].gameObject.SetActive(true);
+            GrabHandPageControlButton[1].gameObject.SetActive(false);
+        }
+        else
+        {
+            GrabHandPageControlButton[0].gameObject.SetActive(true);
+            GrabHandPageControlButton[1].gameObject.SetActive(true);
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            GrabHandButtonArray[i].gameObject.SetActive(true);
+            if (i >= FriendList.Count - 4 * GrabHandPage)
+                GrabHandButtonArray[i].gameObject.SetActive(false);
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            GameObject FriendButton = GrabHandButtonArray[i];
+            Debug.Log(+i);
+            if (i < FriendList.Count % 4)
+            {
+                Text[] TextArray = FriendButton.gameObject.GetComponentsInChildren<Text>();
+                TextArray[0].text = FriendList[4 * GrabHandPage + i].name;
+                Debug.Log(+(4 * GrabHandPage + i));
+                /*foreach (Image I in FriendButton.GetComponentsInChildren<Image>())
+                {
+                    if (!I.GetComponent<Button>())
+                    {
+                        I.sprite = FriendList[4 + GrabHandPage + i].profileimage.sprite;
+                        break;
+                    }
+                }*/
+                FriendButton.gameObject.GetComponentsInChildren<Image>()[1].sprite = FriendList[4 * GrabHandPage + i].profileimage.sprite;
+                TextArray[1].text = FriendList[4 * GrabHandPage + i].distance.ToString();
+            }
+        }
+    }
+    public void GrabHandPageControl(bool Isup)
+    {
+        if (Isup)
+            GrabHandPage++;
+        else
+            GrabHandPage--;
+        FriendDisplay(false);
+    }
+    //ButtonControl에 있던 함수들
+    public void GrabHand(int index) //페이지 기반 수정 필요
+    {
+        int AverageDistance = (MyDistance + FriendList[index].distance) / 2;
+        MyDistance = AverageDistance;
+        FriendList[index].distance = AverageDistance;
+        FriendDisplay(false);
+        GrabHandSuccess.gameObject.SetActive(true);
+        GrabHandFriendName.text = FriendList[index].name;
+        GrabHandDistance.text = AverageDistance.ToString();
+    }
+    string GenerateItemEffectsDescription(Item GenerateTarget)
+    {
+        string Effects = "0";
+        switch (GenerateTarget.property)
+        {
+            case Item.Property.Cloth:
+                Effects = "복장 아이템\n";
+                break;
+            case Item.Property.Road:
+                Effects = "도로 아이템\n";
+                break;
+            case Item.Property.Background:
+                Effects = "배경 아이템\n";
+                break;
+        }
+        if (GenerateTarget.PlusRSpeed > 0)
+        {
+            Effects += "플레이어 속도 +" + GenerateTarget.PlusRSpeed + "m/s\n";
+        }
+        if (GenerateTarget.PlusFView > 0)
+        {
+            Effects += "시야 +" + GenerateTarget.PlusFView + "m\n";
+        }
+        if (GenerateTarget.PlusHGold > 0)
+        {
+            Effects += "손 잡아주기 골드 +" + GenerateTarget.PlusHGold * 100 + "%\n";
+        }
+        if (GenerateTarget.PlusCGold > 0)
+        {
+            Effects += "체크포인트 이벤트 골드 +" + GenerateTarget.PlusCGold * 100 + "%\n";
+        }
+        Effects = Effects.Substring(0, Effects.Length - 1);
+        return Effects;
     }
 }
 
