@@ -89,6 +89,9 @@ public class RunManager : SingletonBehaviour<RunManager>
                     ItemManager.Instance.itemlist[item].Equipment++;
                 }
 
+                if (users[AuthManager.Instance.CurrentUserId].name == null)
+                    UIControl.Instance.CallNameInputPanel();
+
                 foreach (string friend in users[AuthManager.Instance.CurrentUserId].friends)
                 {
                     User tmpFriend = await DBManager.Instance.GetUser(friend);

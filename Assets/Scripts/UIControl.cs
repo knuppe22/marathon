@@ -261,43 +261,20 @@ public class UIControl : SingletonBehaviour<UIControl>
         string MyName;
         MyName = PlayerNameInput.text;
         Debug.Log(MyName);
-        /*
-         
 
-
-
-
-
-
-
-        DB 수정
-
-
-
-
-
-
-
-
-
-
-
-        */
+        if(MyName != "")
+        {
+            RunManager.Instance.ChangeName(MyName);
+            NameInputPanel.gameObject.SetActive(false);
+        }
     }
     //FriendManage에서 가져온 함수들
     public void AddFriend(GameObject AddFriendButton) //현재 버튼 자체에서 정보 가져옴. 수정 필요
     {
-        Friend NewFriend = new Friend();
-        /*NewFriend.name = InputName.text;
-        NewFriend.profileimage = InputProfileImage;
-        NewFriend.distance = InputDistance;
-        FriendList.Add(NewFriend);*/
-        NewFriend.name = AddFriendButton.gameObject.GetComponentInChildren<Text>().text;
-        NewFriend.profileimage = AddFriendButton.gameObject.GetComponentsInChildren<Image>()[1];
-        NewFriend.distance = InputDistance;
-        FriendList.Add(NewFriend);
+        //RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Add(""); //수정 필요
+        DBManager.Instance.SetUserValue("friends", RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends);
         AddFriendSuccess.gameObject.SetActive(true);
-        AddFriendSuccess.gameObject.GetComponentInChildren<Text>().text = NewFriend.name;
+        AddFriendSuccess.gameObject.GetComponentInChildren<Text>().text = "";
     }
     public void FriendDisplay(bool isInitiate)
     {
@@ -338,7 +315,6 @@ public class UIControl : SingletonBehaviour<UIControl>
         for (int i = 0; i < 4; i++)
         {
             GameObject FriendButton = GrabHandButtonArray[i];
-            Debug.Log(+i);
             if (i < FriendList.Count % 4)
             {
                 Text[] TextArray = FriendButton.gameObject.GetComponentsInChildren<Text>();
