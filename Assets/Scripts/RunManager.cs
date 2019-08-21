@@ -56,12 +56,15 @@ public class RunManager : SingletonBehaviour<RunManager>
                 GoldManager.Instance.SetGold(users[AuthManager.Instance.CurrentUserId].gold);
 
                 ItemManager.Instance.PossItem = users[AuthManager.Instance.CurrentUserId].items;
-                
 
-                foreach (string item in ItemManager.Instance.PossItem)
+
+                if (ItemManager.Instance.PossItem != null)
                 {
-                    Debug.Log("MyItems: " + item);
-                    ItemManager.Instance.itemlist[item].PresPoss++;
+                    foreach (string item in ItemManager.Instance.PossItem)
+                    {
+                        Debug.Log("MyItems: " + item);
+                        ItemManager.Instance.itemlist[item].PresPoss++;
+                    }
                 }
 
                 ItemManager.Instance.ApplyItemEffect();
@@ -150,8 +153,8 @@ public class RunManager : SingletonBehaviour<RunManager>
 
     private void OnApplicationPause(bool pause)
     {
-        //if (!pause)
-        //    SceneManager.LoadScene("bgTest");
+        if (!pause)
+            SceneManager.LoadScene("bgTest");
     }
 
     void UpdateUserData()

@@ -73,6 +73,12 @@ public class UIControl : SingletonBehaviour<UIControl>
 
     void Awake() //아이템 등록 완전자동화 가능?
     {
+
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
         ItemInfos.Add("Blue", new ItemInfo("마라톤 복장-파랑", "Sprites/Thumbnail/tb_runnerB", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Blue"])));
         ItemInfos.Add("Green", new ItemInfo("마라톤 복장-초록", "Sprites/Thumbnail/tb_runnerG", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Green"])));
         ItemInfos.Add("Red", new ItemInfo("마라톤 복장-빨강", "Sprites/Thumbnail/tb_runnerR", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Red"])));
@@ -85,12 +91,6 @@ public class UIControl : SingletonBehaviour<UIControl>
         ItemInfos.Add("Ginkgo", new ItemInfo("은행나무", "Sprites/Thumbnail/tb_gingko", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Ginkgo"])));
         ItemInfos.Add("Asphalt", new ItemInfo("아스팔트", "Sprites/Road/Asphalt", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Asphalt"])));
         ItemInfos.Add("Tuxedo", new ItemInfo("턱시도", "Sprites/Thumbnail/tb_runnerT", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Tuxedo"])));
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-       
     }
 
     // Update is called once per frame
