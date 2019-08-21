@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System.IO;
 using System;
 using UnityEngine.SceneManagement;
+using System.Threading.Tasks;
 
 public class RunManager : SingletonBehaviour<RunManager>
 {
@@ -13,10 +14,6 @@ public class RunManager : SingletonBehaviour<RunManager>
     public GameObject LoadImage;
     
     public Dictionary<string, User> users = new Dictionary<string, User>();
-
-    List<string> realnearUsers = new List<string>(); // 주변 유저들 전체
-    List<string> nearFriends = new List<string>(); // 친구 유저들 전체 - 친구가 아닌 주변 유저들 = 친구 리스트
-    List<string> nearUsers = new List<string>(); // 주변 유저들 전체 - 친구인 유저들 = 친구가 아닌 주변 사람 리스트
 
     public float Meter = 0;
     public float RunSpeed = 3;
@@ -226,8 +223,10 @@ public class RunManager : SingletonBehaviour<RunManager>
         return "";
     }
 
-    public async void NearPeople() //친구추가용 친구가 아닌 주변 사람 리스트 만들기.
+    public async Task<List<string>> NearPeople() //친구추가용 친구가 아닌 주변 사람 리스트 만들기.
     {
+        List<string> nearUsers = new List<string>(); // 주변 유저들 전체 - 친구인 유저들 = 친구가 아닌 주변 사람 리스트
+
         if (gpsBool)
         {
             nearUsers = await DBManager.Instance.GetNearUsers(new Location(Input.location.lastData, users[AuthManager.Instance.CurrentUserId].lastOnline));
@@ -236,10 +235,15 @@ public class RunManager : SingletonBehaviour<RunManager>
                 if (nearUsers.Contains(friend))
                     nearUsers.Remove(friend);
         }
+
+        return nearUsers;
     }
 
-    public async void NearFriends() //손잡기용 친구 리스트 만들기.
+    public async Task<List<string>> NearFriends() //손잡기용 친구 리스트 만들기.
     {
+        List<string> realnearUsers = new List<string>(); // 주변 유저들 전체
+        List<string> nearFriends = new List<string>(); // 친구 유저들 전체 - 친구가 아닌 주변 유저들 = 친구 리스트
+
         if (gpsBool)
         {
             realnearUsers = await DBManager.Instance.GetNearUsers(new Location(Input.location.lastData, users[AuthManager.Instance.CurrentUserId].lastOnline));
@@ -248,5 +252,7 @@ public class RunManager : SingletonBehaviour<RunManager>
                 if (users[AuthManager.Instance.CurrentUserId].friends.Contains(user))
                     nearFriends.Add(user);
         }
+
+        return nearFriends;
     }
 }
