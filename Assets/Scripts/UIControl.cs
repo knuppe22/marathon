@@ -310,7 +310,7 @@ public class UIControl : SingletonBehaviour<UIControl>
                 GrabHandPageControlButton[1].gameObject.SetActive(true);
             }
         }
-        else if (GrabHandPage == MyFriends.Count / 4)
+        else if ((GrabHandPage == MyFriends.Count / 4 && MyFriends.Count % 4 != 0) || (GrabHandPage == MyFriends.Count / 4 - 1 && MyFriends.Count % 4 == 0))
         {
             GrabHandPageControlButton[0].gameObject.SetActive(true);
             GrabHandPageControlButton[1].gameObject.SetActive(false);
@@ -430,7 +430,7 @@ public class UIControl : SingletonBehaviour<UIControl>
                 AddFriendPageControlButton[1].gameObject.SetActive(true);
             }
         }
-        else if (AddFriendPage == NearbyUsers.Count / 4)
+        else if ((AddFriendPage == NearbyUsers.Count / 4 && NearbyUsers.Count % 4 != 0) || (AddFriendPage == NearbyUsers.Count / 4 - 1 && NearbyUsers.Count % 4 == 0)) 
         {
             AddFriendPageControlButton[0].gameObject.SetActive(true);
             AddFriendPageControlButton[1].gameObject.SetActive(false);

@@ -5735,10 +5735,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   AddFriendButtons:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 7104753917033301814}
+  - {fileID: 907022278616754344}
+  - {fileID: 907022276941350629}
+  - {fileID: 9131271944303799227}
   GrabHandSuccess: {fileID: 5873451135672006839}
   GrabHandFriendName: {fileID: 5057668390858989741}
   GrabHandDistance: {fileID: 7991237736965571488}
