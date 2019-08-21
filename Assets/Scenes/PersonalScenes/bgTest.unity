@@ -1424,7 +1424,17 @@ PrefabInstance:
     - target: {fileID: 7329301338367545511, guid: 54a64d6cb08bc41418c98948df8a6bd9,
         type: 3}
       propertyPath: runnerLaneWidth
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7329301338367545511, guid: 54a64d6cb08bc41418c98948df8a6bd9,
+        type: 3}
+      propertyPath: maxRegenTime
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7329301338367545511, guid: 54a64d6cb08bc41418c98948df8a6bd9,
+        type: 3}
+      propertyPath: runnerLane.Array.data[0].y
+      value: -3.69
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54a64d6cb08bc41418c98948df8a6bd9, type: 3}

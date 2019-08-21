@@ -166,6 +166,10 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
         roadLane.StepRoad();
 
         SetRunner();
+        if(AuthManager.Instance.CurrentUserId != null && RunManager.Instance.users.ContainsKey(AuthManager.Instance.CurrentUserId))
+            foreach (string id in RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends)
+                if (!friendObj.ContainsKey(id) && RunManager.Instance.users.ContainsKey(id))
+                    SetRunnerImage(id);
         foreach (string id in friendObj.Keys) SetRunner(id);
     }
 
@@ -185,7 +189,6 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
         if (RunManager.Instance.users.ContainsKey(id))
         {
             float per = (RunManager.Instance.users[id].score - RunManager.Instance.Meter) / RunManager.Instance.FriendViewDist / 2 + 0.5f;
-            Debug.Log("Friend: " + id + " " + per);
             SpriteRenderer sprt;
 
             sprt = friendObj[id].GetComponent<SpriteRenderer>();
@@ -197,6 +200,7 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
                 friendObj[id].transform.position = Vector2.Lerp(runnerLane[0], runnerLane[1], per) -
                     new Vector2(Mathf.Cos(Mathf.Deg2Rad * (roadAngle + 90)), Mathf.Sin(Mathf.Deg2Rad * (roadAngle + 90)))
                     * runnerLaneWidth / 10 * (friendLanePos[id] - 5);
+                
 
                 friendObj[id].GetComponentInChildren<TextMesh>().text = RunManager.Instance.MeterForm((int)RunManager.Instance.users[id].score);
             }
@@ -233,6 +237,8 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
             anims.Add(new KeyValuePair<AnimationClip, AnimationClip>(a, runnerAnimations[target]));
         aoc.ApplyOverrides(anims);
         playerObj.GetComponent<Animator>().runtimeAnimatorController = aoc;
+
+        foreach(MeshRenderer msh in playerObj.GetComponentsInChildren<MeshRenderer>()) msh.sortingOrder = 100;
     }
     public void SetRunnerImage(string id)
     {
@@ -246,12 +252,14 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
 
             if (!runnerAnimations.ContainsKey(target)) runnerAnimations.Add(target, Resources.Load<AnimationClip>("Sprites/Runner/" + target));
 
-            AnimatorOverrideController aoc = new AnimatorOverrideController(playerObj.GetComponent<Animator>().runtimeAnimatorController);
+            AnimatorOverrideController aoc = new AnimatorOverrideController(friendObj[id].GetComponent<Animator>().runtimeAnimatorController);
             var anims = new List<KeyValuePair<AnimationClip, AnimationClip>>();
             foreach (var a in aoc.animationClips)
                 anims.Add(new KeyValuePair<AnimationClip, AnimationClip>(a, runnerAnimations[target]));
             aoc.ApplyOverrides(anims);
-            playerObj.GetComponent<Animator>().runtimeAnimatorController = aoc;
+            friendObj[id].GetComponent<Animator>().runtimeAnimatorController = aoc;
+
+            foreach (MeshRenderer msh in friendObj[id].GetComponentsInChildren<MeshRenderer>()) msh.sortingOrder = 100;
         }
     }
     public void SetBackgroundImage()

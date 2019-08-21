@@ -144,8 +144,8 @@ public class RunManager : SingletonBehaviour<RunManager>
 
     private void OnApplicationPause(bool pause)
     {
-        if (!pause)
-            SceneManager.LoadScene("bgTest");
+        //if (!pause)
+        //    SceneManager.LoadScene("bgTest");
     }
 
     void UpdateUserData()
