@@ -288,7 +288,10 @@ public class UIControl : SingletonBehaviour<UIControl>
         {
             UIControl.Instance.PanelOnOff(1);
             GrabHandPage = 0;
-            MyFriends = await RunManager.Instance.NearFriends();
+            if (MyFriends.Count == 0)
+            {
+                MyFriends = await RunManager.Instance.NearFriends();
+            }
         }
         if (GrabHandPage == 0)
         {
@@ -403,12 +406,13 @@ public class UIControl : SingletonBehaviour<UIControl>
         Effects = Effects.Substring(0, Effects.Length - 1);
         return Effects;
     }
-    public void AddFriendDisplay(bool isInitiate)
+    public async void AddFriendDisplay(bool isInitiate)
     {
         if (isInitiate)
         {
             PanelOnOff(0);
             AddFriendPage = 0;
+            NearbyUsers = await RunManager.Instance.NearPeople(); //지속적으로 업데이트 되어야 할텐데... 주기?
         }
         if (AddFriendPage == 0)
         {
