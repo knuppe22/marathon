@@ -8,6 +8,8 @@ using Firebase.Auth;
 
 public class AuthManager : SingletonBehaviour<AuthManager>
 {
+    public Action onAuthComplete;
+
     public string CurrentUserId { get; private set; }
 
     async void Awake()
@@ -26,7 +28,7 @@ public class AuthManager : SingletonBehaviour<AuthManager>
             // Firebase Unity SDK is not safe to use here.
         }
 
-
+        onAuthComplete();
     }
 
     async Task SignIn()
