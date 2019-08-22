@@ -14,6 +14,7 @@ public class User
     public List<string> items;
     public List<string> equippedItems;
     public string checkedTime;
+    public string friendRequest;
 
     public User()
     {

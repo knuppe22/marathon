@@ -82,6 +82,10 @@ public class DBManager : SingletonBehaviour<DBManager>
         Debug.Log("ValueSet " + key);
         CurrentUserReference.Child(key).SetValueAsync(value);
     }
+    public void SetOtherUserValue(string userId, string key, object value)
+    {
+        UserReference.Child(userId).Child(key).SetValueAsync(value);
+    }
 
     public void SetLocation(Location location)
     {
