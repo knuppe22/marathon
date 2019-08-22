@@ -117,16 +117,7 @@ public class UIControl : SingletonBehaviour<UIControl>
         }
         if(RunManager.Instance.users.ContainsKey(AuthManager.Instance.CurrentUserId))
             CurrentDistance.text = RunManager.Instance.MeterForm((int)RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score);
-        /*
-        for (int i = 0; i < 4; i++)
-        {
-            if (4 * GrabHandPage + i < RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count)
-            {
-                Text[] TextArray = GrabHandButtonArray[i].gameObject.GetComponentsInChildren<Text>();
-                TextArray[1].text = RunManager.Instance.users[RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[4 * GrabHandPage + i]].score.ToString();
-            }
-        }
-        */
+
     }
     public void PanelOnOff(int index)
     {
@@ -535,15 +526,8 @@ public class UIControl : SingletonBehaviour<UIControl>
     {
         if (Accept)
         {
-            /*
-
-
-
-              친구추가 수락했을 시 DB 수정
-
-
-
-            */
+            RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Add(FriendRequestUserId);
+            GoldManager.Instance.EarnMoney(300);
         }
         else
         {

@@ -125,6 +125,7 @@ public class DBManager : SingletonBehaviour<DBManager>
 
         foreach(KeyValuePair<string, Location> pair in locations)
         {
+            if (pair.Key == AuthManager.Instance.CurrentUserId) continue;
             if (Location.Distance(location, pair.Value) < 50)
             {
                 DateTime last = DateTime.Parse(pair.Value.lastOnline);
@@ -132,6 +133,9 @@ public class DBManager : SingletonBehaviour<DBManager>
 
                 if (span.TotalSeconds < 60)
                 {
+                    User tmpUser = await GetUser(pair.Key);
+                    if (!RunManager.Instance.users.ContainsKey(pair.Key)) RunManager.Instance.users.Add(pair.Key, tmpUser);
+                    else RunManager.Instance.users[pair.Key] = tmpUser;
                     nearUsers.Add(pair.Key);
                 }
             }
