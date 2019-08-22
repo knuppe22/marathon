@@ -18,16 +18,18 @@ public class RunManager : SingletonBehaviour<RunManager>
     public float Meter = 0;
     public float RunSpeed = 3;
     public float FriendViewDist = 5000;
-    public float HandGoldRate = 1;
+    public float HandGoldRate = 0.4f;
     public float CheckGoldRate = 1;
     float time = 0;
 
     bool startFinished = false;
-    bool gpsBool;
+    bool gpsBool = false;
 
     async void Start()
     {
+#if !UNITY_EDITOR
         Input.location.Start();
+#endif
 
         User tmpUser = await DBManager.Instance.GetUser();
 
@@ -96,6 +98,10 @@ public class RunManager : SingletonBehaviour<RunManager>
 
     async void Update()
     {
+#if !UNITY_EDITOR
+        gpsBool = (Input.location.status == LocationServiceStatus.Running);
+#endif
+
         if (!startFinished) return;
         
         time += Time.deltaTime;

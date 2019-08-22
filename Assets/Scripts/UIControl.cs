@@ -31,7 +31,7 @@ public class UIControl : SingletonBehaviour<UIControl>
     public Text PurchaseItemEffects;
     public Image PurchaseItemImage;
     public Text PurchaseItemPrice;
-    string[] ItemNameArray = { "Blue", "Green", "Red", "Purple", "Black", "Stone", "Mashmellow", "Pine", "Maple", "Ginkgo", "Cactus", "Scarecrow", "Asphalt", "Tuxedo" };
+    string[] ItemNameArray = { "Blue", "Green", "Red", "Purple", "Black", "Stone", "Marshmellow", "Pine", "Maple", "Ginkgo", "Cactus", "Scarecrow", "Asphalt", "Tuxedo" };
     public GameObject[] ShopItemButton = new GameObject[4];
     public GameObject CheckpointPopup;
     public int[] CheckpointTime = new int[2]; //체크포인트 이벤트 발생 시간(우선 프레임단위)
@@ -50,9 +50,7 @@ public class UIControl : SingletonBehaviour<UIControl>
     public GameObject EquipButton;
 
     //FriendManage에 있던 전역변수들
-    public float MyDistance = 500;
     public GameObject GrabHandPanel;
-    int InputDistance = 3000;
     public GameObject[] GrabHandButtonArray = new GameObject[4];
     public GameObject AddFriendSuccess;
     public Text CurrentDistance;
@@ -70,6 +68,10 @@ public class UIControl : SingletonBehaviour<UIControl>
     public List<string> MyFriends = new List<string>();//내 친구 아이디 목록
     public List<string> NearbyUsers = new List<string>();//주변 유저 아이디 목록
 
+    public GameObject FriendRequestPanel;
+    public Text FriendRequestMessage;
+    string FriendRequestUserId;
+
     void Awake() //아이템 등록 완전자동화 가능?
     {
 
@@ -84,7 +86,7 @@ public class UIControl : SingletonBehaviour<UIControl>
         ItemInfos.Add("Purple", new ItemInfo("마라톤 복장-보라", "Sprites/Thumbnail/tb_runnerP", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Purple"])));
         ItemInfos.Add("Black", new ItemInfo("마라톤 복장-검정", "Sprites/Thumbnail/tb_runnerW", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Black"])));
         ItemInfos.Add("Stone", new ItemInfo("돌맹이", "Sprites/Thumbnail/tb_rock", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Stone"])));
-        ItemInfos.Add("Mashmellow", new ItemInfo("마시멜로", "Sprites/Thumbnail/tb_silage", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Mashmellow"])));
+        ItemInfos.Add("Marshmellow", new ItemInfo("마시멜로", "Sprites/Thumbnail/tb_silage", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Marshmellow"])));
         ItemInfos.Add("Pine", new ItemInfo("소나무", "Sprites/Thumbnail/tb_tree", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Pine"])));
         ItemInfos.Add("Maple", new ItemInfo("단풍나무", "Sprites/Thumbnail/tb_maple", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Maple"])));
         ItemInfos.Add("Ginkgo", new ItemInfo("은행나무", "Sprites/Thumbnail/tb_gingko", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Ginkgo"])));
@@ -113,15 +115,18 @@ public class UIControl : SingletonBehaviour<UIControl>
             CheckpointMessage.text = "19:05에 " + PeoplenuminScreen + "명이 화면 상에 존재했습니다.\n" + CheckpointGoldperPerson * PeoplenuminScreen + "G를 획득하였습니다.";
             CheckPointEvent = false;
         }
-        CurrentDistance.text = MyDistance.ToString();
+        if(RunManager.Instance.users.ContainsKey(AuthManager.Instance.CurrentUserId))
+            CurrentDistance.text = RunManager.Instance.MeterForm((int)RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score);
+        /*
         for (int i = 0; i < 4; i++)
         {
-            if (i < RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count % 4)
+            if (4 * GrabHandPage + i < RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count)
             {
                 Text[] TextArray = GrabHandButtonArray[i].gameObject.GetComponentsInChildren<Text>();
                 TextArray[1].text = RunManager.Instance.users[RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[4 * GrabHandPage + i]].score.ToString();
             }
         }
+        */
     }
     public void PanelOnOff(int index)
     {
@@ -165,6 +170,7 @@ public class UIControl : SingletonBehaviour<UIControl>
             }
             else
             {
+                ShopItemButton[i].gameObject.SetActive(true);
                 Text[] TextArray = ShopItemButton[i].gameObject.GetComponentsInChildren<Text>();
                 {
                     TextArray[0].text = ItemInfos[ItemNameArray[4 * ShopPage + i]].ItemName + "("
@@ -295,7 +301,8 @@ public class UIControl : SingletonBehaviour<UIControl>
         }
         if (GrabHandPage == 0)
         {
-            if (RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count <= 4)
+            //if (RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count <= 4)
+            if (MyFriends.Count <= 4) 
             {
                 GrabHandPageControlButton[0].gameObject.SetActive(false);
                 GrabHandPageControlButton[1].gameObject.SetActive(false);
@@ -318,20 +325,31 @@ public class UIControl : SingletonBehaviour<UIControl>
         }
         for (int i = 0; i < 4; i++)
         {
-            GrabHandButtonArray[i].gameObject.SetActive(true);
-            if (i >= RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count - 4 * GrabHandPage)
+            //if (i >= RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count - 4 * GrabHandPage)
+            if (i >= MyFriends.Count - 4 * GrabHandPage)
+            {
                 GrabHandButtonArray[i].gameObject.SetActive(false);
+                Debug.Log("GrabHandButton is disabled");
+            }
+            else
+            {
+                GrabHandButtonArray[i].gameObject.SetActive(true);
+                Debug.Log("GrabHandButton is enabled");
+            }
         }
         for (int i = 0; i < 4; i++)
         {
-            GameObject FriendButton = GrabHandButtonArray[i];
-            if (i < RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count % 4)
+            //if (i < RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count % 4)
+            if(GrabHandButtonArray[i].activeSelf)
             {
                 Text[] TextArray = GrabHandButtonArray[i].gameObject.GetComponentsInChildren<Text>();
-                TextArray[0].text = RunManager.Instance.users[RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[4 * GrabHandPage + i]].name;
-                TextArray[1].text = RunManager.Instance.users[RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[4 * GrabHandPage + i]].score.ToString();
+                /*TextArray[0].text = RunManager.Instance.users[RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[4 * GrabHandPage + i]].name;
+                TextArray[1].text = RunManager.Instance.users[RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[4 * GrabHandPage + i]].score.ToString();*/
+                TextArray[0].text = RunManager.Instance.users[MyFriends[4 * GrabHandPage + i]].name;
+                TextArray[1].text = RunManager.Instance.users[MyFriends[4 * GrabHandPage + i]].score.ToString();
             }
         }
+        Debug.Log("FriendDisplay is functioning properly");
     }
     public void GrabHandPageControl(bool Isup)
     {
@@ -344,29 +362,19 @@ public class UIControl : SingletonBehaviour<UIControl>
     //ButtonControl에 있던 함수들
     public void GrabHand(int index) //페이지 기반 수정 필요
     {
-        float AverageDistance = (MyDistance + RunManager.Instance.users[RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[GrabHandPage * 4 + index]].score) / 2;
-        MyDistance = AverageDistance;
-        /*
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * DB 수정 필요(손잡기 대상 친구의 점수를 내 점수와 친구 점수의 평균으로 수정)
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         */
+        float AverageDistance = (RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score + RunManager.Instance.users[RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[GrabHandPage * 4 + index]].score) / 2;
+
+        if(AverageDistance > RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score)
+        {
+            GoldManager.Instance.EarnMoney((int)((AverageDistance - RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score) * RunManager.Instance.HandGoldRate * 0.1f));
+        }
+        else
+        {
+            GoldManager.Instance.EarnMoney((int)((RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score - AverageDistance) * RunManager.Instance.HandGoldRate));
+        }
+
+        RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score = AverageDistance;
+        DBManager.Instance.SetUserValue("score", RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score);
         FriendDisplay(false);
         GrabHandSuccess.gameObject.SetActive(true);
         GrabHandFriendName.text = RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[4*GrabHandPage+index];
@@ -413,6 +421,7 @@ public class UIControl : SingletonBehaviour<UIControl>
             PanelOnOff(0);
             AddFriendPage = 0;
             NearbyUsers = await RunManager.Instance.NearPeople(); //지속적으로 업데이트 되어야 할텐데... 주기?
+            Debug.Log(+NearbyUsers.Count);
         }
         if (AddFriendPage == 0)
         {
@@ -439,17 +448,25 @@ public class UIControl : SingletonBehaviour<UIControl>
         }
         for (int i = 0; i < 4; i++)
         {
-            AddFriendButtons[i].gameObject.SetActive(true);
             if (i >= NearbyUsers.Count - 4 * AddFriendPage)
+            {
                 AddFriendButtons[i].gameObject.SetActive(false);
+                Debug.Log("AddFriendButton is disabled");
+            }
+            else
+            {
+                AddFriendButtons[i].gameObject.SetActive(true);
+                Debug.Log("AddFriendButton is enabled");
+            }
         }
         for (int i = 0; i < 4; i++)
         {
-            if (i < NearbyUsers.Count % 4)
+            if (AddFriendButtons[i].activeSelf)
             {
                 AddFriendButtons[i].gameObject.GetComponentInChildren<Text>().text = RunManager.Instance.users[NearbyUsers[4 * AddFriendPage + i]].name;
             }
         }
+        Debug.Log("AddFriendDisplay is functioning properly");
     }
     public void UnequipBackgroundItem(int index)
     {
@@ -506,6 +523,31 @@ public class UIControl : SingletonBehaviour<UIControl>
         if (ItemManager.Instance.itemlist[ItemNameArray[RequestedItemIndex]].Equipment == ItemManager.Instance.itemlist[ItemNameArray[RequestedItemIndex]].PresPoss)
         {
             EquipButton.gameObject.SetActive(false);
+        }
+    }
+    public void FriendRequest(string RequestUserId) //친구추가 요청 UI 띄우는 함수, RequestUserId에 친구추가를 요청한 유저의 ID가 입력되면 됩니다.
+    {
+        FriendRequestUserId = RequestUserId;
+        FriendRequestPanel.gameObject.SetActive(true);
+        FriendRequestMessage.text = "'" + RunManager.Instance.users[FriendRequestUserId].name + "' 님이 당신과 함께 뛰고 싶어합니다!\n수락하시겠습니까?";
+    }
+    public void FriendRequestAcceptCheck(bool Accept)
+    {
+        if (Accept)
+        {
+            /*
+
+
+
+              친구추가 수락했을 시 DB 수정
+
+
+
+            */
+        }
+        else
+        {
+            FriendRequestPanel.gameObject.SetActive(false);
         }
     }
 }

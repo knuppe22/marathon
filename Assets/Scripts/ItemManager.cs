@@ -16,19 +16,20 @@ public class ItemManager : SingletonBehaviour<ItemManager>
 
     public void Awake() //Start보다 먼저 실행.
     {
+        // Key, (이름, 가격, Property, Maximum, runSpeed, Friendviewdist, Handgold, Checkgold
         itemlist.Add("Stone", new Item("Stone", 500, Item.Property.Background, 3, 0.5f, 0, 0, 0));
         itemlist.Add("Pine", new Item("Pine", 1000, Item.Property.Background, 3, 0.8f, 0, 0, 0));
         itemlist.Add("Maple", new Item("Maple", 1000, Item.Property.Background, 3, 0.8f, 0, 0, 0));
         itemlist.Add("Ginkgo", new Item("Ginkgo", 1000, Item.Property.Background, 3, 0.8f, 0, 0, 0));
-        itemlist.Add("Mashmellow", new Item("Mashmellow", 600, Item.Property.Background, 3, 0, 0, 0, 0.3f));
+        itemlist.Add("Marshmellow", new Item("Mashmellow", 600, Item.Property.Background, 3, 0, 0, 0, 0.3f));
         itemlist.Add("Asphalt", new Item("Asphalt", 4000, Item.Property.Road, 1, 0, 5000, 0, 0));
-        itemlist.Add("Tuxedo", new Item("Tuxedo", 4000, Item.Property.Cloth, 1, 1.5f, 0, 1, 0));
+        itemlist.Add("Tuxedo", new Item("Tuxedo", 4000, Item.Property.Cloth, 1, 1.5f, 0, 0.6f, 0));
         itemlist.Add("Red", new Item("Red", 100, Item.Property.Cloth, 1, 0.1f, 0, 0, 0));
         itemlist.Add("Blue", new Item("Blue", 100, Item.Property.Cloth, 1, 0.1f, 0, 0, 0));
         itemlist.Add("Green", new Item("Green", 100, Item.Property.Cloth, 1, 0.1f, 0, 0, 0));
         itemlist.Add("Purple", new Item("Purple", 200, Item.Property.Cloth, 1, 0.1f, 500, 0, 0));
-        itemlist.Add("Black", new Item("Black", 200, Item.Property.Cloth, 1, 0.1f, 0, 0.2f, 0));
-        itemlist.Add("Scarecrow", new Item("Scarecrow", 2000, Item.Property.Background, 1, 0.8f, 1000, 0.4f, 0.4f));
+        itemlist.Add("Black", new Item("Black", 200, Item.Property.Cloth, 1, 0.1f, 0, 0.1f, 0));
+        itemlist.Add("Scarecrow", new Item("Scarecrow", 2000, Item.Property.Background, 1, 0.8f, 1000, 0.2f, 0.2f));
         itemlist.Add("Cactus", new Item("Cactus", 1500, Item.Property.Background, 2, 1, 0, 0, 0));
     }
     
@@ -60,10 +61,10 @@ public class ItemManager : SingletonBehaviour<ItemManager>
 
     public void ApplyItemEffect()
     {
-        RunManager.Instance.RunSpeed = 5;
-        RunManager.Instance.FriendViewDist = 10000;
+        RunManager.Instance.RunSpeed = 3;
+        RunManager.Instance.FriendViewDist = 5000;
         RunManager.Instance.CheckGoldRate = 1;
-        RunManager.Instance.HandGoldRate = 1;
+        RunManager.Instance.HandGoldRate = 0.4f;
 
         foreach (KeyValuePair<string, Item> pair in itemlist)
         {

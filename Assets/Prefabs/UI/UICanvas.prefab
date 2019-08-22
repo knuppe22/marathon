@@ -2103,7 +2103,7 @@ GameObject:
   - component: {fileID: 1560719750075212460}
   - component: {fileID: 7054291561703076318}
   m_Layer: 5
-  m_Name: Text
+  m_Name: RequestMessage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3192,7 +3192,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2001920481798265670}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 638725303142062419}
+        m_MethodName: FriendRequestAcceptCheck
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &4448623090503523344
@@ -3393,15 +3404,15 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 638725303142062419}
-        m_MethodName: PanelOnOff
-        m_Mode: 3
+        m_MethodName: AddFriendDisplay
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
@@ -4102,7 +4113,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 393513171958465704}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 638725303142062419}
+        m_MethodName: FriendRequestAcceptCheck
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &6310500847079966114
@@ -6277,7 +6299,6 @@ MonoBehaviour:
   PlayerNameInput: {fileID: 0}
   PurchaseButton: {fileID: 116889856335920648}
   EquipButton: {fileID: 116889855150314753}
-  MyDistance: 500
   GrabHandPanel: {fileID: 5930650285525943178}
   GrabHandButtonArray:
   - {fileID: 5436763970922049475}
@@ -6290,8 +6311,8 @@ MonoBehaviour:
   - {fileID: 6310500847079966114}
   - {fileID: 6310500848131004249}
   AddFriendPageControlButton:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 5519972471874604498}
+  - {fileID: 5936377186609876271}
   AddFriendButtons:
   - {fileID: 7104753917033301814}
   - {fileID: 907022278616754344}
@@ -6302,6 +6323,8 @@ MonoBehaviour:
   GrabHandDistance: {fileID: 7991237736965571488}
   MyFriends: []
   NearbyUsers: []
+  FriendRequestPanel: {fileID: 5538276759507672045}
+  FriendRequestMessage: {fileID: 7054291561703076318}
 --- !u!1 &9004042113130479804
 GameObject:
   m_ObjectHideFlags: 0
