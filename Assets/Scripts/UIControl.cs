@@ -320,10 +320,17 @@ public class UIControl : SingletonBehaviour<UIControl>
         }
         for (int i = 0; i < 4; i++)
         {
-            GrabHandButtonArray[i].gameObject.SetActive(true);
             //if (i >= RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count - 4 * GrabHandPage)
-            if (i >= MyFriends.Count - 4 * GrabHandPage) 
+            if (i >= MyFriends.Count - 4 * GrabHandPage)
+            {
                 GrabHandButtonArray[i].gameObject.SetActive(false);
+                Debug.Log("GrabHandButton is disabled");
+            }
+            else
+            {
+                GrabHandButtonArray[i].gameObject.SetActive(true);
+                Debug.Log("GrabHandButton is enabled");
+            }
         }
         for (int i = 0; i < 4; i++)
         {
@@ -337,6 +344,7 @@ public class UIControl : SingletonBehaviour<UIControl>
                 TextArray[1].text = RunManager.Instance.users[MyFriends[4 * GrabHandPage + i]].score.ToString();
             }
         }
+        Debug.Log("FriendDisplay is functioning properly");
     }
     public void GrabHandPageControl(bool Isup)
     {
@@ -435,9 +443,16 @@ public class UIControl : SingletonBehaviour<UIControl>
         }
         for (int i = 0; i < 4; i++)
         {
-            AddFriendButtons[i].gameObject.SetActive(true);
             if (i >= NearbyUsers.Count - 4 * AddFriendPage)
+            {
                 AddFriendButtons[i].gameObject.SetActive(false);
+                Debug.Log("AddFriendButton is disabled");
+            }
+            else
+            {
+                AddFriendButtons[i].gameObject.SetActive(true);
+                Debug.Log("AddFriendButton is enabled");
+            }
         }
         for (int i = 0; i < 4; i++)
         {
@@ -446,6 +461,7 @@ public class UIControl : SingletonBehaviour<UIControl>
                 AddFriendButtons[i].gameObject.GetComponentInChildren<Text>().text = RunManager.Instance.users[NearbyUsers[4 * AddFriendPage + i]].name;
             }
         }
+        Debug.Log("AddFriendDisplay is functioning properly");
     }
     public void UnequipBackgroundItem(int index)
     {
