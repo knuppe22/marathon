@@ -68,6 +68,10 @@ public class UIControl : SingletonBehaviour<UIControl>
     public List<string> MyFriends = new List<string>();//내 친구 아이디 목록
     public List<string> NearbyUsers = new List<string>();//주변 유저 아이디 목록
 
+    public GameObject FriendRequestPanel;
+    public Text FriendRequestMessage;
+    string FriendRequestUserId;
+
     void Awake() //아이템 등록 완전자동화 가능?
     {
 
@@ -518,6 +522,31 @@ public class UIControl : SingletonBehaviour<UIControl>
         if (ItemManager.Instance.itemlist[ItemNameArray[RequestedItemIndex]].Equipment == ItemManager.Instance.itemlist[ItemNameArray[RequestedItemIndex]].PresPoss)
         {
             EquipButton.gameObject.SetActive(false);
+        }
+    }
+    public void FriendRequest(string RequestUserId) //친구추가 요청 UI 띄우는 함수, RequestUserId에 친구추가를 요청한 유저의 ID가 입력되면 됩니다.
+    {
+        FriendRequestUserId = RequestUserId;
+        FriendRequestPanel.gameObject.SetActive(true);
+        FriendRequestMessage.text = "'" + RunManager.Instance.users[FriendRequestUserId].name + "' 님이 당신과 함께 뛰고 싶어합니다!\n수락하시겠습니까?";
+    }
+    public void FriendRequestAcceptCheck(bool Accept)
+    {
+        if (Accept)
+        {
+            /*
+
+
+
+              친구추가 수락했을 시 DB 수정
+
+
+
+            */
+        }
+        else
+        {
+            FriendRequestPanel.gameObject.SetActive(false);
         }
     }
 }
