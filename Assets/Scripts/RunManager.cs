@@ -106,7 +106,7 @@ public class RunManager : SingletonBehaviour<RunManager>
         
         time += Time.deltaTime;
 
-        //CheckPointEvent();
+        CheckPointEvent();
 
         if (time > 5)
         {
@@ -180,7 +180,7 @@ public class RunManager : SingletonBehaviour<RunManager>
 
         if(time.Minute == 0)
         {
-            int friendView = 0;
+            int friendView = 1;
             float gainGold;
 
             foreach(string friend in users[AuthManager.Instance.CurrentUserId].friends)
@@ -193,22 +193,44 @@ public class RunManager : SingletonBehaviour<RunManager>
             gainGold = 100 * friendView * CheckGoldRate;
 
             string checkedTime = users[AuthManager.Instance.CurrentUserId].checkedTime;
-            DateTime check = DateTime.Parse(checkedTime);
 
-            if(time.Date != check.Date)
+            if (checkedTime == "")
             {
                 GoldManager.Instance.EarnMoney((int)gainGold);
                 DBManager.Instance.SetUserValue("checkedTime", onlineTime);
                 users[AuthManager.Instance.CurrentUserId].checkedTime = onlineTime;
+                UIControl.Instance.CheckPointEvent = true;
+                UIControl.Instance.CheckpointGold = (int)gainGold;
+                UIControl.Instance.CheckpointPeople = friendView;
+                UIControl.Instance.CheckpointTime = time.Hour;
             }
-
             else
             {
-                if(time.Hour != check.Hour)
+                DateTime check = DateTime.Parse(checkedTime);
+
+                if (time.Date != check.Date)
                 {
                     GoldManager.Instance.EarnMoney((int)gainGold);
                     DBManager.Instance.SetUserValue("checkedTime", onlineTime);
                     users[AuthManager.Instance.CurrentUserId].checkedTime = onlineTime;
+                    UIControl.Instance.CheckPointEvent = true;
+                    UIControl.Instance.CheckpointGold = (int)gainGold;
+                    UIControl.Instance.CheckpointPeople = friendView;
+                    UIControl.Instance.CheckpointTime = time.Hour;
+                }
+
+                else
+                {
+                    if (time.Hour != check.Hour)
+                    {
+                        GoldManager.Instance.EarnMoney((int)gainGold);
+                        DBManager.Instance.SetUserValue("checkedTime", onlineTime);
+                        users[AuthManager.Instance.CurrentUserId].checkedTime = onlineTime;
+                        UIControl.Instance.CheckPointEvent = true;
+                        UIControl.Instance.CheckpointGold = (int)gainGold;
+                        UIControl.Instance.CheckpointPeople = friendView;
+                        UIControl.Instance.CheckpointTime = time.Hour;
+                    }
                 }
             }
         }

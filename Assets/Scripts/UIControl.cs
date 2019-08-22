@@ -34,11 +34,11 @@ public class UIControl : SingletonBehaviour<UIControl>
     string[] ItemNameArray = { "Blue", "Green", "Red", "Purple", "Black", "Stone", "Marshmellow", "Pine", "Maple", "Ginkgo", "Cactus", "Scarecrow", "Asphalt", "Tuxedo" };
     public GameObject[] ShopItemButton = new GameObject[4];
     public GameObject CheckpointPopup;
-    public int[] CheckpointTime = new int[2]; //체크포인트 이벤트 발생 시간(우선 프레임단위)
-    public int CheckpointGoldperPerson;
-    public int PeoplenuminScreen;
-    bool CheckPointEvent;
+    public bool CheckPointEvent;
     public Text CheckpointMessage;
+    public int CheckpointTime;
+    public int CheckpointPeople;
+    public int CheckpointGold;
     Dictionary<string, ItemInfo> ItemInfos = new Dictionary<string, ItemInfo>();
     public Image EquippedCloth;
     public Image EquippedRoad;
@@ -112,7 +112,7 @@ public class UIControl : SingletonBehaviour<UIControl>
         if (CheckPointEvent)
         {
             CheckpointPopup.gameObject.SetActive(true);
-            CheckpointMessage.text = "19:05에 " + PeoplenuminScreen + "명이 화면 상에 존재했습니다.\n" + CheckpointGoldperPerson * PeoplenuminScreen + "G를 획득하였습니다.";
+            CheckpointMessage.text = CheckpointTime + ":00에 " + CheckpointPeople + "명이 화면 상에 존재했습니다.\n" + CheckpointGold + "G를 획득하였습니다.";
             CheckPointEvent = false;
         }
         if(RunManager.Instance.users.ContainsKey(AuthManager.Instance.CurrentUserId))
