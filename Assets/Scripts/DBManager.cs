@@ -65,6 +65,35 @@ public class DBManager : SingletonBehaviour<DBManager>
         return null;
     }
 
+    public async Task<object> GetUserValue(string key)
+    {
+        return await GetUserValue(AuthManager.Instance.CurrentUserId, key);
+    }
+    public async Task<object> GetUserValue(string userId, string key)
+    {
+        Task<DataSnapshot> task = UserReference.Child(userId).Child(key).GetValueAsync();
+        await task;
+
+        if (task.IsFaulted)
+        {
+            Debug.LogErrorFormat("GetUserValue({0}, {1}) failed", userId, key);
+        }
+        else if (task.IsCompleted)
+        {
+            if (task.Result.Exists)
+            {
+                Debug.LogFormat("GetUserValue({0}, {1}) succeeded", userId, key);
+                return task.Result;
+            }
+            else
+            {
+                Debug.LogFormat("GetUser({0}, {1}) succeeded but no data", userId, key);
+            }
+        }
+
+        return null;
+    }
+
     public void SetUser(User userData)
     {
         Debug.Log("GOLD : " + userData.gold);

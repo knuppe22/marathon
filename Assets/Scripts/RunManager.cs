@@ -21,9 +21,14 @@ public class RunManager : SingletonBehaviour<RunManager>
     public float HandGoldRate = 0.4f;
     public float CheckGoldRate = 1;
     float time = 0;
+    float requestTime = 0;
 
     bool startFinished = false;
     bool gpsBool = false;
+    bool friendRequesting = false;
+    bool handRequesting = false;
+    bool requestIO = false;
+    string requestVS = "";
 
     async void Start()
     {
@@ -92,6 +97,8 @@ public class RunManager : SingletonBehaviour<RunManager>
         LoadImage.SetActive(false);
 
         UpdateUserData();
+        DBManager.Instance.SetUserValue("handRequest", "");
+        DBManager.Instance.SetUserValue("friendRequest", "");
 
         startFinished = true;
     }
@@ -105,6 +112,7 @@ public class RunManager : SingletonBehaviour<RunManager>
         if (!startFinished) return;
         
         time += Time.deltaTime;
+        requestTime += Time.deltaTime;
 
         CheckPointEvent();
 
@@ -118,6 +126,64 @@ public class RunManager : SingletonBehaviour<RunManager>
                 if (users.ContainsKey(friend)) users[friend] = tmpFriend;
                 else users.Add(friend, tmpFriend);
                 BackgroundManager.Instance.SetRunnerImage(friend);
+            }
+        }
+
+        if (requestTime > 2)
+        {
+            requestTime = 0;
+            
+            if(friendRequesting)
+            {
+                users[AuthManager.Instance.CurrentUserId].friendRequest = (string)await DBManager.Instance.GetUserValue("friendRequest");
+                if (requestIO)
+                {
+                    if (users[AuthManager.Instance.CurrentUserId].friendRequest == "")
+                    {
+                        DBManager.Instance.SetOtherUserValue(requestVS, "friendRequest", AuthManager.Instance.CurrentUserId);
+                        AddFriend(requestVS);
+                        friendRequesting = false;
+                    }
+                }
+                else
+                {
+                    if (users[AuthManager.Instance.CurrentUserId].friendRequest == requestVS)
+                    {
+                        DBManager.Instance.SetUserValue("friendRequest", "");
+                        AddFriend(requestVS);
+                        friendRequesting = false;
+                    }
+                }
+                handRequesting = false;
+                DBManager.Instance.SetUserValue("handRequest", "");
+            }
+            else if(handRequesting)
+            {
+                users[AuthManager.Instance.CurrentUserId].handRequest = (string)await DBManager.Instance.GetUserValue("handRequest");
+                if (requestIO)
+                {
+                    if (users[AuthManager.Instance.CurrentUserId].handRequest == "")
+                    {
+                        DBManager.Instance.SetOtherUserValue(requestVS, "handRequest", AuthManager.Instance.CurrentUserId);
+                        GrabHand(requestVS);
+                        handRequesting = false;
+                    }
+                }
+                else
+                {
+                    if (users[AuthManager.Instance.CurrentUserId].handRequest == requestVS)
+                    {
+                        DBManager.Instance.SetUserValue("handRequest", "");
+                        GrabHand(requestVS);
+                        handRequesting = false;
+                    }
+                }
+                DBManager.Instance.SetUserValue("friendRequest", "");
+            }
+            else
+            {
+                DBManager.Instance.SetUserValue("handRequest", "");
+                DBManager.Instance.SetUserValue("friendRequest", "");
             }
         }
 
@@ -163,8 +229,9 @@ public class RunManager : SingletonBehaviour<RunManager>
 
         if (DBManager.Instance.RootReference != null)
         {
-            DBManager.Instance.SetUser(users[AuthManager.Instance.CurrentUserId]);
-            
+            DBManager.Instance.SetUserValue("gold", gold);
+            DBManager.Instance.SetUserValue("score", score);
+
             if (gpsBool)
                 DBManager.Instance.SetLocation(new Location(Input.location.lastData, users[AuthManager.Instance.CurrentUserId].lastOnline));
         }
@@ -282,5 +349,68 @@ public class RunManager : SingletonBehaviour<RunManager>
         }
 
         return nearFriends;
+    }
+    public async void StartFriendRequset(string id)
+    {
+        if((string)await DBManager.Instance.GetUserValue(id, "friendRequest") == AuthManager.Instance.CurrentUserId)
+        {
+            DBManager.Instance.SetUserValue("friendRequest", id);
+            requestIO = true;
+        }
+        else
+        {
+            DBManager.Instance.SetOtherUserValue(id,"friendRequest", "");
+            requestIO = false;
+        }
+        friendRequesting = true;
+        handRequesting = false;
+        requestVS = id;
+    }
+    public async void StartHandRequest(string id)
+    {
+        if ((string)await DBManager.Instance.GetUserValue(id, "handRequest") == AuthManager.Instance.CurrentUserId)
+        {
+            DBManager.Instance.SetUserValue("handRequest", id);
+            requestIO = true;
+        }
+        else
+        {
+            DBManager.Instance.SetOtherUserValue(id, "handRequest", "");
+            requestIO = false;
+        }
+        friendRequesting = false;
+        handRequesting = true;
+        requestVS = id;
+    }
+    public void RequestCancel()
+    {
+        friendRequesting = false;
+        handRequesting = false;
+        DBManager.Instance.SetUserValue("handRequest", "");
+        DBManager.Instance.SetUserValue("friendRequest", "");
+    }
+    public void AddFriend(string id)
+    {
+        users[AuthManager.Instance.CurrentUserId].friends.Add(id);
+        DBManager.Instance.SetUserValue("friends", users[AuthManager.Instance.CurrentUserId].friends);
+        GoldManager.Instance.EarnMoney(300);
+        //UIcontrol.instance.프렌드 팝업띄우기(id)
+    }
+    public void GrabHand(string id)
+    {
+        float AverageDistance = (users[AuthManager.Instance.CurrentUserId].score + users[id].score) / 2;
+
+        if (AverageDistance > users[AuthManager.Instance.CurrentUserId].score)
+        {
+            GoldManager.Instance.EarnMoney((int)((AverageDistance - users[AuthManager.Instance.CurrentUserId].score) * HandGoldRate * 0.1f));
+        }
+        else
+        {
+            GoldManager.Instance.EarnMoney((int)((users[AuthManager.Instance.CurrentUserId].score - AverageDistance) * HandGoldRate));
+        }
+
+        users[AuthManager.Instance.CurrentUserId].score = AverageDistance;
+        DBManager.Instance.SetUserValue("score", users[AuthManager.Instance.CurrentUserId].score);
+        //UIContorl.instanc.손잡기 팝업띄우기(id, 수정거리, 획득골드)
     }
 }
