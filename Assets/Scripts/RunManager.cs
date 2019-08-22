@@ -27,7 +27,9 @@ public class RunManager : SingletonBehaviour<RunManager>
 
     async void Start()
     {
+#if !UNITY_EDITOR
         Input.location.Start();
+#endif
 
         User tmpUser = await DBManager.Instance.GetUser();
 
@@ -96,7 +98,9 @@ public class RunManager : SingletonBehaviour<RunManager>
 
     async void Update()
     {
+#if !UNITY_EDITOR
         gpsBool = (Input.location.status == LocationServiceStatus.Running);
+#endif
 
         if (!startFinished) return;
         
