@@ -22,7 +22,7 @@ public class RunManager : SingletonBehaviour<RunManager>
     float time = 0;
 
     bool startFinished = false;
-    bool gpsBool;
+    bool gpsBool = false;
 
     async void Start()
     {
@@ -95,6 +95,8 @@ public class RunManager : SingletonBehaviour<RunManager>
 
     async void Update()
     {
+        gpsBool = (Input.location.status == LocationServiceStatus.Running);
+
         if (!startFinished) return;
         
         time += Time.deltaTime;
