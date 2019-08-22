@@ -31,7 +31,7 @@ public class UIControl : SingletonBehaviour<UIControl>
     public Text PurchaseItemEffects;
     public Image PurchaseItemImage;
     public Text PurchaseItemPrice;
-    string[] ItemNameArray = { "Blue", "Green", "Red", "Purple", "Black", "Stone", "Mashmellow", "Pine", "Maple", "Ginkgo", "Asphalt", "Tuxedo" };
+    string[] ItemNameArray = { "Blue", "Green", "Red", "Purple", "Black", "Stone", "Mashmellow", "Pine", "Maple", "Ginkgo", "Cactus", "Scarecrow", "Asphalt", "Tuxedo" };
     public GameObject[] ShopItemButton = new GameObject[4];
     public GameObject CheckpointPopup;
     public int[] CheckpointTime = new int[2]; //체크포인트 이벤트 발생 시간(우선 프레임단위)
@@ -88,6 +88,8 @@ public class UIControl : SingletonBehaviour<UIControl>
         ItemInfos.Add("Pine", new ItemInfo("소나무", "Sprites/Thumbnail/tb_tree", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Pine"])));
         ItemInfos.Add("Maple", new ItemInfo("단풍나무", "Sprites/Thumbnail/tb_maple", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Maple"])));
         ItemInfos.Add("Ginkgo", new ItemInfo("은행나무", "Sprites/Thumbnail/tb_gingko", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Ginkgo"])));
+        ItemInfos.Add("Cactus", new ItemInfo("선인장", "Sprites/Thumbnail/tb_cactus", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Cactus"])));
+        ItemInfos.Add("Scarecrow", new ItemInfo("허수아비", "Sprites/Thumbnail/tb_scareCrow", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Scarecrow"])));
         ItemInfos.Add("Asphalt", new ItemInfo("아스팔트", "Sprites/Road/Asphalt", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Asphalt"])));
         ItemInfos.Add("Tuxedo", new ItemInfo("턱시도", "Sprites/Thumbnail/tb_runnerT", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Tuxedo"])));
     }
@@ -145,7 +147,7 @@ public class UIControl : SingletonBehaviour<UIControl>
             ShopPageControlButton[0].gameObject.SetActive(false);
             ShopPageControlButton[1].gameObject.SetActive(true);
         }
-        else if (ShopPage == 2)
+        else if ((ShopPage == ItemManager.Instance.itemlist.Count/4-1&&ItemManager.Instance.itemlist.Count%4==0)||(ShopPage==ItemManager.Instance.itemlist.Count/4&&ItemManager.Instance.itemlist.Count%4!=0))
         {
             ShopPageControlButton[0].gameObject.SetActive(true);
             ShopPageControlButton[1].gameObject.SetActive(false);
@@ -157,14 +159,21 @@ public class UIControl : SingletonBehaviour<UIControl>
         }
         for(int i=0; i<4; i++)
         {
-            Text[] TextArray = ShopItemButton[i].gameObject.GetComponentsInChildren<Text>();
+            if (ShopPage * 4 + i >= ItemManager.Instance.itemlist.Count)
             {
-                TextArray[0].text = ItemInfos[ItemNameArray[4 * ShopPage + i]].ItemName + "("
-                + ItemManager.Instance.itemlist[ItemNameArray[4 * ShopPage + i]].PresPoss + "/"
-                + ItemManager.Instance.itemlist[ItemNameArray[4 * ShopPage + i]].Maximum + ")";
+                ShopItemButton[i].gameObject.SetActive(false);
             }
-            TextArray[1].text = ItemManager.Instance.itemlist[ItemNameArray[4*ShopPage+i]].Price + "G";
-            ShopItemButton[i].gameObject.GetComponentsInChildren<Image>()[1].sprite = Resources.Load<Sprite>(ItemInfos[ItemNameArray[4*ShopPage+i]].ItemVisualLocation);
+            else
+            {
+                Text[] TextArray = ShopItemButton[i].gameObject.GetComponentsInChildren<Text>();
+                {
+                    TextArray[0].text = ItemInfos[ItemNameArray[4 * ShopPage + i]].ItemName + "("
+                    + ItemManager.Instance.itemlist[ItemNameArray[4 * ShopPage + i]].PresPoss + "/"
+                    + ItemManager.Instance.itemlist[ItemNameArray[4 * ShopPage + i]].Maximum + ")";
+                }
+                TextArray[1].text = ItemManager.Instance.itemlist[ItemNameArray[4 * ShopPage + i]].Price + "G";
+                ShopItemButton[i].gameObject.GetComponentsInChildren<Image>()[1].sprite = Resources.Load<Sprite>(ItemInfos[ItemNameArray[4 * ShopPage + i]].ItemVisualLocation);
+            }
         }
         ShowEquippedItems();
     }
@@ -218,12 +227,22 @@ public class UIControl : SingletonBehaviour<UIControl>
         if (ItemManager.Instance.ClothQ.Count > 0)
 		{
 			EquippedCloth.sprite = Resources.Load<Sprite>(ItemInfos[ItemManager.Instance.ClothQ[0]].ItemVisualLocation);
-			Debug.Log("Cloth is equipped");
 		}
+        else
+        {
+            EquippedCloth.sprite = Resources.Load<Sprite>("WhiteScreen");
+        }
         if (ItemManager.Instance.RoadQ.Count > 0)
             EquippedRoad.sprite = Resources.Load<Sprite>(ItemInfos[ItemManager.Instance.RoadQ[0]].ItemVisualLocation);
-        for (int i = 0; i<ItemManager.Instance.BackGroundQ.Count; i++)
-            EquippedBackground[i].sprite = Resources.Load<Sprite>(ItemInfos[ItemManager.Instance.BackGroundQ[i]].ItemVisualLocation);
+        else
+            EquippedRoad.sprite = Resources.Load<Sprite>("WhiteScreen");
+        for (int i = 0; i < 5; i++)
+        {
+            if (i < ItemManager.Instance.BackGroundQ.Count)
+                EquippedBackground[i].sprite = Resources.Load<Sprite>(ItemInfos[ItemManager.Instance.BackGroundQ[i]].ItemVisualLocation);
+            else
+                EquippedBackground[i].sprite = Resources.Load<Sprite>("WhiteScreen");
+        }
     }
     public void PanelOff()
     {
@@ -263,12 +282,16 @@ public class UIControl : SingletonBehaviour<UIControl>
         AddFriendSuccess.gameObject.SetActive(true);
         AddFriendSuccess.gameObject.GetComponentInChildren<Text>().text = "";
     }
-    public void FriendDisplay(bool isInitiate)
+    public async void FriendDisplay(bool isInitiate)
     {
         if (isInitiate)
         {
             UIControl.Instance.PanelOnOff(1);
             GrabHandPage = 0;
+            if (MyFriends.Count == 0)
+            {
+                MyFriends = await RunManager.Instance.NearFriends();
+            }
         }
         if (GrabHandPage == 0)
         {
@@ -283,7 +306,7 @@ public class UIControl : SingletonBehaviour<UIControl>
                 GrabHandPageControlButton[1].gameObject.SetActive(true);
             }
         }
-        else if (GrabHandPage == RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count / 4)
+        else if ((GrabHandPage == MyFriends.Count / 4 && MyFriends.Count % 4 != 0) || (GrabHandPage == MyFriends.Count / 4 - 1 && MyFriends.Count % 4 == 0))
         {
             GrabHandPageControlButton[0].gameObject.SetActive(true);
             GrabHandPageControlButton[1].gameObject.SetActive(false);
@@ -383,12 +406,13 @@ public class UIControl : SingletonBehaviour<UIControl>
         Effects = Effects.Substring(0, Effects.Length - 1);
         return Effects;
     }
-    public void AddFriendDisplay(bool isInitiate)
+    public async void AddFriendDisplay(bool isInitiate)
     {
         if (isInitiate)
         {
             PanelOnOff(0);
             AddFriendPage = 0;
+            NearbyUsers = await RunManager.Instance.NearPeople(); //지속적으로 업데이트 되어야 할텐데... 주기?
         }
         if (AddFriendPage == 0)
         {
@@ -403,7 +427,7 @@ public class UIControl : SingletonBehaviour<UIControl>
                 AddFriendPageControlButton[1].gameObject.SetActive(true);
             }
         }
-        else if (AddFriendPage == NearbyUsers.Count / 4)
+        else if ((AddFriendPage == NearbyUsers.Count / 4 && NearbyUsers.Count % 4 != 0) || (AddFriendPage == NearbyUsers.Count / 4 - 1 && NearbyUsers.Count % 4 == 0)) 
         {
             AddFriendPageControlButton[0].gameObject.SetActive(true);
             AddFriendPageControlButton[1].gameObject.SetActive(false);
@@ -430,25 +454,40 @@ public class UIControl : SingletonBehaviour<UIControl>
     public void UnequipBackgroundItem(int index)
     {
         string ItemToUnequip;
-        ItemToUnequip = ItemManager.Instance.BackGroundQ[index];
-        ItemManager.Instance.BackGroundQ.RemoveAt(index);
-        ItemManager.Instance.AllQ.Remove(ItemToUnequip);
+        if (ItemManager.Instance.BackGroundQ.Count > index)
+        {
+            ItemToUnequip = ItemManager.Instance.BackGroundQ[index];
+            ItemManager.Instance.BackGroundQ.RemoveAt(index);
+            ItemManager.Instance.AllQ.Remove(ItemToUnequip);
+            ItemManager.Instance.itemlist[ItemToUnequip].Equipment--;
+        }
+        PurchaseUIUpdate();
         ShowEquippedItems();
     }
     public void UnequipClothItem()
     {
         string ItemToUnequip;
-        ItemToUnequip = ItemManager.Instance.ClothQ[0];
-        ItemManager.Instance.ClothQ.RemoveAt(0);
-        ItemManager.Instance.AllQ.Remove(ItemToUnequip);
+        if (ItemManager.Instance.ClothQ.Count > 0)
+        {
+            ItemToUnequip = ItemManager.Instance.ClothQ[0];
+            ItemManager.Instance.ClothQ.RemoveAt(0);
+            ItemManager.Instance.AllQ.Remove(ItemToUnequip);
+            ItemManager.Instance.itemlist[ItemToUnequip].Equipment--;
+        }
+        PurchaseUIUpdate();
         ShowEquippedItems();
     }
     public void UnequipRoadItem()
     {
         string ItemToUnequip;
-        ItemToUnequip = ItemManager.Instance.RoadQ[0];
-        ItemManager.Instance.RoadQ.RemoveAt(0);
-        ItemManager.Instance.AllQ.Remove(ItemToUnequip);
+        if (ItemManager.Instance.RoadQ.Count > 0)
+        {
+            ItemToUnequip = ItemManager.Instance.RoadQ[0];
+            ItemManager.Instance.RoadQ.RemoveAt(0);
+            ItemManager.Instance.AllQ.Remove(ItemToUnequip);
+            ItemManager.Instance.itemlist[ItemToUnequip].Equipment--;
+        }
+        PurchaseUIUpdate();
         ShowEquippedItems();
     }
     void PurchaseUIUpdate()
