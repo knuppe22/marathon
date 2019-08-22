@@ -9,6 +9,12 @@ public class Location
     public float longitude;
     public string lastOnline;
 
+    public Location()
+    {
+        latitude = 0;
+        longitude = 0;
+        lastOnline = System.DateTime.Now.ToString("s");
+    }
     public Location(LocationInfo locationInfo, string lastOnline)
     {
         latitude = locationInfo.latitude;

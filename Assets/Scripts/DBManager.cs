@@ -6,6 +6,7 @@ using UnityEngine;
 using Firebase;
 using Firebase.Database;
 using Firebase.Unity.Editor;
+using Newtonsoft.Json;
 
 public class DBManager : SingletonBehaviour<DBManager>
 {
@@ -101,7 +102,8 @@ public class DBManager : SingletonBehaviour<DBManager>
             if (task.Result.Exists)
             {
                 Debug.LogFormat("GetLocation() succeeded");
-                return JsonUtility.FromJson<Dictionary<string, Location>>(task.Result.GetRawJsonValue());
+                Debug.Log("{\"locations\":" + task.Result.GetRawJsonValue() + "}");
+                return JsonConvert.DeserializeObject<Dictionary<string, Location>>(task.Result.GetRawJsonValue());
             }
             else
             {
@@ -116,7 +118,7 @@ public class DBManager : SingletonBehaviour<DBManager>
     public async Task<List<string>> GetNearUsers(Location location)
     {
         Dictionary<string, Location> locations = await GetLocations();
-
+        
         List<string> nearUsers = new List<string>();
 
         if (locations == null) return null;
