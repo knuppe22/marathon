@@ -21,7 +21,7 @@ public class ItemManager : SingletonBehaviour<ItemManager>
         itemlist.Add("Pine", new Item("Pine", 1000, Item.Property.Background, 3, 0.8f, 0, 0, 0));
         itemlist.Add("Maple", new Item("Maple", 1000, Item.Property.Background, 3, 0.8f, 0, 0, 0));
         itemlist.Add("Ginkgo", new Item("Ginkgo", 1000, Item.Property.Background, 3, 0.8f, 0, 0, 0));
-        itemlist.Add("Mashmellow", new Item("Mashmellow", 600, Item.Property.Background, 3, 0, 0, 0, 0.3f));
+        itemlist.Add("Marshmellow", new Item("Mashmellow", 600, Item.Property.Background, 3, 0, 0, 0, 0.3f));
         itemlist.Add("Asphalt", new Item("Asphalt", 4000, Item.Property.Road, 1, 0, 5000, 0, 0));
         itemlist.Add("Tuxedo", new Item("Tuxedo", 4000, Item.Property.Cloth, 1, 1.5f, 0, 0.6f, 0));
         itemlist.Add("Red", new Item("Red", 100, Item.Property.Cloth, 1, 0.1f, 0, 0, 0));

@@ -31,7 +31,7 @@ public class UIControl : SingletonBehaviour<UIControl>
     public Text PurchaseItemEffects;
     public Image PurchaseItemImage;
     public Text PurchaseItemPrice;
-    string[] ItemNameArray = { "Blue", "Green", "Red", "Purple", "Black", "Stone", "Mashmellow", "Pine", "Maple", "Ginkgo", "Cactus", "Scarecrow", "Asphalt", "Tuxedo" };
+    string[] ItemNameArray = { "Blue", "Green", "Red", "Purple", "Black", "Stone", "Marshmellow", "Pine", "Maple", "Ginkgo", "Cactus", "Scarecrow", "Asphalt", "Tuxedo" };
     public GameObject[] ShopItemButton = new GameObject[4];
     public GameObject CheckpointPopup;
     public int[] CheckpointTime = new int[2]; //체크포인트 이벤트 발생 시간(우선 프레임단위)
@@ -86,7 +86,7 @@ public class UIControl : SingletonBehaviour<UIControl>
         ItemInfos.Add("Purple", new ItemInfo("마라톤 복장-보라", "Sprites/Thumbnail/tb_runnerP", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Purple"])));
         ItemInfos.Add("Black", new ItemInfo("마라톤 복장-검정", "Sprites/Thumbnail/tb_runnerW", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Black"])));
         ItemInfos.Add("Stone", new ItemInfo("돌맹이", "Sprites/Thumbnail/tb_rock", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Stone"])));
-        ItemInfos.Add("Mashmellow", new ItemInfo("마시멜로", "Sprites/Thumbnail/tb_silage", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Mashmellow"])));
+        ItemInfos.Add("Marshmellow", new ItemInfo("마시멜로", "Sprites/Thumbnail/tb_silage", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Marshmellow"])));
         ItemInfos.Add("Pine", new ItemInfo("소나무", "Sprites/Thumbnail/tb_tree", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Pine"])));
         ItemInfos.Add("Maple", new ItemInfo("단풍나무", "Sprites/Thumbnail/tb_maple", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Maple"])));
         ItemInfos.Add("Ginkgo", new ItemInfo("은행나무", "Sprites/Thumbnail/tb_gingko", GenerateItemEffectsDescription(ItemManager.Instance.itemlist["Ginkgo"])));
@@ -115,7 +115,8 @@ public class UIControl : SingletonBehaviour<UIControl>
             CheckpointMessage.text = "19:05에 " + PeoplenuminScreen + "명이 화면 상에 존재했습니다.\n" + CheckpointGoldperPerson * PeoplenuminScreen + "G를 획득하였습니다.";
             CheckPointEvent = false;
         }
-        CurrentDistance.text = RunManager.Instance.MeterForm((int)RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score);
+        if(RunManager.Instance.users.ContainsKey(AuthManager.Instance.CurrentUserId))
+            CurrentDistance.text = RunManager.Instance.MeterForm((int)RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score);
         /*
         for (int i = 0; i < 4; i++)
         {
