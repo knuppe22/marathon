@@ -480,6 +480,16 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: 6555684680585820632, guid: d3ec9eb42f421aa4693786381aa6956d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 6310500848973523011, guid: d3ec9eb42f421aa4693786381aa6956d,
+        type: 3}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3ec9eb42f421aa4693786381aa6956d, type: 3}
 --- !u!1 &415776590
@@ -1239,6 +1249,11 @@ PrefabInstance:
       propertyPath: LoadImage
       value: 
       objectReference: {fileID: 1230485401}
+    - target: {fileID: 1975998695067706544, guid: 34294a247e0ee3e43a694c22cc0b9e9e,
+        type: 3}
+      propertyPath: HandGoldRate
+      value: 0.4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34294a247e0ee3e43a694c22cc0b9e9e, type: 3}
 --- !u!1001 &7329301338102085851
@@ -1336,7 +1351,12 @@ PrefabInstance:
     - target: {fileID: 7329301338367545511, guid: 54a64d6cb08bc41418c98948df8a6bd9,
         type: 3}
       propertyPath: runnerLane.Array.data[0].y
-      value: -3.69
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7329301338367545511, guid: 54a64d6cb08bc41418c98948df8a6bd9,
+        type: 3}
+      propertyPath: speed
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54a64d6cb08bc41418c98948df8a6bd9, type: 3}

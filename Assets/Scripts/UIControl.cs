@@ -50,9 +50,7 @@ public class UIControl : SingletonBehaviour<UIControl>
     public GameObject EquipButton;
 
     //FriendManage에 있던 전역변수들
-    public float MyDistance = 500;
     public GameObject GrabHandPanel;
-    int InputDistance = 3000;
     public GameObject[] GrabHandButtonArray = new GameObject[4];
     public GameObject AddFriendSuccess;
     public Text CurrentDistance;
@@ -113,15 +111,17 @@ public class UIControl : SingletonBehaviour<UIControl>
             CheckpointMessage.text = "19:05에 " + PeoplenuminScreen + "명이 화면 상에 존재했습니다.\n" + CheckpointGoldperPerson * PeoplenuminScreen + "G를 획득하였습니다.";
             CheckPointEvent = false;
         }
-        CurrentDistance.text = MyDistance.ToString();
+        CurrentDistance.text = RunManager.Instance.MeterForm((int)RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score);
+        /*
         for (int i = 0; i < 4; i++)
         {
-            if (i < RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count % 4)
+            if (4 * GrabHandPage + i < RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count)
             {
                 Text[] TextArray = GrabHandButtonArray[i].gameObject.GetComponentsInChildren<Text>();
                 TextArray[1].text = RunManager.Instance.users[RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[4 * GrabHandPage + i]].score.ToString();
             }
         }
+        */
     }
     public void PanelOnOff(int index)
     {
@@ -344,29 +344,19 @@ public class UIControl : SingletonBehaviour<UIControl>
     //ButtonControl에 있던 함수들
     public void GrabHand(int index) //페이지 기반 수정 필요
     {
-        float AverageDistance = (MyDistance + RunManager.Instance.users[RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[GrabHandPage * 4 + index]].score) / 2;
-        MyDistance = AverageDistance;
-        /*
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * DB 수정 필요(손잡기 대상 친구의 점수를 내 점수와 친구 점수의 평균으로 수정)
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         */
+        float AverageDistance = (RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score + RunManager.Instance.users[RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[GrabHandPage * 4 + index]].score) / 2;
+
+        if(AverageDistance > RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score)
+        {
+            GoldManager.Instance.EarnMoney((int)((AverageDistance - RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score) * RunManager.Instance.HandGoldRate * 0.1f));
+        }
+        else
+        {
+            GoldManager.Instance.EarnMoney((int)((RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score - AverageDistance) * RunManager.Instance.HandGoldRate));
+        }
+
+        RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score = AverageDistance;
+        DBManager.Instance.SetUserValue("score", RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score);
         FriendDisplay(false);
         GrabHandSuccess.gameObject.SetActive(true);
         GrabHandFriendName.text = RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[4*GrabHandPage+index];
