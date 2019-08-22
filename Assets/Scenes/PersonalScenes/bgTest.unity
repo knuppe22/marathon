@@ -1336,7 +1336,7 @@ PrefabInstance:
     - target: {fileID: 7329301338367545511, guid: 54a64d6cb08bc41418c98948df8a6bd9,
         type: 3}
       propertyPath: roadLanePos.Array.data[1].x
-      value: 0
+      value: -1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7329301338367545511, guid: 54a64d6cb08bc41418c98948df8a6bd9,
         type: 3}
@@ -1357,6 +1357,11 @@ PrefabInstance:
         type: 3}
       propertyPath: speed
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7329301338367545511, guid: 54a64d6cb08bc41418c98948df8a6bd9,
+        type: 3}
+      propertyPath: roadAngle
+      value: 43.11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54a64d6cb08bc41418c98948df8a6bd9, type: 3}
