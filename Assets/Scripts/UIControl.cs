@@ -71,6 +71,7 @@ public class UIControl : SingletonBehaviour<UIControl>
     public GameObject FriendRequestPanel;
     public Text FriendRequestMessage;
     string FriendRequestUserId;
+    public GameObject ResponseWaitingPanel;
 
     void Awake() //아이템 등록 완전자동화 가능?
     {
@@ -115,8 +116,9 @@ public class UIControl : SingletonBehaviour<UIControl>
             CheckpointMessage.text = CheckpointTime + ":00에 " + CheckpointPeople + "명이 화면 상에 존재했습니다.\n" + CheckpointGold + "G를 획득하였습니다.";
             CheckPointEvent = false;
         }
-        if(RunManager.Instance.users.ContainsKey(AuthManager.Instance.CurrentUserId))
+        if(AuthManager.Instance.CurrentUserId != null && RunManager.Instance.users.ContainsKey(AuthManager.Instance.CurrentUserId))
             CurrentDistance.text = RunManager.Instance.MeterForm((int)RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score);
+        ResponseWaitingPanel.gameObject.SetActive(RunManager.Instance.friendRequesting || RunManager.Instance.handRequesting);
 
     }
     public void PanelOnOff(int index)
@@ -254,6 +256,10 @@ public class UIControl : SingletonBehaviour<UIControl>
                 }
             }
         }
+        if (ResponseWaitingPanel.activeSelf)
+        {
+            RunManager.Instance.RequestCancel();
+        }
     }
     public void CallNameInputPanel() /*이름 입력 창 활성화 함수*/
     {
@@ -272,12 +278,15 @@ public class UIControl : SingletonBehaviour<UIControl>
         }
     }
     //FriendManage에서 가져온 함수들
-    public void AddFriend(GameObject AddFriendButton) //현재 버튼 자체에서 정보 가져옴. 수정 필요
+    public void AddFriend(int index) //현재 버튼 자체에서 정보 가져옴. 수정 필요
     {
-        //RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Add(""); //수정 필요
-        DBManager.Instance.SetUserValue("friends", RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends);
-        AddFriendSuccess.gameObject.SetActive(true);
-        AddFriendSuccess.gameObject.GetComponentInChildren<Text>().text = "";
+        int num = AddFriendPage * 4 + index;
+        RunManager.Instance.StartFriendRequset(NearbyUsers[num]);
+    }
+    public void GrabHand(int index)
+    {
+        int num = GrabHandPage * 4 + index;
+        RunManager.Instance.StartHandRequest(MyFriends[num]);
     }
     public async void FriendDisplay(bool isInitiate)
     {
@@ -349,27 +358,6 @@ public class UIControl : SingletonBehaviour<UIControl>
         else
             GrabHandPage--;
         FriendDisplay(false);
-    }
-    //ButtonControl에 있던 함수들
-    public void GrabHand(int index) //페이지 기반 수정 필요
-    {
-        float AverageDistance = (RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score + RunManager.Instance.users[RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[GrabHandPage * 4 + index]].score) / 2;
-
-        if(AverageDistance > RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score)
-        {
-            GoldManager.Instance.EarnMoney((int)((AverageDistance - RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score) * RunManager.Instance.HandGoldRate * 0.1f));
-        }
-        else
-        {
-            GoldManager.Instance.EarnMoney((int)((RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score - AverageDistance) * RunManager.Instance.HandGoldRate));
-        }
-
-        RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score = AverageDistance;
-        DBManager.Instance.SetUserValue("score", RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score);
-        FriendDisplay(false);
-        GrabHandSuccess.gameObject.SetActive(true);
-        GrabHandFriendName.text = RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[4*GrabHandPage+index];
-        GrabHandDistance.text = AverageDistance.ToString();
     }
     string GenerateItemEffectsDescription(Item GenerateTarget)
     {
@@ -471,6 +459,7 @@ public class UIControl : SingletonBehaviour<UIControl>
         }
         PurchaseUIUpdate();
         ShowEquippedItems();
+        BackgroundManager.Instance.SetBackgroundImage();
     }
     public void UnequipClothItem()
     {
@@ -484,6 +473,7 @@ public class UIControl : SingletonBehaviour<UIControl>
         }
         PurchaseUIUpdate();
         ShowEquippedItems();
+        BackgroundManager.Instance.SetRunnerImage();
     }
     public void UnequipRoadItem()
     {
@@ -497,6 +487,7 @@ public class UIControl : SingletonBehaviour<UIControl>
         }
         PurchaseUIUpdate();
         ShowEquippedItems();
+        BackgroundManager.Instance.SetRoadImage();
     }
     void PurchaseUIUpdate()
     {
@@ -534,6 +525,20 @@ public class UIControl : SingletonBehaviour<UIControl>
         {
             FriendRequestPanel.gameObject.SetActive(false);
         }
+    }
+    public void AddFriendSuccessful(string FriendName)
+    {
+        ResponseWaitingPanel.gameObject.SetActive(false);
+        AddFriendSuccess.gameObject.SetActive(true);
+        AddFriendSuccess.gameObject.GetComponentInChildren<Text>().text = "'" + FriendName + "' 님과 친구가 되었습니다.\n300G를 획득하였습니다.";
+        AddFriendDisplay(true);
+    }
+    public void GrabHandSuccessful(string TargetName, int ArrivedDistance, int EarnedGold)
+    {
+        ResponseWaitingPanel.gameObject.SetActive(false);
+        GrabHandSuccess.gameObject.SetActive(true);
+        GrabHandSuccess.gameObject.GetComponentInChildren<Text>().text = "'" + TargetName + "' 님과 손을 잡았습니다.\n현재 당신의 위치는"+ ArrivedDistance+"입니다.\n" + EarnedGold + "G를 획득하였습니다.";
+        FriendDisplay(true);
     }
 }
 
