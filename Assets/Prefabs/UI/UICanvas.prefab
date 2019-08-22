@@ -3565,7 +3565,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &535022744991804317
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3893,7 +3893,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3709110290653437898
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4145,7 +4145,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6310500847079966118
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4819,7 +4819,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6310500848131004253
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6547,6 +6547,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: AddFriendButton3
       objectReference: {fileID: 0}
+    - target: {fileID: 939322956359432987, guid: 6e23b4a3f7025204388e09ac742a9945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 653648459943630800, guid: 6e23b4a3f7025204388e09ac742a9945,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6728,6 +6733,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GrabHandButton4
       objectReference: {fileID: 0}
+    - target: {fileID: 4889324587363532619, guid: c2508b5033c7ced4ea6090b414c258d0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2667718126978560150, guid: c2508b5033c7ced4ea6090b414c258d0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6873,6 +6883,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GrabHandButton3
       objectReference: {fileID: 0}
+    - target: {fileID: 4889324587363532619, guid: c2508b5033c7ced4ea6090b414c258d0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2667718126978560150, guid: c2508b5033c7ced4ea6090b414c258d0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7017,6 +7032,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AddFriendButton2
+      objectReference: {fileID: 0}
+    - target: {fileID: 939322956359432987, guid: 6e23b4a3f7025204388e09ac742a9945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 653648459943630800, guid: 6e23b4a3f7025204388e09ac742a9945,
         type: 3}
@@ -7199,6 +7219,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GrabHandButton2
       objectReference: {fileID: 0}
+    - target: {fileID: 4889324587363532619, guid: c2508b5033c7ced4ea6090b414c258d0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2667718126978560150, guid: c2508b5033c7ced4ea6090b414c258d0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7343,6 +7368,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GrabHandButton1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4889324587363532619, guid: c2508b5033c7ced4ea6090b414c258d0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2667718126978560150, guid: c2508b5033c7ced4ea6090b414c258d0,
         type: 3}
@@ -7796,6 +7826,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: AddFriendButton1
       objectReference: {fileID: 0}
+    - target: {fileID: 939322956359432987, guid: 6e23b4a3f7025204388e09ac742a9945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 653648459943630800, guid: 6e23b4a3f7025204388e09ac742a9945,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7971,6 +8006,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AddFriendButton4
+      objectReference: {fileID: 0}
+    - target: {fileID: 939322956359432987, guid: 6e23b4a3f7025204388e09ac742a9945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 653648459943630800, guid: 6e23b4a3f7025204388e09ac742a9945,
         type: 3}
