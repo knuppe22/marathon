@@ -165,6 +165,7 @@ public class UIControl : SingletonBehaviour<UIControl>
             }
             else
             {
+                ShopItemButton[i].gameObject.SetActive(true);
                 Text[] TextArray = ShopItemButton[i].gameObject.GetComponentsInChildren<Text>();
                 {
                     TextArray[0].text = ItemInfos[ItemNameArray[4 * ShopPage + i]].ItemName + "("
@@ -295,7 +296,8 @@ public class UIControl : SingletonBehaviour<UIControl>
         }
         if (GrabHandPage == 0)
         {
-            if (RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count <= 4)
+            //if (RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count <= 4)
+            if (MyFriends.Count <= 4) 
             {
                 GrabHandPageControlButton[0].gameObject.SetActive(false);
                 GrabHandPageControlButton[1].gameObject.SetActive(false);
@@ -319,17 +321,20 @@ public class UIControl : SingletonBehaviour<UIControl>
         for (int i = 0; i < 4; i++)
         {
             GrabHandButtonArray[i].gameObject.SetActive(true);
-            if (i >= RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count - 4 * GrabHandPage)
+            //if (i >= RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count - 4 * GrabHandPage)
+            if (i >= MyFriends.Count - 4 * GrabHandPage) 
                 GrabHandButtonArray[i].gameObject.SetActive(false);
         }
         for (int i = 0; i < 4; i++)
         {
-            GameObject FriendButton = GrabHandButtonArray[i];
-            if (i < RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count % 4)
+            //if (i < RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Count % 4)
+            if(GrabHandButtonArray[i].activeSelf)
             {
                 Text[] TextArray = GrabHandButtonArray[i].gameObject.GetComponentsInChildren<Text>();
-                TextArray[0].text = RunManager.Instance.users[RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[4 * GrabHandPage + i]].name;
-                TextArray[1].text = RunManager.Instance.users[RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[4 * GrabHandPage + i]].score.ToString();
+                /*TextArray[0].text = RunManager.Instance.users[RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[4 * GrabHandPage + i]].name;
+                TextArray[1].text = RunManager.Instance.users[RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends[4 * GrabHandPage + i]].score.ToString();*/
+                TextArray[0].text = RunManager.Instance.users[MyFriends[4 * GrabHandPage + i]].name;
+                TextArray[1].text = RunManager.Instance.users[MyFriends[4 * GrabHandPage + i]].score.ToString();
             }
         }
     }
@@ -403,6 +408,7 @@ public class UIControl : SingletonBehaviour<UIControl>
             PanelOnOff(0);
             AddFriendPage = 0;
             NearbyUsers = await RunManager.Instance.NearPeople(); //지속적으로 업데이트 되어야 할텐데... 주기?
+            Debug.Log(+NearbyUsers.Count);
         }
         if (AddFriendPage == 0)
         {
@@ -435,7 +441,7 @@ public class UIControl : SingletonBehaviour<UIControl>
         }
         for (int i = 0; i < 4; i++)
         {
-            if (i < NearbyUsers.Count % 4)
+            if (AddFriendButtons[i].activeSelf)
             {
                 AddFriendButtons[i].gameObject.GetComponentInChildren<Text>().text = RunManager.Instance.users[NearbyUsers[4 * AddFriendPage + i]].name;
             }
