@@ -527,6 +527,7 @@ public class UIControl : SingletonBehaviour<UIControl>
         if (Accept)
         {
             RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends.Add(FriendRequestUserId);
+            DBManager.Instance.SetUserValue("friends", RunManager.Instance.users[AuthManager.Instance.CurrentUserId].friends);
             GoldManager.Instance.EarnMoney(300);
         }
         else
