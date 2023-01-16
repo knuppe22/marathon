@@ -11,8 +11,8 @@ public class Location
 
     public Location()
     {
-        latitude = 0;
-        longitude = 0;
+        latitude = 37.58465576171875f;
+        longitude = 127.02704620361328f;
         lastOnline = System.DateTime.Now.ToString("s");
     }
     public Location(LocationInfo locationInfo, string lastOnline)

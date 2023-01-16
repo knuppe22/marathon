@@ -10,12 +10,9 @@ using System.Threading.Tasks;
 public class RunManager : SingletonBehaviour<RunManager>
 {
     [SerializeField]
-    private Text MeterText;
-    public GameObject LoadImage;
+    public Text MeterText;
     
     public Dictionary<string, User> users = new Dictionary<string, User>();
-
-    public float Meter = 0;
     public float RunSpeed = 3;
     public float FriendViewDist = 5000;
     public float HandGoldRate = 0.4f;
@@ -25,10 +22,11 @@ public class RunManager : SingletonBehaviour<RunManager>
 
     bool startFinished = false;
     bool gpsBool = false;
-    bool friendRequesting = false;
-    bool handRequesting = false;
+    public bool friendRequesting = false;
+    public bool handRequesting = false;
     bool requestIO = false;
     string requestVS = "";
+    float handPreSave = 0;
 
     async void Start()
     {
@@ -42,9 +40,7 @@ public class RunManager : SingletonBehaviour<RunManager>
 
         //AuthManager, DBManager만 있는 씬을 따로 만들어서 씬을 변경?
         //await 두 개가 동시에 되는가.
-
-        Meter = users[AuthManager.Instance.CurrentUserId].score + RunSpeed * CalcOnline();
-
+        
         GoldManager.Instance.SetGold(users[AuthManager.Instance.CurrentUserId].gold);
 
         ItemManager.Instance.PossItem = users[AuthManager.Instance.CurrentUserId].items;
@@ -58,6 +54,10 @@ public class RunManager : SingletonBehaviour<RunManager>
         }
 
         ItemManager.Instance.ApplyItemEffect();
+
+
+        float AddMeter = RunSpeed * CalcOnline();
+        users[AuthManager.Instance.CurrentUserId].score += AddMeter;
 
         ItemManager.Instance.AllQ = users[AuthManager.Instance.CurrentUserId].equippedItems;
         if (ItemManager.Instance.AllQ != null)
@@ -94,7 +94,6 @@ public class RunManager : SingletonBehaviour<RunManager>
         BackgroundManager.Instance.SetBackgroundImage();
         BackgroundManager.Instance.SetRoadImage();
         BackgroundManager.Instance.SetRunnerImage();
-        LoadImage.SetActive(false);
 
         UpdateUserData();
         DBManager.Instance.SetUserValue("handRequest", "");
@@ -107,6 +106,8 @@ public class RunManager : SingletonBehaviour<RunManager>
     {
 #if !UNITY_EDITOR
         gpsBool = (Input.location.status == LocationServiceStatus.Running);
+#else
+        gpsBool = true;
 #endif
 
         if (!startFinished) return;
@@ -115,11 +116,12 @@ public class RunManager : SingletonBehaviour<RunManager>
         requestTime += Time.deltaTime;
 
         CheckPointEvent();
-
+        
         if (time > 5)
         {
             time = 0;
             UpdateUserData();
+
             foreach (string friend in users[AuthManager.Instance.CurrentUserId].friends)
             {
                 User tmpFriend = await DBManager.Instance.GetUser(friend);
@@ -129,7 +131,7 @@ public class RunManager : SingletonBehaviour<RunManager>
             }
         }
 
-        if (requestTime > 2)
+        if (requestTime > 1)
         {
             requestTime = 0;
             
@@ -155,7 +157,6 @@ public class RunManager : SingletonBehaviour<RunManager>
                     }
                 }
                 handRequesting = false;
-                DBManager.Instance.SetUserValue("handRequest", "");
             }
             else if(handRequesting)
             {
@@ -164,6 +165,7 @@ public class RunManager : SingletonBehaviour<RunManager>
                 {
                     if (users[AuthManager.Instance.CurrentUserId].handRequest == "")
                     {
+                        handPreSave = users[requestVS].score;
                         DBManager.Instance.SetOtherUserValue(requestVS, "handRequest", AuthManager.Instance.CurrentUserId);
                         GrabHand(requestVS);
                         handRequesting = false;
@@ -178,17 +180,16 @@ public class RunManager : SingletonBehaviour<RunManager>
                         handRequesting = false;
                     }
                 }
-                DBManager.Instance.SetUserValue("friendRequest", "");
             }
             else
             {
-                DBManager.Instance.SetUserValue("handRequest", "");
-                DBManager.Instance.SetUserValue("friendRequest", "");
             }
         }
 
-        Meter += RunSpeed * Time.deltaTime;
-        MeterText.text = ((int)Meter).ToString();
+
+        users[AuthManager.Instance.CurrentUserId].score += RunSpeed * Time.deltaTime;
+        MeterText.text = ((int)users[AuthManager.Instance.CurrentUserId].score).ToString();
+
     }
 
     float CalcOnline()
@@ -200,6 +201,8 @@ public class RunManager : SingletonBehaviour<RunManager>
         DateTime present = DateTime.Parse(users[AuthManager.Instance.CurrentUserId].lastOnline);
 
         TimeSpan span = present.Subtract(last);
+
+        Debug.Log(span.TotalSeconds);
         
         if (span.TotalSeconds >= 300) return 300;
 
@@ -220,20 +223,20 @@ public class RunManager : SingletonBehaviour<RunManager>
 
     void UpdateUserData()
     {
-        int gold = GoldManager.Instance.GetGold();
-        float score = Meter;
         users[AuthManager.Instance.CurrentUserId].UpdateLastOnline();
-
-        users[AuthManager.Instance.CurrentUserId].gold = gold;
-        users[AuthManager.Instance.CurrentUserId].score = score;
 
         if (DBManager.Instance.RootReference != null)
         {
-            DBManager.Instance.SetUserValue("gold", gold);
-            DBManager.Instance.SetUserValue("score", score);
+            DBManager.Instance.SetUserValue("lastOnline", users[AuthManager.Instance.CurrentUserId].lastOnline);
+            DBManager.Instance.SetUserValue("score", users[AuthManager.Instance.CurrentUserId].score);
 
+#if !UNITY_EDITOR
             if (gpsBool)
                 DBManager.Instance.SetLocation(new Location(Input.location.lastData, users[AuthManager.Instance.CurrentUserId].lastOnline));
+#else
+            if (gpsBool)
+                DBManager.Instance.SetLocation(new Location());
+#endif
         }
 
     }
@@ -252,7 +255,26 @@ public class RunManager : SingletonBehaviour<RunManager>
 
             foreach(string friend in users[AuthManager.Instance.CurrentUserId].friends)
             {
-                float per = (RunManager.Instance.users[friend].score - RunManager.Instance.Meter) / RunManager.Instance.FriendViewDist / 2 + 0.5f;
+                float realScore = users[friend].score;
+                float realSpeed = 3f;
+                float runTime = 0f;
+                foreach (string item in users[friend].items)
+                    if (ItemManager.Instance.itemlist.ContainsKey(item)) realSpeed += ItemManager.Instance.itemlist[item].PlusRSpeed;
+
+                string lastOnline = users[friend].lastOnline;
+
+
+                DateTime last = DateTime.Parse(lastOnline);
+                DateTime present = DateTime.Parse(DateTime.Now.ToString("s"));
+
+                TimeSpan span = present.Subtract(last);
+
+                if (span.TotalSeconds >= 300) runTime = 300;
+
+                else runTime = (float)span.TotalSeconds;
+
+                realScore += realSpeed * runTime;
+                float per = (realScore - users[AuthManager.Instance.CurrentUserId].score) / FriendViewDist / 2 + 0.5f;
 
                 if (0 <= per && per <= 1) friendView++;
             }
@@ -352,7 +374,8 @@ public class RunManager : SingletonBehaviour<RunManager>
     }
     public async void StartFriendRequset(string id)
     {
-        if((string)await DBManager.Instance.GetUserValue(id, "friendRequest") == AuthManager.Instance.CurrentUserId)
+        string str = (string)(await DBManager.Instance.GetUserValue(id, "friendRequest"));
+        if (str != AuthManager.Instance.CurrentUserId)
         {
             DBManager.Instance.SetUserValue("friendRequest", id);
             requestIO = true;
@@ -368,13 +391,17 @@ public class RunManager : SingletonBehaviour<RunManager>
     }
     public async void StartHandRequest(string id)
     {
-        if ((string)await DBManager.Instance.GetUserValue(id, "handRequest") == AuthManager.Instance.CurrentUserId)
+        string str = (string)(await DBManager.Instance.GetUserValue(id, "handRequest"));
+        
+        Debug.Log("손잡기로그 : " + str + " $$ " + id);
+        if (str != AuthManager.Instance.CurrentUserId)
         {
             DBManager.Instance.SetUserValue("handRequest", id);
             requestIO = true;
         }
         else
         {
+            handPreSave = users[id].score;
             DBManager.Instance.SetOtherUserValue(id, "handRequest", "");
             requestIO = false;
         }
@@ -394,23 +421,26 @@ public class RunManager : SingletonBehaviour<RunManager>
         users[AuthManager.Instance.CurrentUserId].friends.Add(id);
         DBManager.Instance.SetUserValue("friends", users[AuthManager.Instance.CurrentUserId].friends);
         GoldManager.Instance.EarnMoney(300);
-        //UIcontrol.instance.프렌드 팝업띄우기(id)
+        UIControl.Instance.AddFriendSuccessful(users[id].name);
     }
     public void GrabHand(string id)
     {
-        float AverageDistance = (users[AuthManager.Instance.CurrentUserId].score + users[id].score) / 2;
+        float AverageDistance = (users[AuthManager.Instance.CurrentUserId].score + handPreSave) / 2;
+        int golde = 0;
 
         if (AverageDistance > users[AuthManager.Instance.CurrentUserId].score)
         {
-            GoldManager.Instance.EarnMoney((int)((AverageDistance - users[AuthManager.Instance.CurrentUserId].score) * HandGoldRate * 0.1f));
+            golde = (int)((AverageDistance - users[AuthManager.Instance.CurrentUserId].score) * HandGoldRate * 0.1f);
+            GoldManager.Instance.EarnMoney(golde);
         }
         else
         {
-            GoldManager.Instance.EarnMoney((int)((users[AuthManager.Instance.CurrentUserId].score - AverageDistance) * HandGoldRate));
+            golde = (int)((users[AuthManager.Instance.CurrentUserId].score - AverageDistance) * HandGoldRate);
+            GoldManager.Instance.EarnMoney(golde);
         }
 
         users[AuthManager.Instance.CurrentUserId].score = AverageDistance;
         DBManager.Instance.SetUserValue("score", users[AuthManager.Instance.CurrentUserId].score);
-        //UIContorl.instanc.손잡기 팝업띄우기(id, 수정거리, 획득골드)
+        UIControl.Instance.GrabHandSuccessful(users[id].name, (int)AverageDistance, golde);
     }
 }

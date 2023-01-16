@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 public class Lane
@@ -124,7 +125,7 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
         inLane = new int[5];
         for (int i = 0; i < 5; i++)
         {
-            waitingTime[i] = Random.Range(minRegenTime, maxRegenTime);
+            waitingTime[i] = UnityEngine.Random.Range(minRegenTime, maxRegenTime);
             inLane[i] = -1;
         }
     }
@@ -138,7 +139,7 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
                 waitingTime[i] -= Time.deltaTime;
                 if(waitingTime[i] <= 0)
                 {
-                    int seed = Random.Range(1, 6);
+                    int seed = UnityEngine.Random.Range(1, 6);
                     int p = 0;
                     for (; seed > 0; seed--)
                     {
@@ -158,7 +159,7 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
                 if(!lanes[inLane[i]].Step())
                 {
                     inLane[i] = -1;
-                    waitingTime[i] = Random.Range(minRegenTime, maxRegenTime);
+                    waitingTime[i] = UnityEngine.Random.Range(minRegenTime, maxRegenTime);
                 }
             }
         }
@@ -180,7 +181,7 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
         sprt = playerObj.GetComponent<SpriteRenderer>();
         sprt.sortingOrder = 15;
         playerObj.transform.position = Vector2.Lerp(runnerLane[0], runnerLane[1], 0.5f);
-        playerObj.GetComponentInChildren<TextMesh>().text = RunManager.Instance.MeterForm((int)RunManager.Instance.Meter);
+        playerObj.GetComponentInChildren<TextMesh>().text = RunManager.Instance.MeterForm((int)RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score);
 
     }
 
@@ -188,7 +189,27 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
     {
         if (RunManager.Instance.users.ContainsKey(id))
         {
-            float per = (RunManager.Instance.users[id].score - RunManager.Instance.Meter) / RunManager.Instance.FriendViewDist / 2 + 0.5f;
+            float realScore = RunManager.Instance.users[id].score;
+            float realSpeed = 3f;
+            float runTime = 0f;
+            foreach (string item in RunManager.Instance.users[id].items)
+                if (ItemManager.Instance.itemlist.ContainsKey(item)) realSpeed += ItemManager.Instance.itemlist[item].PlusRSpeed;
+
+            string lastOnline = RunManager.Instance.users[id].lastOnline;
+
+
+            DateTime last = DateTime.Parse(lastOnline);
+            DateTime present = DateTime.Parse(DateTime.Now.ToString("s"));
+
+            TimeSpan span = present.Subtract(last);
+
+            if (span.TotalSeconds >= 300) runTime =  300;
+
+            else runTime = (float)span.TotalSeconds;
+
+            realScore += realSpeed * runTime;
+
+            float per = (realScore - RunManager.Instance.users[AuthManager.Instance.CurrentUserId].score) / RunManager.Instance.FriendViewDist / 2 + 0.5f;
             SpriteRenderer sprt;
 
             sprt = friendObj[id].GetComponent<SpriteRenderer>();
@@ -202,7 +223,7 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
                     * runnerLaneWidth / 10 * (friendLanePos[id] - 5);
                 
 
-                friendObj[id].GetComponentInChildren<TextMesh>().text = RunManager.Instance.MeterForm((int)RunManager.Instance.users[id].score);
+                friendObj[id].GetComponentInChildren<TextMesh>().text = RunManager.Instance.MeterForm((int)realScore);
             }
             else
             {
@@ -216,7 +237,7 @@ public class BackgroundManager : SingletonBehaviour<BackgroundManager>
         if(!friendObj.ContainsKey(id))
         {
             friendObj.Add(id, Instantiate(runnerPre));
-            int rnd = Random.Range(1, 9);
+            int rnd = UnityEngine.Random.Range(1, 9);
             if (rnd > 4) rnd++;
             friendLanePos.Add(id, rnd);
         }

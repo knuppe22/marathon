@@ -83,7 +83,7 @@ public class DBManager : SingletonBehaviour<DBManager>
             if (task.Result.Exists)
             {
                 Debug.LogFormat("GetUserValue({0}, {1}) succeeded", userId, key);
-                return task.Result;
+                return task.Result.GetValue(false);
             }
             else
             {
@@ -108,7 +108,7 @@ public class DBManager : SingletonBehaviour<DBManager>
     {
         // key에 들어갈 수 있는 것들: "name", "score", "gold", "online", "lastOnline", "friends", "items", "equippedItems"
         // 위치정보 불가!!!
-        Debug.Log("ValueSet " + key);
+        Debug.Log("ValueSet " + key + "     " + value.ToString());
         CurrentUserReference.Child(key).SetValueAsync(value);
     }
     public void SetOtherUserValue(string userId, string key, object value)
@@ -159,7 +159,7 @@ public class DBManager : SingletonBehaviour<DBManager>
         foreach(KeyValuePair<string, Location> pair in locations)
         {
             if (pair.Key == AuthManager.Instance.CurrentUserId) continue;
-            if (Location.Distance(location, pair.Value) < 50)
+            if (Location.Distance(location, pair.Value) < 20)
             {
                 DateTime last = DateTime.Parse(pair.Value.lastOnline);
                 TimeSpan span = DateTime.Now.Subtract(last);

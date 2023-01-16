@@ -27,8 +27,6 @@ public class AuthScene : MonoBehaviour
         }
         else
         {
-            List<string> l = await DBManager.Instance.GetNearUsers(new Location());
-            Debug.Log("aaa");
             SceneManager.LoadScene("bgTest");
         }
     }
